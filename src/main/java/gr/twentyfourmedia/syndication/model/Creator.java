@@ -20,8 +20,6 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
- * Syndication Syntax :
- * 
  * <creator
  * 		id-ref="text"?
  * 		(source="text" sourceid="text")?

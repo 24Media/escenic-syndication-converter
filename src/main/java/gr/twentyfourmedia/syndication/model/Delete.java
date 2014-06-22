@@ -7,7 +7,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Syndication Syntax :
  * <delete
  * 		recursive="(true|false)"?
  * 		delete-content="(true|false)"?

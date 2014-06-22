@@ -1,6 +1,7 @@
 package gr.twentyfourmedia.syndication.model;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -12,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -26,8 +28,6 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
- * Syndication Syntax : 
- * 
  * <content
  * 		id="text"?
  * 		(source="text" sourceid="text")?
@@ -191,7 +191,9 @@ public class Content {
 	@XmlElement(name = "update")
 	private Update update;
 	
-	author *
+	@OneToMany(mappedBy = "content", cascade = CascadeType.ALL) /*TODO : Check Where The Owning Side Should Be*/
+	@XmlElement(name = "author")
+	private List<Author> authorList;
 
 	/**
 	 * A reference to the creator of a content item. Content item authors are themselves represented by person objects. 
@@ -359,6 +361,16 @@ public class Content {
 	public Update getUpdate() {
 		
 		return update;
+	}
+	
+	public void setAuthorList(List<Author> authorList) {
+		
+		this.authorList = authorList;
+	}
+	
+	public List<Author> getAuthorList() {
+		
+		return authorList;
 	}
 	
 	public void setCreator(Creator creator) {

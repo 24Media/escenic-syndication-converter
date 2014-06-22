@@ -21,6 +21,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  * 		<inbox>...</inbox>*
  * 		<section-page>...</section-page>*
  * </escenic>
+ * 
+ *  Note : Use of <link /> element is deprecated. It is only retained for reasons of backwards compatibility.
  */
 @XmlRootElement(name = "escenic")
 @XmlAccessorType(XmlAccessType.FIELD)

@@ -18,6 +18,29 @@ USE `escenic-syndication-converter`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `author`
+--
+
+DROP TABLE IF EXISTS `author`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `author` (
+  `applicationId` int(11) NOT NULL AUTO_INCREMENT,
+  `contentApplicationId` int(11) NOT NULL,
+  `idRef` varchar(100) DEFAULT NULL,
+  `source` varchar(100) DEFAULT NULL,
+  `sourceId` varchar(100) DEFAULT NULL,
+  `dbId` varchar(100) DEFAULT NULL,
+  `firstName` varchar(100) DEFAULT NULL,
+  `surName` varchar(100) DEFAULT NULL,
+  `userName` varchar(100) DEFAULT NULL,
+  `emailAddress` varchar(100) DEFAULT NULL,
+  `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`applicationId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `content`
 --
 
@@ -151,4 +174,4 @@ CREATE TABLE `section` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-06-22 20:38:45
+-- Dump completed on 2014-06-22 21:43:35

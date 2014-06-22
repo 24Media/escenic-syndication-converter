@@ -25,9 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-/** 
- * Syndication Syntax :
- * 
+/**
  * <section
  *		id="text"?
  *		(source="text" sourceid="text")?
