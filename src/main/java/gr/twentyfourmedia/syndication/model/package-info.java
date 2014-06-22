@@ -1,0 +1,2 @@
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://xmlns.escenic.com/2009/import", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+package gr.twentyfourmedia.syndication.model;

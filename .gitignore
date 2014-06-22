@@ -1,0 +1,17 @@
+#Temporary Files
+*~
+
+#Eclipse
+.classpath
+.project
+.settings/
+
+#Maven
+target/
+
+#Javadocs
+doc/
+
+# .properties Files
+src/main/resources/database/database.properties
+src/main/resources/miscellaneous.properties
