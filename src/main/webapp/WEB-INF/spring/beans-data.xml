@@ -29,9 +29,9 @@
 	<util:properties id="hibernateProperties">
 		<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
 		<prop key="hibernate.show_sql">true</prop>
+		<prop key="hibernate.connection.characterEncoding">utf8</prop>
+		<prop key="hibernate.connection.charSet">utf8</prop>
 		<prop key="hibernate.connection.useUnicode">true</prop>
-		<prop key="hibernate.connection.characterEncoding">UTF-8</prop>
-		<prop key="hibernate.connection.charSet">UTF-8</prop>
 	</util:properties>
 	
 	<bean id="sessionFactory"	  

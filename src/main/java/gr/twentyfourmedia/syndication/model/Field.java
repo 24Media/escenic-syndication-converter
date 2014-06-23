@@ -48,7 +48,7 @@ public class Field {
 	private Content contentApplicationId;
 	
 	@ManyToOne
-	@JoinColumn(name = "contentApplicationId", referencedColumnName = "applicationId", nullable = true)
+	@JoinColumn(name = "relationApplicationId", referencedColumnName = "applicationId", nullable = true)
 	@XmlTransient
 	private Relation relationApplicationId;
 	

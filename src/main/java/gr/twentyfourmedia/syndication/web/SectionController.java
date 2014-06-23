@@ -1,12 +1,18 @@
 package gr.twentyfourmedia.syndication.web;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
@@ -48,7 +54,7 @@ public class SectionController {
 		List<Section> sectionsList = sectionService.getSections();
 		sections.setSectionList(sectionsList);
 		
-		String path = System.getProperty("filepath.syndicationFiles") + "/export/export-sections.xml";
+		String path = System.getProperty("filepath.syndicationFiles") + "/write/exportedsections.xml";
 		
 		FileOutputStream outputStream;
 		
@@ -71,26 +77,25 @@ public class SectionController {
 	@RequestMapping(value = "unmarshall")
 	public String unmarshall(Model model) {
 
-		String path = System.getProperty("filepath.syndicationFiles") + "/import/import-sections.xml";
+		String path = System.getProperty("filepath.syndicationFiles") + "/read/sectionstree.xml";
 		
 		FileInputStream inputStream;
 		
 		try {
 			inputStream = new FileInputStream(new File(path));
-			
 			StreamSource source = new StreamSource(inputStream);
 			
 			Escenic escenic = (Escenic) marshaller.unmarshal(source);
 			
 			for(Section e : escenic.getSectionList()) {
-			
+
 				sectionService.persistSection(e);
-			}	
+			}
 		}
 		catch (FileNotFoundException exception) {
 			
 			exception.printStackTrace();
-		}
+		} 
 		
 		return "section/list";
 	}	
