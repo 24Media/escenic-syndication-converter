@@ -50,6 +50,8 @@ import org.springframework.format.annotation.DateTimeFormat;
  * 		<creator/>?
  * 		<priority/>?
  * 	</content>
+ * 
+ *  Note : Use of <reference /> element is deprecated. It is only retained for reasons of backwards compatibility.
  */
 @Entity
 @Table(name = "content")
