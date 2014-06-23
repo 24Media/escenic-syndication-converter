@@ -1,8 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `escenic-syndication-converter` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `escenic-syndication-converter`;
+CREATE DATABASE  IF NOT EXISTS `escenic_syndication_converter` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `escenic_syndication_converter`;
 -- MySQL dump 10.13  Distrib 5.5.37, for debian-linux-gnu (x86_64)
 --
--- Host: 127.0.0.1    Database: escenic-syndication-converter
+-- Host: 127.0.0.1    Database: escenic_syndication_converter
 -- ------------------------------------------------------
 -- Server version	5.5.37-0ubuntu0.14.04.1
 
