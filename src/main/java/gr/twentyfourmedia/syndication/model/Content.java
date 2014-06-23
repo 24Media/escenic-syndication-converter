@@ -177,8 +177,11 @@ public class Content {
 	@XmlElement(name = "section-ref")
 	private List<SectionRef> sectionRefList;
 	
+	@OneToMany(mappedBy = "contentApplicationId", cascade = CascadeType.ALL) /*TODO : Check Where The Owning Side Should Be*/
+	@XmlElement(name = "relation")
+	private List<Relation> relationList;
+	
 	/*
-	relation *
 	reference *
 	field *
 	*/
@@ -364,6 +367,15 @@ public class Content {
 		return sectionRefList;
 	}
 	
+	public void setRelationList(List<Relation> relationList) {
+		
+		this.relationList = relationList;
+	}
+	
+	public List<Relation> getRelationList() {
+		
+		return relationList;
+	}
 	
 	
 	public void setUpdate(Update update) {
