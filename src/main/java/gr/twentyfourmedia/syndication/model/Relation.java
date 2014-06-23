@@ -111,7 +111,6 @@ public class Relation {
 	@XmlAttribute(name = "type")
 	private String type;
 	
-	/*TODO: Field Class Reference To This Attribute*/
 	@OneToMany(mappedBy = "relationApplicationId", cascade = CascadeType.ALL) /*TODO : Check Where The Owning Side Should Be*/
 	@XmlElement(name = "field")
 	private List<Field> fieldList;

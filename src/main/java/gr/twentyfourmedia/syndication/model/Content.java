@@ -183,10 +183,15 @@ public class Content {
 	@XmlElement(name = "relation")
 	private List<Relation> relationList;
 	
-	/*
-	reference *
-	field *
-	*/
+	/**
+	 * Represents one field in a content item or relation. The element's content model appears
+	 * to allow almost anything, but in practice this is not the case. When importing, the field
+	 * element content is expected to conform to a field definition identified by the name attribute,
+	 * and will fail to be imported if this is not the case.
+	 */
+	@OneToMany(mappedBy = "contentApplicationId", cascade = CascadeType.ALL) /*TODO : Check Where The Owning Side Should Be*/
+	@XmlElement(name = "field")
+	private List<Field> fieldList;
 	
 	/**
 	 * When importing a content item that already exists in the target publication, you can use this
@@ -379,6 +384,15 @@ public class Content {
 		return relationList;
 	}
 	
+	public void setFieldList(List<Field> fieldList) {
+		
+		this.fieldList = fieldList;
+	}
+	
+	public List<Field> getFieldList() {
+		
+		return fieldList;
+	}
 	
 	public void setUpdate(Update update) {
 		
