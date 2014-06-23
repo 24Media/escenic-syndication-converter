@@ -173,11 +173,15 @@ public class Content {
 	@XmlAttribute(name = "creationdate")
 	private String creationDate;
 	
+	@OneToMany(mappedBy = "contentApplicationId", cascade = CascadeType.ALL) /*TODO : Check Where The Owning Side Should Be*/
+	@XmlElement(name = "section-ref")
+	private List<SectionRef> sectionRefList;
 	
-	sectionRef *
+	/*
 	relation *
 	reference *
 	field *
+	*/
 	
 	/**
 	 * When importing a content item that already exists in the target publication, you can use this
@@ -191,7 +195,7 @@ public class Content {
 	@XmlElement(name = "update")
 	private Update update;
 	
-	@OneToMany(mappedBy = "content", cascade = CascadeType.ALL) /*TODO : Check Where The Owning Side Should Be*/
+	@OneToMany(mappedBy = "contentApplicationId", cascade = CascadeType.ALL) /*TODO : Check Where The Owning Side Should Be*/
 	@XmlElement(name = "author")
 	private List<Author> authorList;
 
@@ -350,6 +354,15 @@ public class Content {
 		return creationDate;
 	}
 	
+	public void setSectionRefList(List<SectionRef> sectionRefList) {
+		
+		this.sectionRefList = sectionRefList;
+	}
+	
+	public List<SectionRef> getSectionRefList() {
+		
+		return sectionRefList;
+	}
 	
 	
 	

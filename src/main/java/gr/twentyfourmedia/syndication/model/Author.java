@@ -238,6 +238,5 @@ public class Author {
 	public Calendar getApplicationDateUpdated() {
 		
 		return applicationDateUpdated;
-	}	
-	
+	}
 }
