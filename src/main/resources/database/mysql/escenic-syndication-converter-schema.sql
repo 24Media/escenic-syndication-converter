@@ -66,7 +66,7 @@ CREATE TABLE `parent` (
   `inheritAccessControlList` varchar(5) DEFAULT NULL,
   `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23243 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -110,44 +110,53 @@ LOCK TABLES `creator` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `section`
+-- Table structure for table `fieldFields`
 --
 
-DROP TABLE IF EXISTS `section`;
+DROP TABLE IF EXISTS `fieldFields`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `section` (
+CREATE TABLE `fieldFields` (
+  `parentFieldId` int(11) NOT NULL,
+  `childFieldId` int(11) NOT NULL,
+  PRIMARY KEY (`parentFieldId`,`childFieldId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `fieldFields`
+--
+
+LOCK TABLES `fieldFields` WRITE;
+/*!40000 ALTER TABLE `fieldFields` DISABLE KEYS */;
+/*!40000 ALTER TABLE `fieldFields` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `fieldElements`
+--
+
+DROP TABLE IF EXISTS `fieldElements`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `fieldElements` (
   `applicationId` int(11) NOT NULL AUTO_INCREMENT,
-  `id` varchar(100) DEFAULT NULL,
-  `source` varchar(100) DEFAULT NULL,
-  `sourceId` varchar(100) DEFAULT NULL,
-  `dbId` varchar(100) DEFAULT NULL,
-  `exportedDbId` varchar(100) DEFAULT NULL,
-  `name` varchar(100) DEFAULT NULL,
-  `uniqueNameAttribute` varchar(100) DEFAULT NULL,
-  `mirrorSourceAttribute` varchar(5) DEFAULT NULL,
-  `recursive` varchar(5) DEFAULT NULL,
-  `deleteContent` varchar(5) DEFAULT NULL,
-  `moveContent` varchar(5) DEFAULT NULL,
-  `parent` int(11) DEFAULT NULL,
-  `mirrorSourceElement` int(11) DEFAULT NULL,
-  `uniqueNameElement` varchar(100) DEFAULT NULL,
-  `directory` varchar(100) DEFAULT NULL,
-  `sectionLayout` varchar(100) DEFAULT NULL,
-  `articleLayout` varchar(100) DEFAULT NULL,
-  `priority` int(11) DEFAULT NULL,
+  `fieldApplicationId` int(11) NOT NULL,
+  `anything` text,
+  `relation` int(11) DEFAULT NULL,
+  `text` text,
   `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicationId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `section`
+-- Dumping data for table `fieldElements`
 --
 
-LOCK TABLES `section` WRITE;
-/*!40000 ALTER TABLE `section` DISABLE KEYS */;
-/*!40000 ALTER TABLE `section` ENABLE KEYS */;
+LOCK TABLES `fieldElements` WRITE;
+/*!40000 ALTER TABLE `fieldElements` DISABLE KEYS */;
+/*!40000 ALTER TABLE `fieldElements` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -196,10 +205,11 @@ CREATE TABLE `mirrorSource` (
   `sourceId` varchar(100) DEFAULT NULL,
   `dbId` varchar(100) DEFAULT NULL,
   `exportedDbId` varchar(100) DEFAULT NULL,
+  `publicationName` varchar(100) DEFAULT NULL,
   `uniqueName` varchar(100) DEFAULT NULL,
   `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12281 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -209,6 +219,29 @@ CREATE TABLE `mirrorSource` (
 LOCK TABLES `mirrorSource` WRITE;
 /*!40000 ALTER TABLE `mirrorSource` DISABLE KEYS */;
 /*!40000 ALTER TABLE `mirrorSource` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `options`
+--
+
+DROP TABLE IF EXISTS `options`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `options` (
+  `applicationId` int(11) NOT NULL AUTO_INCREMENT,
+  `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`applicationId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `options`
+--
+
+LOCK TABLES `options` WRITE;
+/*!40000 ALTER TABLE `options` DISABLE KEYS */;
+/*!40000 ALTER TABLE `options` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -264,6 +297,7 @@ CREATE TABLE `field` (
   `name` varchar(100) DEFAULT NULL,
   `expandEntities` varchar(5) DEFAULT NULL,
   `title` varchar(100) DEFAULT NULL,
+  `options` int(11) DEFAULT NULL,
   `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicationId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -276,6 +310,54 @@ CREATE TABLE `field` (
 LOCK TABLES `field` WRITE;
 /*!40000 ALTER TABLE `field` DISABLE KEYS */;
 /*!40000 ALTER TABLE `field` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `optionsFields`
+--
+
+DROP TABLE IF EXISTS `optionsFields`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `optionsFields` (
+  `optionsId` int(11) NOT NULL,
+  `fieldId` int(11) NOT NULL,
+  PRIMARY KEY (`optionsId`,`fieldId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `optionsFields`
+--
+
+LOCK TABLES `optionsFields` WRITE;
+/*!40000 ALTER TABLE `optionsFields` DISABLE KEYS */;
+/*!40000 ALTER TABLE `optionsFields` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `value`
+--
+
+DROP TABLE IF EXISTS `value`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `value` (
+  `applicationId` int(11) NOT NULL AUTO_INCREMENT,
+  `fieldApplicationId` int(11) NOT NULL,
+  `value` varchar(100) DEFAULT NULL,
+  `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`applicationId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `value`
+--
+
+LOCK TABLES `value` WRITE;
+/*!40000 ALTER TABLE `value` DISABLE KEYS */;
+/*!40000 ALTER TABLE `value` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -307,6 +389,47 @@ LOCK TABLES `relation` WRITE;
 /*!40000 ALTER TABLE `relation` DISABLE KEYS */;
 /*!40000 ALTER TABLE `relation` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `section`
+--
+
+DROP TABLE IF EXISTS `section`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `section` (
+  `applicationId` int(11) NOT NULL AUTO_INCREMENT,
+  `id` varchar(100) DEFAULT NULL,
+  `source` varchar(100) DEFAULT NULL,
+  `sourceId` varchar(100) DEFAULT NULL,
+  `dbId` varchar(100) DEFAULT NULL,
+  `exportedDbId` varchar(100) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `uniqueNameAttribute` varchar(100) DEFAULT NULL,
+  `mirrorSourceAttribute` varchar(5) DEFAULT NULL,
+  `recursive` varchar(5) DEFAULT NULL,
+  `deleteContent` varchar(5) DEFAULT NULL,
+  `moveContent` varchar(5) DEFAULT NULL,
+  `parent` int(11) DEFAULT NULL,
+  `mirrorSourceElement` int(11) DEFAULT NULL,
+  `uniqueNameElement` varchar(100) DEFAULT NULL,
+  `directory` varchar(100) DEFAULT NULL,
+  `sectionLayout` varchar(100) DEFAULT NULL,
+  `articleLayout` varchar(100) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
+  `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`applicationId`)
+) ENGINE=InnoDB AUTO_INCREMENT=23283 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `section`
+--
+
+LOCK TABLES `section` WRITE;
+/*!40000 ALTER TABLE `section` DISABLE KEYS */;
+/*!40000 ALTER TABLE `section` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -317,4 +440,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-06-23 13:13:40
+-- Dump completed on 2014-06-24 11:43:23
