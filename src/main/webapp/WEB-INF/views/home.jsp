@@ -1,10 +1,9 @@
 <html>
 <head>
-	<title>Home</title>
+	<title>Escenic Syndication Converter</title>
+	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/styles/styles.css" />" />
 </head>
 <body>
-<h1>
-	Syndication Converter 
-</h1>
+<h1>Escenic Syndication Converter</h1>
 </body>
 </html>
