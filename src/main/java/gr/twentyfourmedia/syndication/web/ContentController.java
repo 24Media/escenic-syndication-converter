@@ -36,26 +36,8 @@ public class ContentController {
 		Escenic contents = new Escenic();
 		contents.setVersion("2.0");
 		List<Content> allTags = contentService.getContents();
-		
-		/*
-		 * Include Only Non Mirrored Sections
-		 */
-		List<Content> selectedTags = new ArrayList<Content>();
-		
-		for(Content c : allTags) {
-							
-			//Remove Not Needed Tag Values
-			c.setCreator(null);
-			c.setAuthorList(null);
-			
-			selectedTags.add(c);
-		}
-		contents.setContentList(selectedTags);
-		
-		
-		
-		
-		
+		contents.setContentList(tagsFiltering(allTags));
+
 		String path = System.getProperty("filepath.syndicationFiles") + "/write/exportedTags.xml";
 		
 		FileOutputStream outputStream;
@@ -100,5 +82,21 @@ public class ContentController {
 		} 
 		
 		return "/home";
-	}	
+	}
+	
+	private List<Content> tagsFiltering(List<Content> contents) {
+		
+		List<Content> result = new ArrayList<Content>();
+		
+		for(Content c : contents) {
+							
+			//Not Needed Tag Values
+			c.setCreator(null);
+			c.setAuthorList(null);
+			
+			result.add(c);
+		}
+		
+		return result;
+	}
 }

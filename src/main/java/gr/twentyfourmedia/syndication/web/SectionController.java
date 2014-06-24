@@ -36,37 +36,8 @@ public class SectionController {
 		Escenic sections = new Escenic();
 		sections.setVersion("2.0");
 		List<Section> allSections = sectionService.getSections();
-		
-		/*
-		 * Include Only Non Mirrored Sections
-		 */
-		List<Section> selectedSections = new ArrayList<Section>();
-		
-		for(Section s : allSections) {
-			
-			if(s.getMirrorSourceElement() == null) {
-				
-				//Remove Not Needed Parent Values
-				if(s.getParent() != null) {
-					s.getParent().setSource(null);
-					s.getParent().setSourceId(null);
-					s.getParent().setExportedDbId(null);
-				}
-				
-				//Remove Not Needed Section Values
-				s.setSource(null);
-				s.setSourceId(null);
-				s.setExportedDbId(null);
-				
-				selectedSections.add(s);
-			}
-		}
-		sections.setSectionList(selectedSections);
-		
-		
-		
-		
-		
+		sections.setSectionList(sectionsFiltering(allSections));
+
 		String path = System.getProperty("filepath.syndicationFiles") + "/write/exportedsections.xml";
 		
 		FileOutputStream outputStream;
@@ -111,5 +82,31 @@ public class SectionController {
 		} 
 		
 		return "/home";
-	}	
+	}
+	
+	private List<Section> sectionsFiltering(List<Section> sections) {
+		
+		List<Section> result = new ArrayList<Section>();
+	
+		for(Section s : sections) {
+			
+			if(s.getMirrorSourceElement() == null) { //No Mirrored Sections
+				
+				if(s.getParent() != null) { //Not Needed Parent Values
+					s.getParent().setSource(null);
+					s.getParent().setSourceId(null);
+					s.getParent().setExportedDbId(null);
+				}
+				
+				//Not Needed Section Values
+				s.setSource(null);
+				s.setSourceId(null);
+				s.setExportedDbId(null);
+				
+				result.add(s);
+			}
+		}
+		
+		return result;
+	}
 }
