@@ -30,13 +30,6 @@ public class SectionController {
 	@Autowired
 	private SectionService sectionService;	
 	
-	@RequestMapping(value = "list")
-	public String list(Model model) {
-
-		model.addAttribute("sectionList", sectionService.getSections());
-		return "section/list";
-	}
-	
 	@RequestMapping(value = "marshall")
 	public String marshall(Model model) {
 
@@ -91,7 +84,7 @@ public class SectionController {
 			exception.printStackTrace();
 		}
 		
-		return "section/list";
+		return "/home";
 	}
 	
 	@RequestMapping(value = "unmarshall")
@@ -117,6 +110,6 @@ public class SectionController {
 			exception.printStackTrace();
 		} 
 		
-		return "section/list";
+		return "/home";
 	}	
 }

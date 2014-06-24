@@ -5,7 +5,9 @@
 </head>
 <body>
 <h1>Escenic Syndication Converter</h1>
-<a>Read XML</a>
-<a>Create XML</a>
+<a href="<c:url value='/section/unmarshall' />">Read Sections XML</a>
+<a href="<c:url value='/section/marshall' />">Create Sections XML</a>
+<a href="<c:url value='/content/unmarshall' />">Read Content XML</a>
+<a href="<c:url value='/content/marshall' />">Create Content XML</a>
 </body>
 </html>

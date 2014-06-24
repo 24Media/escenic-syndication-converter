@@ -11,20 +11,9 @@ th {
 }
 th, td {
 	border:1px solid #666666;
-	height:50px;
-	min-width:30px;
-	text-align:center;
 	font-size:13px;
 	padding:2px;
 }
-
-
-.blue {
-	background-color:#DBDBFF;
-}
-.red {
-	background-color:#FFD6D6;
-}
-.orange {
-	background-color:#FFC266;
+a {
+	margin:0 20px 0 20px;
 }

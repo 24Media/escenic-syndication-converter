@@ -30,13 +30,6 @@ public class ContentController {
 	@Autowired
 	private ContentService contentService;	
 	
-	@RequestMapping(value = "list")
-	public String list(Model model) {
-
-		model.addAttribute("contentList", contentService.getContents());
-		return "section/list";
-	}	
-	
 	@RequestMapping(value = "marshall")
 	public String marshall(Model model) {
 
@@ -80,7 +73,7 @@ public class ContentController {
 			exception.printStackTrace();
 		}
 		
-		return "section/list";
+		return "/home";
 	}	
 	
 	@RequestMapping(value = "unmarshall")
@@ -106,6 +99,6 @@ public class ContentController {
 			exception.printStackTrace();
 		} 
 		
-		return "section/list";
+		return "/home";
 	}	
 }
