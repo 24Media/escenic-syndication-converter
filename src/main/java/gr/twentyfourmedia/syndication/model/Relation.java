@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -52,6 +53,10 @@ public class Relation {
 	@XmlTransient
 	private Content contentApplicationId;
 
+	@OneToOne(mappedBy = "relation")
+	@XmlTransient
+	private FieldElement fieldElement;
+	
 	/**
 	 * The id of the related content item. If this attribute is specified, a content element with an id 
 	 * attribute that matches this attribute must appear somewhere before this relation element in the 

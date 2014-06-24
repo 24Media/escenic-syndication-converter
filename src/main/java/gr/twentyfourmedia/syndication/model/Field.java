@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -88,8 +89,20 @@ public class Field {
 	@XmlAttribute(name = "title")
 	private String title;
 	
+	/**
+	 * Binding of (ANYTHING|<relation>...</relation>|text)*
+	 */
+	@OneToMany(mappedBy = "fieldApplicationId", cascade = CascadeType.ALL) /*TODO : Check Where The Owning Side Should Be*/
+	private List<FieldElement> fieldElementList;
 	
-	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(
+			name = "fieldFields",
+            joinColumns = @JoinColumn(name = "parentFieldId"),
+            inverseJoinColumns = @JoinColumn(name = "childFieldId")
+    )
+	@XmlElement(name = "field")
+	private List<Field> fieldFieldList;
 	
 	/**
 	 * A single value within a field. A field element may contain a series of value elements if it is
@@ -173,6 +186,26 @@ public class Field {
 	public String getTitle() {
 		
 		return title;
+	}
+	
+	public void setFieldElementList(List<FieldElement> fieldElementList) {
+		
+		this.fieldElementList = fieldElementList;
+	}
+	
+	public List<FieldElement> getFieldElementList() {
+		
+		return fieldElementList;
+	}
+	
+	public void setFieldFieldList(List<Field> fieldFieldList) {
+		
+		this.fieldFieldList = fieldFieldList;
+	}
+	
+	public List<Field> getFieldFieldList() {
+		
+		return fieldFieldList;
 	}
 	
 	public void setValueList(List<Value> valueList) {
