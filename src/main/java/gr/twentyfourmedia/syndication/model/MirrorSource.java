@@ -25,8 +25,11 @@ import org.springframework.format.annotation.DateTimeFormat;
  * 		(source="text" sourceid="text")?
  * 		dbid="text"?
  * 		exported-dbid="text"?
+ * 		publication-name="text"?
  * 		unique-name="text"?
  * 	/>
+ * 
+ *  Note : publication-name Is Not Referenced In Escenic Documentation
  */
 @Entity
 @Table(name = "mirrorSource")
@@ -90,6 +93,13 @@ public class MirrorSource {
 	@XmlAttribute(name = "exported-dbid")
 	private String exportedDbId;
 
+	/**
+	 * No documentation available
+	 */
+	@Column(name = "publicationName")
+	@XmlAttribute(name = "publication-name")
+	private String publicationName;
+	
 	/**
 	 * The unique-name or name of the section this section is to mirror. If this attribute is
 	 * specified, then one of the following conditions must be satisified:
@@ -178,6 +188,16 @@ public class MirrorSource {
 	public String getExportedDbId() {
 		
 		return exportedDbId;
+	}
+	
+	public void setPublicationName(String publicationName) {
+		
+		this.publicationName = publicationName;
+	}
+	
+	public String getPublicationName() {
+		
+		return publicationName;
 	}
 	
 	public void setUniqueName(String uniqueName) {

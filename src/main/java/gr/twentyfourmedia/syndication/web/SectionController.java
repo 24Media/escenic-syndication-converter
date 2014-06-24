@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -51,8 +52,37 @@ public class SectionController {
 
 		Escenic sections = new Escenic();
 		sections.setVersion("2.0");
-		List<Section> sectionsList = sectionService.getSections();
-		sections.setSectionList(sectionsList);
+		List<Section> allSections = sectionService.getSections();
+		
+		/*
+		 * Include Only Non Mirrored Sections
+		 */
+		List<Section> selectedSections = new ArrayList<Section>();
+		
+		for(Section s : allSections) {
+			
+			if(s.getMirrorSourceElement() == null) {
+				
+				//Remove Not Needed Parent Values
+				if(s.getParent() != null) {
+					s.getParent().setSource(null);
+					s.getParent().setSourceId(null);
+					s.getParent().setExportedDbId(null);
+				}
+				
+				//Remove Not Needed Section Values
+				s.setSource(null);
+				s.setSourceId(null);
+				s.setExportedDbId(null);
+				
+				selectedSections.add(s);
+			}
+		}
+		sections.setSectionList(selectedSections);
+		
+		
+		
+		
 		
 		String path = System.getProperty("filepath.syndicationFiles") + "/write/exportedsections.xml";
 		
