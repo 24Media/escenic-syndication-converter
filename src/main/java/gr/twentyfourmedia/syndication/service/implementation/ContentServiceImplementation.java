@@ -5,7 +5,6 @@ import java.util.List;
 import gr.twentyfourmedia.syndication.dao.AuthorDao;
 import gr.twentyfourmedia.syndication.dao.ContentDao;
 import gr.twentyfourmedia.syndication.dao.FieldDao;
-import gr.twentyfourmedia.syndication.dao.FieldElementDao;
 import gr.twentyfourmedia.syndication.dao.SectionRefDao;
 import gr.twentyfourmedia.syndication.model.Content;
 import gr.twentyfourmedia.syndication.service.ContentService;
@@ -30,9 +29,6 @@ public class ContentServiceImplementation implements ContentService {
 	
 	@Autowired
 	private FieldDao fieldDao;
-	
-	@Autowired
-	private FieldElementDao fieldElementDao;
 	
 	@Override
 	public void persistContent(Content content) {

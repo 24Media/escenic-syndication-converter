@@ -1,28 +1,23 @@
 package gr.twentyfourmedia.syndication.model;
 
 import java.util.Calendar;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlValue;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -32,8 +27,10 @@ import org.springframework.format.annotation.DateTimeFormat;
  * 		expand-entities="(true|false)"?
  * 		title="text"?
  * >
- * ((ANYTHING|<relation>...</relation>|text)*|<field>...</field>*|<value>...</value>*)<options>...</options>?
+ *	text
  * </field>
+ * 
+ * Note : ((ANYTHING|<relation>...</relation>|text)*|<field>...</field>*|<value>...</value>*)<options>...</options>? Syntax Simplified To text
  */
 @Entity
 @Table(name = "field")
@@ -89,39 +86,10 @@ public class Field {
 	@XmlAttribute(name = "title")
 	private String title;
 	
-	/**
-	 * Binding of (ANYTHING|<relation>...</relation>|text)*
-	 */
-	@OneToMany(mappedBy = "fieldApplicationId")
-	private List<FieldElement> fieldElementList;
-	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinTable(
-			name = "fieldFields",
-            joinColumns = @JoinColumn(name = "parentFieldId"),
-            inverseJoinColumns = @JoinColumn(name = "childFieldId")
-    )
-	@XmlElement(name = "field")
-	private List<Field> fieldFieldList;
-	
-	/**
-	 * A single value within a field. A field element may contain a series of value elements if it is
- 	 * defined in the content-type resource as having the type array or enumeration. If the field is an
- 	 * array, then each value element represents an element of the array. If the field is an enumeration, 
- 	 * then each value element represents one of the possible values to which the field can be set.
-	 */
-	@OneToMany(mappedBy = "fieldApplicationId", cascade = CascadeType.ALL) /*TODO : Check Where The Owning Side Should Be*/
-	@XmlElement(name = "value")
-	private List<Value> valueList;
-	
-	/**
-	 * Represents a set of options (name-value pairs) stored in fields
-	 */
-	@XmlElement(name = "options")
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "options", referencedColumnName = "applicationId", nullable = true)
-	private Options options;
-	
+	@Column(name = "field")
+	@XmlValue
+	private String field;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "applicationDateUpdated")
@@ -187,47 +155,17 @@ public class Field {
 		
 		return title;
 	}
+	
+	public void setField(String field) {
+		
+		this.field = field;
+	}
+	
+	public String getField() {
+	
+		return field;
+	}
 
-	public void setFieldElementList(List<FieldElement> fieldElementList) {
-		
-		this.fieldElementList = fieldElementList;
-	}
-	
-	public List<FieldElement> getFieldElementList() {
-		
-		return fieldElementList;
-	}
-	
-	public void setFieldFieldList(List<Field> fieldFieldList) {
-		
-		this.fieldFieldList = fieldFieldList;
-	}
-	
-	public List<Field> getFieldFieldList() {
-		
-		return fieldFieldList;
-	}
-	
-	public void setValueList(List<Value> valueList) {
-		
-		this.valueList = valueList;
-	}
-	
-	public List<Value> getValueList() {
-		
-		return valueList;
-	}
-	
-	public void setOptions(Options options) {
-		
-		this.options = options;
-	}
-	
-	public Options getOptions() {
-		
-		return options;
-	}
-	
 	public void setApplicationDateUpdated(Calendar applicationDateUpdated) {
 		
 		this.applicationDateUpdated = applicationDateUpdated;
