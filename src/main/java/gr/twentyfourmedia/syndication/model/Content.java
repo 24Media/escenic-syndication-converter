@@ -2,6 +2,7 @@ package gr.twentyfourmedia.syndication.model;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -9,6 +10,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -88,6 +90,14 @@ public class Content {
 	 * Other elements in the file have source and sourceid attributes that can be used for this
 	 * purpose. If this attribute is specified then a sourceid attribute must also be specified.
 	 * If a content element does not have a source and sourceid attribute then it must have
+	 * either a dbid attribute or an id attribute. A content element may have several or all of
+	 * these attributes, in which case any of them can be used for establishing relationships.
+	 * If supplied, source and sourceid are imported and stored with content items. If source
+	 * and sourceid are supplied and dbid is not supplied, then they are used to lookup an
+	 * existing content item. If a content item with matching source and sourceid is found,
+	 * then this content item is updated; otherwise a new content item is created.
+	 * If supplied, source and sourceid are imported and stored when creating new content
+	 * items, but not when updating existing content items.
 	 */
 	@Column(name = "source")
 	@XmlAttribute(name = "source")
@@ -177,13 +187,13 @@ public class Content {
 	@XmlAttribute(name = "creationdate")
 	private String creationDate;
 	
-	@OneToMany(mappedBy = "contentApplicationId")
+	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
 	@XmlElement(name = "section-ref")
-	private List<SectionRef> sectionRefList;
+	private Set<SectionRef> sectionRefList;
 	
-	@OneToMany(mappedBy = "contentApplicationId", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
 	@XmlElement(name = "relation")
-	private List<Relation> relationList;
+	private Set<Relation> relationList;
 	
 	/**
 	 * Represents one field in a content item or relation. The element's content model appears
@@ -191,7 +201,7 @@ public class Content {
 	 * element content is expected to conform to a field definition identified by the name attribute,
 	 * and will fail to be imported if this is not the case.
 	 */
-	@OneToMany(mappedBy = "contentApplicationId")
+	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
 	@XmlElement(name = "field")
 	private List<Field> fieldList;
 	
@@ -207,9 +217,9 @@ public class Content {
 	@XmlElement(name = "update")
 	private Update update;
 	
-	@OneToMany(mappedBy = "contentApplicationId")
+	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
 	@XmlElement(name = "author")
-	private List<Author> authorList;
+	private Set<Author> authorList;
 	
 	/**
 	 * A reference to the creator of a content item. Content item authors are themselves represented by person objects. 
@@ -373,22 +383,22 @@ public class Content {
 		return creationDate;
 	}
 	
-	public void setSectionRefList(List<SectionRef> sectionRefList) {
+	public void setSectionRefList(Set<SectionRef> sectionRefList) {
 		
 		this.sectionRefList = sectionRefList;
 	}
 	
-	public List<SectionRef> getSectionRefList() {
+	public Set<SectionRef> getSectionRefList() {
 		
 		return sectionRefList;
 	}
 	
-	public void setRelationList(List<Relation> relationList) {
+	public void setRelationList(Set<Relation> relationList) {
 		
 		this.relationList = relationList;
 	}
 	
-	public List<Relation> getRelationList() {
+	public Set<Relation> getRelationList() {
 		
 		return relationList;
 	}
@@ -413,12 +423,12 @@ public class Content {
 		return update;
 	}
 	
-	public void setAuthorList(List<Author> authorList) {
+	public void setAuthorList(Set<Author> authorList) {
 		
 		this.authorList = authorList;
 	}
 	
-	public List<Author> getAuthorList() {
+	public Set<Author> getAuthorList() {
 		
 		return authorList;
 	}
