@@ -24,8 +24,8 @@ import org.springframework.format.annotation.DateTimeFormat;
  * 		id-ref="text"?
  * 		(source="text" sourceid="text")?
  * 		dbid="text"?
- * 		firstname="text"?
- * 		surname="text"?
+ * 		first-name="text"?
+ * 		last-name="text"?
  * 		username="text"?
  * 		email-address="text"?
  * />
@@ -92,15 +92,15 @@ public class Creator {
 	 * If dbid or source and sourceid or id-ref are specified, then this attribute is ignored.
 	 */
 	@Column(name = "firstName")
-	@XmlAttribute(name = "firstname")
+	@XmlAttribute(name = "first-name")
 	private String firstName;
 	
 	/**
 	 * Using the surname attribute on its own is not recommended; you should use it in combination with the firstname attribute.
 	 */
-	@Column(name = "surName")
-	@XmlAttribute(name = "surname")
-	private String surName;
+	@Column(name = "lastName")
+	@XmlAttribute(name = "last-name")
+	private String lastName;
 
 	/**
 	 * The username of the this creator. If this attribute is specified, then one of the following two conditions must be satisfied:
@@ -198,14 +198,14 @@ public class Creator {
 		return firstName;
 	}
 	
-	public void setSurName(String surName) {
+	public void setLastName(String lastName) {
 		
-		this.surName = surName;
+		this.lastName = lastName;
 	}
 	
-	public String getSurName() {
+	public String getLastName() {
 		
-		return surName;
+		return lastName;
 	}
 	
 	public void setUserName(String userName) {

@@ -48,7 +48,7 @@ public class Field {
 	private Long applicationId;
 	
 	@ManyToOne
-	@JoinColumn(name = "contentApplicationId", referencedColumnName = "applicationId", nullable = true)
+	@JoinColumn(name = "contentApplicationId", referencedColumnName = "applicationId")
 	@XmlTransient
 	private Content contentApplicationId;
 	
@@ -92,7 +92,7 @@ public class Field {
 	/**
 	 * Binding of (ANYTHING|<relation>...</relation>|text)*
 	 */
-	@OneToMany(mappedBy = "fieldApplicationId", cascade = CascadeType.ALL) /*TODO : Check Where The Owning Side Should Be*/
+	@OneToMany(mappedBy = "fieldApplicationId")
 	private List<FieldElement> fieldElementList;
 	
 	@OneToMany(cascade = CascadeType.ALL)
@@ -187,7 +187,7 @@ public class Field {
 		
 		return title;
 	}
-	
+
 	public void setFieldElementList(List<FieldElement> fieldElementList) {
 		
 		this.fieldElementList = fieldElementList;

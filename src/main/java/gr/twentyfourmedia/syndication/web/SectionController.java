@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
@@ -24,9 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/section")
 public class SectionController {
-
-	@Autowired
-	private ServletContext servletContext;
 	
 	@Autowired
 	private Jaxb2Marshaller marshaller;

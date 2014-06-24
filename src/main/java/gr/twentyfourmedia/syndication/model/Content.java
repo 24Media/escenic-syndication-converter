@@ -49,9 +49,11 @@ import org.springframework.format.annotation.DateTimeFormat;
  * 		<author/>*
  * 		<creator/>?
  * 		<priority/>?
+ * 		<uri/>?
  * 	</content>
  * 
- *  Note : Use of <reference /> element is deprecated. It is only retained for reasons of backwards compatibility.
+ *  Note 1 : Use of <reference /> element is deprecated. It is only retained for reasons of backwards compatibility.
+ *  Note 2 : <uri/> Element Is Not Referenced In Escenic's Documentation
  */
 @Entity
 @Table(name = "content")
@@ -175,11 +177,11 @@ public class Content {
 	@XmlAttribute(name = "creationdate")
 	private String creationDate;
 	
-	@OneToMany(mappedBy = "contentApplicationId", cascade = CascadeType.ALL) /*TODO : Check Where The Owning Side Should Be*/
+	@OneToMany(mappedBy = "contentApplicationId")
 	@XmlElement(name = "section-ref")
 	private List<SectionRef> sectionRefList;
 	
-	@OneToMany(mappedBy = "contentApplicationId", cascade = CascadeType.ALL) /*TODO : Check Where The Owning Side Should Be*/
+	@OneToMany(mappedBy = "contentApplicationId", cascade = CascadeType.ALL)
 	@XmlElement(name = "relation")
 	private List<Relation> relationList;
 	
@@ -189,7 +191,7 @@ public class Content {
 	 * element content is expected to conform to a field definition identified by the name attribute,
 	 * and will fail to be imported if this is not the case.
 	 */
-	@OneToMany(mappedBy = "contentApplicationId", cascade = CascadeType.ALL) /*TODO : Check Where The Owning Side Should Be*/
+	@OneToMany(mappedBy = "contentApplicationId")
 	@XmlElement(name = "field")
 	private List<Field> fieldList;
 	
@@ -205,10 +207,10 @@ public class Content {
 	@XmlElement(name = "update")
 	private Update update;
 	
-	@OneToMany(mappedBy = "contentApplicationId", cascade = CascadeType.ALL) /*TODO : Check Where The Owning Side Should Be*/
+	@OneToMany(mappedBy = "contentApplicationId")
 	@XmlElement(name = "author")
 	private List<Author> authorList;
-
+	
 	/**
 	 * A reference to the creator of a content item. Content item authors are themselves represented by person objects. 
 	 * A person object is a special type of content item containing the fields needed to hold the usual kinds of personal 
@@ -218,7 +220,7 @@ public class Content {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "creator", referencedColumnName = "applicationId", nullable = true)
 	@XmlElement(name = "creator")	
-	private Creator creator;	
+	private Creator creator;
 	
 	/**
 	 * Used to set section priority
@@ -227,6 +229,13 @@ public class Content {
 	@AttributeOverride(name = "value", column = @Column(name = "priority"))
 	@XmlElement(name = "priority")
 	private Priority priority;
+	
+	/**
+	 * Elements Id Not Referenced In Escenic's Documentation
+	 */
+	@Column(name = "uri")
+	@XmlElement(name = "uri")
+	private String uri;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -432,6 +441,16 @@ public class Content {
 	public Priority getPriority() {
 		
 		return priority;
+	}
+	
+	public void setUri(String uri) {
+		
+		this.uri = uri;
+	}
+	
+	public String getUri() {
+		
+		return uri;
 	}
 	
 	public void setApplicationDateUpdated(Calendar applicationDateUpdated) {

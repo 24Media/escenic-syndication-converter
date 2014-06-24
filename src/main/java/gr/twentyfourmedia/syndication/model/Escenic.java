@@ -31,6 +31,9 @@ public class Escenic {
 	@XmlAttribute(name = "version")
 	private String version;
 	
+	@XmlElement(name = "content")
+	private List<Content> contentList;
+	
 	@XmlElement(name = "section")
 	private List<Section> sectionList;
 	
@@ -42,6 +45,16 @@ public class Escenic {
 	public String getVersion() {
 	
 		return version;
+	}
+	
+	public void setContentList(List<Content> contentList) {
+		
+		this.contentList = contentList;
+	}
+	
+	public List<Content> getContentList() {
+	
+		return contentList;
 	}
 	
 	public void setSectionList(List<Section> sectionList) {

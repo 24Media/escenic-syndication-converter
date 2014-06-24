@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlValue;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -39,7 +40,7 @@ public class FieldElement {
 	private Long applicationId;
 	
 	@ManyToOne
-	@JoinColumn(name = "fieldApplicationId", referencedColumnName = "applicationId", nullable = false)
+	@JoinColumn(name = "fieldApplicationId", referencedColumnName = "applicationId")
 	@XmlTransient
 	private Field fieldApplicationId;
 	
@@ -58,6 +59,7 @@ public class FieldElement {
 	
 	@Lob
 	@Column(name = "text")
+	@XmlElement
 	private String text;
 	
 	@Temporal(TemporalType.TIMESTAMP)
