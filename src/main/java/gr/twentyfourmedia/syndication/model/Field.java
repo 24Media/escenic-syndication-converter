@@ -1,7 +1,9 @@
 package gr.twentyfourmedia.syndication.model;
 
 import java.util.Calendar;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,12 +11,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -52,12 +57,13 @@ public class Field {
 	@XmlTransient
 	private Relation relationApplicationId;
 	
+
+	
 	/**
-	 * Identifies the content item/relation field represented by this field element. For import,
-	 * the value specified must be the name of one of the fields defined for the content item/relation 
-	 * in the target publication's content-type resource. The value you specify here will then determine 
-	 * what kind of content your field element may have. If, for example, your field element has the name 
-	 * "headline" and belongs to a content element with the type "news", then:
+	 * Identifies the content item/relation field represented by this field element. For import, the value specified must be 
+	 * the name of one of the fields defined for the content item/relation in the target publication's content-type resource.
+	 * The value you specify here will then determine  what kind of content your field element may have. If, for example, your
+	 * field element has the name "headline" and belongs to a content element with the type "news", then:
 	 * 		1) The content-type resource of the target publication must contain a content-type element with the name "news".
 	 * 		2) The "news" content-type element must contain a field element with the name "headline".
 	 * 		3) The content of your field element must conform to the "headline" field definition in the content-type resource.
@@ -84,6 +90,19 @@ public class Field {
 	@Column(name = "title")
 	@XmlAttribute(name = "title")
 	private String title;
+	
+	
+	
+	
+	
+	
+	/**
+	 * Represents a set of options (name-value pairs) stored in fields
+	 */
+	@XmlElement(name = "options")
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "options", referencedColumnName = "applicationId", nullable = true)
+	private Options options;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -149,6 +168,16 @@ public class Field {
 	public String getTitle() {
 		
 		return title;
+	}
+	
+	public void setOptions(Options options) {
+		
+		this.options = options;
+	}
+	
+	public Options getOptions() {
+		
+		return options;
 	}
 	
 	public void setApplicationDateUpdated(Calendar applicationDateUpdated) {
