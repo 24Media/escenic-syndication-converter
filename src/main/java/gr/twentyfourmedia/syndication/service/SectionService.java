@@ -8,5 +8,7 @@ public interface SectionService {
 
 	void persistSection(Section section);
 	
+	void mergeSection(Section section);
+	
 	List<Section> getSections();
 }

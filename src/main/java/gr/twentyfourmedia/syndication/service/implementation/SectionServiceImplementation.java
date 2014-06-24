@@ -25,6 +25,12 @@ public class SectionServiceImplementation implements SectionService {
 	}
 
 	@Override
+	public void mergeSection(Section section) {
+		
+		sectionDao.merge(section);
+	}
+	
+	@Override
 	public List<Section> getSections() {
 
 		return sectionDao.getAll();

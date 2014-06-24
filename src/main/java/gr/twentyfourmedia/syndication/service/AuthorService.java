@@ -1,5 +1,5 @@
 package gr.twentyfourmedia.syndication.service;
 
-public interface ParentService {
+public interface AuthorService {
 
 }

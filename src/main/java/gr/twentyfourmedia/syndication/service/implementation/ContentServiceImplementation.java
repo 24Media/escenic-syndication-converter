@@ -35,6 +35,7 @@ public class ContentServiceImplementation implements ContentService {
 
 		contentDao.persist(content);
 		
+		//Persist All Content's References
 		sectionRefDao.persistContentSectionRefs(content);
 		authorDao.persistContentAuthors(content);
 		fieldDao.persistContentFields(content);
