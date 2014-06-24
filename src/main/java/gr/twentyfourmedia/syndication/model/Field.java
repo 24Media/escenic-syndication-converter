@@ -34,7 +34,6 @@ import org.springframework.format.annotation.DateTimeFormat;
  * ((ANYTHING|<relation>...</relation>|text)*|<field>...</field>*|<value>...</value>*)<options>...</options>?
  * </field>
  */
-//TODO: Element Attributes
 @Entity
 @Table(name = "field")
 @XmlRootElement(name = "field")
@@ -56,9 +55,7 @@ public class Field {
 	@JoinColumn(name = "relationApplicationId", referencedColumnName = "applicationId", nullable = true)
 	@XmlTransient
 	private Relation relationApplicationId;
-	
 
-	
 	/**
 	 * Identifies the content item/relation field represented by this field element. For import, the value specified must be 
 	 * the name of one of the fields defined for the content item/relation in the target publication's content-type resource.
@@ -94,7 +91,15 @@ public class Field {
 	
 	
 	
-	
+	/**
+	 * A single value within a field. A field element may contain a series of value elements if it is
+ 	 * defined in the content-type resource as having the type array or enumeration. If the field is an
+ 	 * array, then each value element represents an element of the array. If the field is an enumeration, 
+ 	 * then each value element represents one of the possible values to which the field can be set.
+	 */
+	@OneToMany(mappedBy = "fieldApplicationId", cascade = CascadeType.ALL) /*TODO : Check Where The Owning Side Should Be*/
+	@XmlElement(name = "value")
+	private List<Value> valueList;
 	
 	/**
 	 * Represents a set of options (name-value pairs) stored in fields
@@ -168,6 +173,16 @@ public class Field {
 	public String getTitle() {
 		
 		return title;
+	}
+	
+	public void setValueList(List<Value> valueList) {
+		
+		this.valueList = valueList;
+	}
+	
+	public List<Value> getValueList() {
+		
+		return valueList;
 	}
 	
 	public void setOptions(Options options) {
