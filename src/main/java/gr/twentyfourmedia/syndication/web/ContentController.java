@@ -66,7 +66,11 @@ public class ContentController {
 		FileInputStream inputStream;
 		
 		try {
+			
+			
 			inputStream = new FileInputStream(new File(path));
+			
+			
 			StreamSource source = new StreamSource(inputStream);
 			
 			Escenic escenic = (Escenic) marshaller.unmarshal(source);

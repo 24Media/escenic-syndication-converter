@@ -1,7 +1,5 @@
 package gr.twentyfourmedia.syndication.model;
 
-import gr.twentyfourmedia.syndication.utilities.FieldDomHandler;
-
 import java.util.Calendar;
 
 import javax.persistence.Column;
@@ -17,19 +15,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlMimeType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
-import com.thoughtworks.xstream.io.xml.XmlFriendlyWriter;
 
 /**
  * <field
@@ -100,7 +92,6 @@ public class Field {
 	@Column(name = "field", columnDefinition = "text")
 	@XmlValue
 	@XmlJavaTypeAdapter(value = gr.twentyfourmedia.syndication.utilities.FieldAdapter.class, type = String.class)
-	//@XmlAnyElement(FieldDomHandler.class)
 	private String field;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -176,7 +167,7 @@ public class Field {
 	
 	public String getField() {
 	
-		return this.field;
+		return field;
 	}
 
 	public void setApplicationDateUpdated(Calendar applicationDateUpdated) {
