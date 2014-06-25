@@ -12,7 +12,7 @@ public class HibernateAuthorDao extends HibernateAbstractDao<Author> implements 
 	@Override
 	public void persistContentAuthors(Content content) {
 
-		for(Author a : content.getAuthorList()) {
+		for(Author a : content.getAuthorSet()) {
 
 			a.setContentApplicationId(content);
 			persist(a);

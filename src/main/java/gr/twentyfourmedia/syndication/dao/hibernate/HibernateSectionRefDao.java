@@ -12,7 +12,7 @@ public class HibernateSectionRefDao extends HibernateAbstractDao<SectionRef> imp
 	@Override
 	public void persistContentSectionRefs(Content content) {
 
-		for(SectionRef r : content.getSectionRefList()) {
+		for(SectionRef r : content.getSectionRefSet()) {
 			
 			r.setContentApplicationId(content);
 			persist(r);

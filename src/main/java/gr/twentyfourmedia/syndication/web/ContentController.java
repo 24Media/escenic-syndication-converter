@@ -92,7 +92,7 @@ public class ContentController {
 							
 			//Not Needed Tag Values
 			c.setCreator(null);
-			c.setAuthorList(null);
+			c.setAuthorSet(null);
 			
 			result.add(c);
 		}

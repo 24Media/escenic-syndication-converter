@@ -50,7 +50,7 @@ public class Field {
 	private Content contentApplicationId;
 	
 	@ManyToOne
-	@JoinColumn(name = "relationApplicationId", referencedColumnName = "applicationId", nullable = true)
+	@JoinColumn(name = "relationApplicationId", referencedColumnName = "applicationId")
 	@XmlTransient
 	private Relation relationApplicationId;
 

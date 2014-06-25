@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -188,12 +189,14 @@ public class Content {
 	private String creationDate;
 	
 	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
+	@OrderBy(value = "applicationId ASC")
 	@XmlElement(name = "section-ref")
-	private Set<SectionRef> sectionRefList;
+	private Set<SectionRef> sectionRefSet;
 	
 	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
+	@OrderBy(value = "applicationId ASC")
 	@XmlElement(name = "relation")
-	private Set<Relation> relationList;
+	private Set<Relation> relationSet;
 	
 	/**
 	 * Represents one field in a content item or relation. The element's content model appears
@@ -218,8 +221,9 @@ public class Content {
 	private Update update;
 	
 	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
+	@OrderBy(value = "applicationId ASC")
 	@XmlElement(name = "author")
-	private Set<Author> authorList;
+	private Set<Author> authorSet;
 	
 	/**
 	 * A reference to the creator of a content item. Content item authors are themselves represented by person objects. 
@@ -383,24 +387,24 @@ public class Content {
 		return creationDate;
 	}
 	
-	public void setSectionRefList(Set<SectionRef> sectionRefList) {
+	public void setSectionRefSet(Set<SectionRef> sectionRefSet) {
 		
-		this.sectionRefList = sectionRefList;
+		this.sectionRefSet = sectionRefSet;
 	}
 	
-	public Set<SectionRef> getSectionRefList() {
+	public Set<SectionRef> getSectionRefSet() {
 		
-		return sectionRefList;
+		return sectionRefSet;
 	}
 	
-	public void setRelationList(Set<Relation> relationList) {
+	public void setRelationSet(Set<Relation> relationSet) {
 		
-		this.relationList = relationList;
+		this.relationSet = relationSet;
 	}
 	
-	public Set<Relation> getRelationList() {
+	public Set<Relation> getRelationSet() {
 		
-		return relationList;
+		return relationSet;
 	}
 	
 	public void setFieldList(List<Field> fieldList) {
@@ -423,14 +427,14 @@ public class Content {
 		return update;
 	}
 	
-	public void setAuthorList(Set<Author> authorList) {
+	public void setAuthorSet(Set<Author> authorSet) {
 		
-		this.authorList = authorList;
+		this.authorSet = authorSet;
 	}
 	
-	public Set<Author> getAuthorList() {
+	public Set<Author> getAuthorSet() {
 		
-		return authorList;
+		return authorSet;
 	}
 	
 	public void setCreator(Creator creator) {
