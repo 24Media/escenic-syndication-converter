@@ -1,56 +1,43 @@
 package gr.twentyfourmedia.syndication.utilities;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import javax.xml.bind.ValidationEventHandler;
+import javax.xml.bind.annotation.DomHandler;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.*;
 
-import javax.naming.OperationNotSupportedException;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
-import javax.xml.namespace.QName;
+public class MapAdapter implements DomHandler<String, StreamResult> {
 
-public class MapAdapter extends XmlAdapter<MapWrapper, Map<String,String>> {
+    private static final String BIO_START_TAG = "<bio>";
+    private static final String BIO_END_TAG = "</bio>";
+
+    private StringWriter xmlWriter = new StringWriter();
+
+    public StreamResult createUnmarshaller(ValidationEventHandler errorHandler) {
+    	
+    	xmlWriter.getBuffer().setLength(0);
+    	return new StreamResult(xmlWriter);
+    }
     
-	@Override
-    public MapWrapper marshal(Map<String,String> m) throws Exception {
-		/*
-    MapWrapper wrapper = new MapWrapper();
-    List<JAXBElement<String>> elements = new ArrayList<JAXBElement<String>>();
-       for (Map.Entry<String, String> property: m.entrySet()) {
-          elements.add(new JAXBElement<String>(
-                    new QName(getCleanLabel(property.getKey())), 
-          String.class, property.getValue()));
-       }
-       wrapper.elements=elements;
-    return wrapper;
-    */
-		return new MapWrapper();
-	}
+    
+    public String getElement(StreamResult rt) {
+        String xml = rt.getWriter().toString();
+        //int beginIndex = xml.indexOf(BIO_START_TAG) + BIO_START_TAG.length();
+        //int endIndex = xml.indexOf(BIO_END_TAG);
+        //return xml.substring(beginIndex, endIndex);
+    
+    	return "<![CDATA[" + xml + "]]>";
+    	
+    }
 
-	@Override
-	public Map<String,String> unmarshal(MapWrapper map) throws Exception {
-	         
-	
+    public Source marshal(String n, ValidationEventHandler errorHandler) {
+        try {
+            String xml = BIO_START_TAG + n.trim() + BIO_END_TAG;
+            StringReader xmlReader = new StringReader(xml);
+            return new StreamSource(xmlReader);
+        } catch(Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	    
-		
-	    
-	    for(JAXBElement<String> v : map) {
-	    	
-	    }
-	    
-	    
-	}
-	
-	// Return a lower-camel XML-safe attribute
-	private String getCleanLabel(String attributeLabel) { 
-		/*
-	    attributeLabel = attributeLabel.replaceAll("[()]", "")
-	            .replaceAll("[^\\w\\s]", "_").replaceAll(" ", "_")
-	            .toUpperCase();
-	    attributeLabel = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL,
-	            attributeLabel);
-	    return attributeLabel;
-	    */
-	}
 }

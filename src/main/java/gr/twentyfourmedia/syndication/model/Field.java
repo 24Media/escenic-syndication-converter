@@ -1,8 +1,8 @@
 package gr.twentyfourmedia.syndication.model;
 
+import gr.twentyfourmedia.syndication.utilities.MapAdapter;
+
 import java.util.Calendar;
-import java.util.LinkedHashMap;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,21 +10,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.bind.JAXBElement;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlValue;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -93,14 +89,14 @@ public class Field {
 	@XmlAttribute(name = "title")
 	private String title;
 	
-	@Lob
-	@Column(name = "field", columnDefinition = "text")
+	//@Lob
+	//@Column(name = "field", columnDefinition = "text")
 	//@XmlValue
-	@XmlAnyElement
+	@Transient
+	@XmlAnyElement(MapAdapter.class)
 	//@XmlJavaTypeAdapter(value = gr.twentyfourmedia.syndication.utilities.FieldAdapter.class, type = String.class)
-	@XmlJavaTypeAdapter(value = gr.twentyfourmedia.syndication.utilities.MapAdapter.class)
-	//private String field;
-	private LinkedHashMap<String, String> field;
+	//@XmlJavaTypeAdapter(value = gr.twentyfourmedia.syndication.utilities.MapAdapter.class)
+	private String field;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -167,7 +163,7 @@ public class Field {
 		
 		return title;
 	}
-	
+
 	public void setField(String field) {
 
 		this.field = field;

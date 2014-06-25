@@ -119,8 +119,6 @@ public class ContentController {
 		FileInputStream inputStream;
 		
 		try {
-			
-			
 			inputStream = new FileInputStream(new File(path));
 			
 			

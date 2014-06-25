@@ -15,6 +15,7 @@ public class HibernateFieldDao extends HibernateAbstractDao<Field> implements Fi
 		for(Field f : content.getFieldList()) {
 			
 			f.setContentApplicationId(content);
+			System.out.println(f.getField());
 			persist(f);
 		}
 	}
