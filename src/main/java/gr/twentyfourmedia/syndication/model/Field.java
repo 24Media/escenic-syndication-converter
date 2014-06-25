@@ -1,5 +1,7 @@
 package gr.twentyfourmedia.syndication.model;
 
+import gr.twentyfourmedia.syndication.utilities.FieldDomHandler;
+
 import java.util.Calendar;
 
 import javax.persistence.Column;
@@ -8,18 +10,26 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlMimeType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.thoughtworks.xstream.io.xml.XmlFriendlyWriter;
 
 /**
  * <field
@@ -86,8 +96,11 @@ public class Field {
 	@XmlAttribute(name = "title")
 	private String title;
 	
-	@Column(name = "field")
+	@Lob
+	@Column(name = "field", columnDefinition = "text")
 	@XmlValue
+	@XmlJavaTypeAdapter(value = gr.twentyfourmedia.syndication.utilities.FieldAdapter.class, type = String.class)
+	//@XmlAnyElement(FieldDomHandler.class)
 	private String field;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -157,13 +170,13 @@ public class Field {
 	}
 	
 	public void setField(String field) {
-		
+
 		this.field = field;
 	}
 	
 	public String getField() {
 	
-		return field;
+		return this.field;
 	}
 
 	public void setApplicationDateUpdated(Calendar applicationDateUpdated) {

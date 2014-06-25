@@ -3,9 +3,9 @@ package gr.twentyfourmedia.syndication.model;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -111,7 +111,7 @@ public class Relation {
 	@XmlAttribute(name = "type")
 	private String type;
 	
-	@OneToMany(mappedBy = "relationApplicationId", cascade = CascadeType.ALL) /*TODO : Check Where The Owning Side Should Be*/
+	@OneToMany(mappedBy = "relationApplicationId", fetch = FetchType.EAGER)
 	@XmlElement(name = "field")
 	private List<Field> fieldList;
 	

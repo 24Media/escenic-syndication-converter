@@ -38,7 +38,7 @@ public class ContentController {
 		List<Content> allTags = contentService.getContents();
 		contents.setContentList(tagsFiltering(allTags));
 
-		String path = System.getProperty("filepath.syndicationFiles") + "/write/exportedTags.xml";
+		String path = System.getProperty("filepath.syndicationFiles") + "/write/exported-content.xml";
 		
 		FileOutputStream outputStream;
 		
@@ -61,7 +61,7 @@ public class ContentController {
 	@RequestMapping(value = "unmarshall")
 	public String unmarshall(Model model) {
 
-		String path = System.getProperty("filepath.syndicationFiles") + "/read/tagstree.xml";
+		String path = System.getProperty("filepath.syndicationFiles") + "/read/content-tree.xml";
 		
 		FileInputStream inputStream;
 		

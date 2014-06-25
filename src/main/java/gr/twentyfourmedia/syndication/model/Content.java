@@ -205,7 +205,7 @@ public class Content {
 	 * and will fail to be imported if this is not the case.
 	 */
 	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
-	@XmlElement(name = "field")
+	@XmlElement(name = "field", nillable = true)
 	private List<Field> fieldList;
 	
 	/**

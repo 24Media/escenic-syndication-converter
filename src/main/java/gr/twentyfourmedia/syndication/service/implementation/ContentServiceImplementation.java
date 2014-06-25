@@ -42,10 +42,10 @@ public class ContentServiceImplementation implements ContentService {
 		/*
 		 * Persist All Content's References
 		 */
-		sectionRefDao.persistContentSectionRefs(content);
-		relationDao.persistContentRelations(content);
-		fieldDao.persistContentFields(content);
-		authorDao.persistContentAuthors(content);
+		if(content.getSectionRefSet()!=null && !content.getSectionRefSet().isEmpty()) sectionRefDao.persistContentSectionRefs(content);
+		if(content.getRelationSet()!=null && !content.getRelationSet().isEmpty()) relationDao.persistContentRelations(content);
+		if(content.getFieldList()!=null && !content.getFieldList().isEmpty()) fieldDao.persistContentFields(content);
+		if(content.getAuthorSet()!=null && !content.getAuthorSet().isEmpty()) authorDao.persistContentAuthors(content);
 	}
 	
 	@Override
