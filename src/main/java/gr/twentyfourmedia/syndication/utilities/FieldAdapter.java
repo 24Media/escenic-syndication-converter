@@ -8,6 +8,9 @@ public class FieldAdapter extends XmlAdapter<String, String>{
 	public String unmarshal(String value) throws Exception {
 		
 		if(value.equals("")) return null; else return value;
+	
+	
+
 	}
 
 	@Override

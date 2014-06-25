@@ -14,6 +14,12 @@ import java.util.List;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Controller;
@@ -29,6 +35,53 @@ public class ContentController {
 	
 	@Autowired
 	private ContentService contentService;	
+	
+	private String getStoriesHTMLContent(String path, String htmlField,String srcId) {
+        Document doc;
+        String id = "";
+        String body = "";
+        String prologue = "";
+        String name = "";
+        
+        try {
+            File xml = new File(path);
+            SAXReader reader = new SAXReader();
+            doc = reader.read(xml);
+            Element root = doc.getRootElement();
+            //String contentxpath = "/*[name()='escenic']/*[name()='content']/*[name()='field']";
+            List<Element> contents = root.elements("content");
+            List<Element> fields;
+            for (Element content : contents) {
+                id = content.attributeValue("sourceid");
+                if (id!=null && !(id.isEmpty()) && id.equals(srcId)) {
+                    fields = content.elements("field");
+                    for (Element field : fields) {
+                        name = field.attributeValue("name");
+                        if (name.equals("body")) {
+                            body = field.asXML();
+                            body = body.replaceAll("<field xmlns=\"http://xmlns.escenic.com/2009/import\" name=\"body\">", "");
+                            body = body.replaceAll("</field>", "");
+                            body = "<![CDATA[" + body + "]]>";
+                        }
+                        if (name.equals("prologue")) {
+                            prologue = field.asXML();
+                            prologue = prologue.replaceAll("<field xmlns=\"http://xmlns.escenic.com/2009/import\" name=\"prologue\">", "");
+                            prologue = prologue.replaceAll("</field>", "");
+                            prologue = "<![CDATA[" + prologue + "]]>";
+                        }
+                    }
+                }
+            }
+            
+        } catch (DocumentException ex) {
+            Logger.getLogger(SectionController.class.getName()).log(Level.ERROR, null, ex);
+        }
+        if (htmlField.equals("prologue")) {
+            return prologue;
+        } else {
+            return body;
+        }
+    }	
 	
 	@RequestMapping(value = "marshall")
 	public String marshall(Model model) {

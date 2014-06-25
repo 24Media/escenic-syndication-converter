@@ -1,6 +1,8 @@
 package gr.twentyfourmedia.syndication.model;
 
 import java.util.Calendar;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,9 +15,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlValue;
@@ -90,10 +95,13 @@ public class Field {
 	
 	@Lob
 	@Column(name = "field", columnDefinition = "text")
-	@XmlValue
-	@XmlJavaTypeAdapter(value = gr.twentyfourmedia.syndication.utilities.FieldAdapter.class, type = String.class)
-	private String field;
-
+	//@XmlValue
+	@XmlAnyElement
+	//@XmlJavaTypeAdapter(value = gr.twentyfourmedia.syndication.utilities.FieldAdapter.class, type = String.class)
+	@XmlJavaTypeAdapter(value = gr.twentyfourmedia.syndication.utilities.MapAdapter.class)
+	//private String field;
+	private LinkedHashMap<String, String> field;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "applicationDateUpdated")
