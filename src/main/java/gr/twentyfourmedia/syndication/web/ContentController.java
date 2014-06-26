@@ -38,6 +38,14 @@ public class ContentController {
 	@Autowired
 	private ContentService contentService;	
 	
+	/**
+	 * Given a Content or A Content's Relation, Parse Syndication File and Wrap Found Value With <![CDATA[...]]> Tokens
+	 * @param path Path To Syndication File
+	 * @param htmlField Field HTML Name
+	 * @param contentSourceId Content's Source Id
+	 * @param relationSourceId Relation's Source Id
+	 * @return Content or Relation's Value Wrapped With <![CDATA[...]]> Tokens
+	 */
 	@SuppressWarnings("unchecked")
 	private String getFieldHTMLContent(String path, String htmlField, String contentSourceId, String relationSourceId) {
         
@@ -123,7 +131,7 @@ public class ContentController {
 		contents.setVersion("2.0");
 		
 		List<Content> aContent = new ArrayList<Content>();
-		aContent.add(contentService.getContent((long) 4020));
+		aContent.add(contentService.getContent((long) 3996));
 		contents.setContentList(aContent);
 		
 		//List<Content> allTags = contentService.getContents();
@@ -138,7 +146,7 @@ public class ContentController {
 			outputStream = new FileOutputStream(new File(path));
 			StreamResult result = new StreamResult(outputStream);
 			marshaller.marshal(contents, result);
-			replaceFileTokens(path);
+			replaceHTMLTokens(path);
 		} 
 		catch(FileNotFoundException exception) {
 			
@@ -176,6 +184,11 @@ public class ContentController {
 		return "/home";
 	}
 
+	/**
+	 * If <![CDATA[...]]> Element Created, Set Corresponding Object Attributes To Ensure That Merging Of Content Will Merge These Attributes Too 
+	 * @param content Content Object
+	 * @param path Path To Syndication File
+	 */
 	private void contentHTMLFields(Content content, String path) {
 		
 		/*
@@ -185,7 +198,7 @@ public class ContentController {
 		
 			for(Field f : content.getFieldList()) {
 			
-				if(f.getField()==null) { //Possible HTML Content
+				if(f.getField()==null) { //Possible HTML Value
 			
 					String result = getFieldHTMLContent(path, f.getName(), content.getSourceId(), null);
 					if(result!=null) f.setField(result);
@@ -204,7 +217,7 @@ public class ContentController {
 		
 					for(Field f : r.getFieldList()) {
 		
-						if(f.getField()==null) {
+						if(f.getField()==null) { //Possible HTML Value
 					
 							String result = getFieldHTMLContent(path, f.getName(), content.getSourceId(), r.getSourceId());
 							if(result!=null) f.setField(result);
@@ -215,7 +228,11 @@ public class ContentController {
 		}
 	}
 	
-	private void replaceFileTokens(String path) {
+	/**
+	 * Read Marshalled Syndication File And Unescape HTML Characters like '&lt;', '&gt;' Than Can Not Imported Properly To Escenic
+	 * @param path Path To Marshalled Syndication File
+	 */
+	private void replaceHTMLTokens(String path) {
 		
 		File file = new File(path);
 		String fileContents;
@@ -223,12 +240,22 @@ public class ContentController {
 		try {
 			
 			fileContents = FileUtils.readFileToString(new File(path));
+
+			/*
+			 * JAXB Sucks When It Comes To Marshalling and HTML Character Escaping. '>' Character For Example Will Be Escaped 
+			 * to '&gt;'. But If Your Text Actually Contains '&gt;' It Will Be Escaped To '&amp;gt;'. So If You Can Not Find 
+			 * A Way To Completely Disable Character Escaping, Special Consideration Is Needed To Remove This Kind Of Garbage 
+			 */
 			fileContents = fileContents
-							.replace("&lt;", "<")
-							.replace("&gt;", ">")
-							.replace("&amp;", "&")
-							.replace("&quot;", "\"");
-			
+							.replaceAll("&amp;lt;", "<")
+							.replaceAll("&amp;gt;", ">")
+							.replaceAll("&amp;quot;", "\"")
+							.replaceAll("&amp;amp;", "&")
+							.replaceAll("&lt;", "<")
+							.replaceAll("&gt;", ">")
+							.replaceAll("&quot;", "\"")
+							.replaceAll("&amp;", "&");
+
 			FileUtils.writeStringToFile(file, fileContents);			
 		} 
 		catch (IOException exception) {

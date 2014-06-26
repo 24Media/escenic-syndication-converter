@@ -14,6 +14,10 @@
 		<mysql-connector-version>5.1.6</mysql-connector-version>
 		<commons-dbcp-version>1.4</commons-dbcp-version>
 		<commons-lang-version>3.2.1</commons-lang-version>
+		<commons-io-version>2.4</commons-io-version>
+		<log4j-version>1.2.15</log4j-version>
+		<dom4j-version>1.6.1</dom4j-version>
+		<jaxen-version>1.1.1</jaxen-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
@@ -45,8 +49,7 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-oxm</artifactId>
 			<version>${spring-framework-version}</version>
-		</dependency>		
-		
+		</dependency>
 		<!-- Hibernate -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -58,14 +61,12 @@
 		     <artifactId>hibernate-entitymanager</artifactId>
 		     <version>${hibernate-version}</version>
 		</dependency>
-		
 		<!-- MySQL Connector -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql-connector-version}</version>
 		</dependency>
-
 		<!-- Apache Commons Libraries -->
 		<dependency>
 			<groupId>commons-dbcp</groupId>
@@ -80,28 +81,25 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.4</version>
+			<version>${commons-io-version}</version>
 		</dependency>
-
 		<!-- Dom4J Libraries -->
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
-			<version>1.6.1</version>
+			<version>${dom4j-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>jaxen</groupId>
 			<artifactId>jaxen</artifactId>
-			<version>1.1.1</version>
+			<version>${jaxen-version}</version>
 		</dependency>
-
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>${org.aspectj-version}</version>
-		</dependency>	
-		
+		</dependency>
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -123,7 +121,7 @@
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.15</version>
+			<version>${log4j-version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>javax.mail</groupId>

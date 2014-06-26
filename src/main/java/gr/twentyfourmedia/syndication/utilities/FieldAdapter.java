@@ -13,17 +13,6 @@ public class FieldAdapter extends XmlAdapter<String, String>{
 	@Override
 	public String marshal(String value) throws Exception {
 
-
-		return value.replaceAll("<!\\[CDATA\\[", "")
-					.replaceAll("\\]\\]>", "");
-		
-		/*
-					.replace("&lt;", "&#60;")
-					.replace("&gt;", "&#62;")
-					.replace("&amp;", "&#38;")
-					.replace("&quot", "&#34;");
-		*/
-		//return value;
-		//return filterMarshalingValue(value);
+		return value.replaceAll("<!\\[CDATA\\[", "").replaceAll("\\]\\]>", "");
 	}
 }
