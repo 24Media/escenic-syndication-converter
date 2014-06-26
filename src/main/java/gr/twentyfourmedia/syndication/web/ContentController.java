@@ -119,8 +119,13 @@ public class ContentController {
 
 		Escenic contents = new Escenic();
 		contents.setVersion("2.0");
-		List<Content> allTags = contentService.getContents();
-		contents.setContentList(tagsFiltering(allTags));
+		
+		List<Content> aContent = new ArrayList<Content>();
+		aContent.add(contentService.getContent((long) 4340));
+		contents.setContentList(aContent);
+		
+		//List<Content> allTags = contentService.getContents();
+		//contents.setContentList(tagsFiltering(allTags));
 
 		String path = System.getProperty("filepath.syndicationFiles") + "/write/exported-content.xml";
 		
@@ -145,6 +150,8 @@ public class ContentController {
 	@RequestMapping(value = "unmarshall")
 	public String unmarshall(Model model) {
 
+		/*
+		
 		String path = System.getProperty("filepath.syndicationFiles") + "/read/content-tree.xml";
 		
 		FileInputStream inputStream;
@@ -166,6 +173,7 @@ public class ContentController {
 			
 			exception.printStackTrace();
 		} 
+		*/
 		
 		return "/home";
 	}

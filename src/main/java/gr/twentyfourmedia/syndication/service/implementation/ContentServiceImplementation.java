@@ -63,6 +63,12 @@ public class ContentServiceImplementation implements ContentService {
 	}
 
 	@Override
+	public Content getContent(Long id) {
+		
+		return contentDao.get(id);
+	}
+	
+	@Override
 	public List<Content> getContents() {
 		
 		return contentDao.getAll();

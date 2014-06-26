@@ -10,5 +10,7 @@ public interface ContentService {
 	
 	void mergeContent(Content content);
 	
+	Content getContent(Long id);
+	
 	List<Content> getContents();
 }

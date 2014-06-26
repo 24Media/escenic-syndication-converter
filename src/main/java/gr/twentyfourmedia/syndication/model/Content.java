@@ -28,6 +28,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -189,11 +191,13 @@ public class Content {
 	private String creationDate;
 	
 	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SELECT) 
 	@OrderBy(value = "applicationId ASC")
 	@XmlElement(name = "section-ref")
 	private Set<SectionRef> sectionRefSet;
 	
 	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SELECT)
 	@OrderBy(value = "applicationId ASC")
 	@XmlElement(name = "relation")
 	private Set<Relation> relationSet;
@@ -205,6 +209,7 @@ public class Content {
 	 * and will fail to be imported if this is not the case.
 	 */
 	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SELECT)
 	@XmlElement(name = "field", nillable = true)
 	private List<Field> fieldList;
 	
@@ -221,6 +226,7 @@ public class Content {
 	private Update update;
 	
 	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SELECT)
 	@OrderBy(value = "applicationId ASC")
 	@XmlElement(name = "author")
 	private Set<Author> authorSet;
