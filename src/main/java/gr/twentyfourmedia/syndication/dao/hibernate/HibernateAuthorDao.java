@@ -18,4 +18,14 @@ public class HibernateAuthorDao extends HibernateAbstractDao<Author> implements 
 			persist(a);
 		}
 	}
+	
+	@Override
+	public void mergeContentAuthors(Content content) {
+
+		for(Author a : content.getAuthorSet()) {
+
+			a.setContentApplicationId(content);
+			merge(a);
+		}
+	}	
 }

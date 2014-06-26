@@ -18,4 +18,14 @@ public class HibernateSectionRefDao extends HibernateAbstractDao<SectionRef> imp
 			persist(r);
 		}
 	}
+	
+	@Override
+	public void mergeContentSectionRefs(Content content) {
+
+		for(SectionRef r : content.getSectionRefSet()) {
+			
+			r.setContentApplicationId(content);
+			merge(r);
+		}
+	}
 }

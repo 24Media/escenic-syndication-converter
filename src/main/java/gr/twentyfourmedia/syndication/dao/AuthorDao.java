@@ -6,4 +6,6 @@ import gr.twentyfourmedia.syndication.model.Content;
 public interface AuthorDao extends AbstractDao<Author> {
 
 	void persistContentAuthors(Content content);
+	
+	void mergeContentAuthors(Content content);
 }

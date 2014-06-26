@@ -52,6 +52,14 @@ public class ContentServiceImplementation implements ContentService {
 	public void mergeContent(Content content) {
 		
 		contentDao.merge(content);
+		
+		/*
+		 * Merge All Content's References
+		 */
+		if(content.getSectionRefSet()!=null && !content.getSectionRefSet().isEmpty()) sectionRefDao.mergeContentSectionRefs(content);
+		if(content.getRelationSet()!=null && !content.getRelationSet().isEmpty()) relationDao.mergeContentRelations(content);
+		if(content.getFieldList()!=null && !content.getFieldList().isEmpty()) fieldDao.mergeContentFields(content);
+		if(content.getAuthorSet()!=null && !content.getAuthorSet().isEmpty()) authorDao.mergeContentAuthors(content);
 	}
 
 	@Override

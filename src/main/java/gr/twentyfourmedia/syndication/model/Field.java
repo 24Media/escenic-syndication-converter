@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -21,6 +22,8 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -89,12 +92,12 @@ public class Field {
 	@XmlAttribute(name = "title")
 	private String title;
 	
-	//@Lob
-	//@Column(name = "field", columnDefinition = "text")
-	//@XmlValue
-	@Transient
-	@XmlAnyElement(MapAdapter.class)
-	//@XmlJavaTypeAdapter(value = gr.twentyfourmedia.syndication.utilities.FieldAdapter.class, type = String.class)
+	@Lob
+	@Column(name = "field", columnDefinition = "text")
+	@XmlValue
+	//@Transient
+	//@XmlAnyElement(MapAdapter.class)
+	@XmlJavaTypeAdapter(value = gr.twentyfourmedia.syndication.utilities.FieldAdapter.class, type = String.class)
 	//@XmlJavaTypeAdapter(value = gr.twentyfourmedia.syndication.utilities.MapAdapter.class)
 	private String field;
 	

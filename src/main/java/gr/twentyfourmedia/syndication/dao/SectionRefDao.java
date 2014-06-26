@@ -6,4 +6,6 @@ import gr.twentyfourmedia.syndication.model.SectionRef;
 public interface SectionRefDao extends AbstractDao<SectionRef> {
 
 	void persistContentSectionRefs(Content content);
+	
+	void mergeContentSectionRefs(Content content);
 }

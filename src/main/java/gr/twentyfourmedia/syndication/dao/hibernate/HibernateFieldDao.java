@@ -15,8 +15,17 @@ public class HibernateFieldDao extends HibernateAbstractDao<Field> implements Fi
 		for(Field f : content.getFieldList()) {
 			
 			f.setContentApplicationId(content);
-			System.out.println(f.getField());
 			persist(f);
+		}
+	}
+	
+	@Override
+	public void mergeContentFields(Content content) {
+		
+		for(Field f : content.getFieldList()) {
+			
+			f.setContentApplicationId(content);
+			merge(f);
 		}
 	}
 }
