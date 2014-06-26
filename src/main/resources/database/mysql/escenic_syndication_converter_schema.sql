@@ -36,7 +36,7 @@ CREATE TABLE `sectionRef` (
   `homeSection` varchar(5) DEFAULT NULL,
   `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4487 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +66,7 @@ CREATE TABLE `parent` (
   `inheritAccessControlList` varchar(5) DEFAULT NULL,
   `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=23243 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,12 +92,12 @@ CREATE TABLE `creator` (
   `sourceId` varchar(100) DEFAULT NULL,
   `dbId` varchar(100) DEFAULT NULL,
   `firstName` varchar(100) DEFAULT NULL,
-  `surName` varchar(100) DEFAULT NULL,
+  `lastName` varchar(100) DEFAULT NULL,
   `userName` varchar(100) DEFAULT NULL,
   `emailAddress` varchar(100) DEFAULT NULL,
   `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3996 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -107,287 +107,6 @@ CREATE TABLE `creator` (
 LOCK TABLES `creator` WRITE;
 /*!40000 ALTER TABLE `creator` DISABLE KEYS */;
 /*!40000 ALTER TABLE `creator` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `fieldFields`
---
-
-DROP TABLE IF EXISTS `fieldFields`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `fieldFields` (
-  `parentFieldId` int(11) NOT NULL,
-  `childFieldId` int(11) NOT NULL,
-  PRIMARY KEY (`parentFieldId`,`childFieldId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `fieldFields`
---
-
-LOCK TABLES `fieldFields` WRITE;
-/*!40000 ALTER TABLE `fieldFields` DISABLE KEYS */;
-/*!40000 ALTER TABLE `fieldFields` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `fieldElements`
---
-
-DROP TABLE IF EXISTS `fieldElements`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `fieldElements` (
-  `applicationId` int(11) NOT NULL AUTO_INCREMENT,
-  `fieldApplicationId` int(11) NOT NULL,
-  `anything` text,
-  `relation` int(11) DEFAULT NULL,
-  `text` text,
-  `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `fieldElements`
---
-
-LOCK TABLES `fieldElements` WRITE;
-/*!40000 ALTER TABLE `fieldElements` DISABLE KEYS */;
-/*!40000 ALTER TABLE `fieldElements` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `author`
---
-
-DROP TABLE IF EXISTS `author`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `author` (
-  `applicationId` int(11) NOT NULL AUTO_INCREMENT,
-  `contentApplicationId` int(11) NOT NULL,
-  `idRef` varchar(100) DEFAULT NULL,
-  `source` varchar(100) DEFAULT NULL,
-  `sourceId` varchar(100) DEFAULT NULL,
-  `dbId` varchar(100) DEFAULT NULL,
-  `firstName` varchar(100) DEFAULT NULL,
-  `surName` varchar(100) DEFAULT NULL,
-  `userName` varchar(100) DEFAULT NULL,
-  `emailAddress` varchar(100) DEFAULT NULL,
-  `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `author`
---
-
-LOCK TABLES `author` WRITE;
-/*!40000 ALTER TABLE `author` DISABLE KEYS */;
-/*!40000 ALTER TABLE `author` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `mirrorSource`
---
-
-DROP TABLE IF EXISTS `mirrorSource`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `mirrorSource` (
-  `applicationId` int(11) NOT NULL AUTO_INCREMENT,
-  `idRef` varchar(100) DEFAULT NULL,
-  `source` varchar(100) DEFAULT NULL,
-  `sourceId` varchar(100) DEFAULT NULL,
-  `dbId` varchar(100) DEFAULT NULL,
-  `exportedDbId` varchar(100) DEFAULT NULL,
-  `publicationName` varchar(100) DEFAULT NULL,
-  `uniqueName` varchar(100) DEFAULT NULL,
-  `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=12281 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `mirrorSource`
---
-
-LOCK TABLES `mirrorSource` WRITE;
-/*!40000 ALTER TABLE `mirrorSource` DISABLE KEYS */;
-/*!40000 ALTER TABLE `mirrorSource` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `options`
---
-
-DROP TABLE IF EXISTS `options`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `options` (
-  `applicationId` int(11) NOT NULL AUTO_INCREMENT,
-  `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `options`
---
-
-LOCK TABLES `options` WRITE;
-/*!40000 ALTER TABLE `options` DISABLE KEYS */;
-/*!40000 ALTER TABLE `options` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `content`
---
-
-DROP TABLE IF EXISTS `content`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `content` (
-  `applicationId` int(11) NOT NULL AUTO_INCREMENT,
-  `id` varchar(100) DEFAULT NULL,
-  `source` varchar(100) DEFAULT NULL,
-  `sourceId` varchar(100) DEFAULT NULL,
-  `dbId` varchar(100) DEFAULT NULL,
-  `exportedDbId` varchar(100) DEFAULT NULL,
-  `state` varchar(9) DEFAULT NULL,
-  `type` varchar(100) DEFAULT NULL,
-  `publishDate` varchar(100) DEFAULT NULL,
-  `deleteRelations` varchar(100) DEFAULT NULL,
-  `activateDate` varchar(100) DEFAULT NULL,
-  `expireDate` varchar(100) DEFAULT NULL,
-  `creationDate` varchar(100) DEFAULT NULL,
-  `newSource` varchar(100) DEFAULT NULL,
-  `newSourceId` varchar(100) DEFAULT NULL,
-  `creator` int(11) DEFAULT NULL,
-  `priority` int(11) DEFAULT NULL,
-  `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `content`
---
-
-LOCK TABLES `content` WRITE;
-/*!40000 ALTER TABLE `content` DISABLE KEYS */;
-/*!40000 ALTER TABLE `content` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `field`
---
-
-DROP TABLE IF EXISTS `field`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `field` (
-  `applicationId` int(11) NOT NULL AUTO_INCREMENT,
-  `contentApplicationId` int(11) DEFAULT NULL,
-  `relationApplicationId` int(11) DEFAULT NULL,
-  `name` varchar(100) DEFAULT NULL,
-  `expandEntities` varchar(5) DEFAULT NULL,
-  `title` varchar(100) DEFAULT NULL,
-  `options` int(11) DEFAULT NULL,
-  `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `field`
---
-
-LOCK TABLES `field` WRITE;
-/*!40000 ALTER TABLE `field` DISABLE KEYS */;
-/*!40000 ALTER TABLE `field` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `optionsFields`
---
-
-DROP TABLE IF EXISTS `optionsFields`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `optionsFields` (
-  `optionsId` int(11) NOT NULL,
-  `fieldId` int(11) NOT NULL,
-  PRIMARY KEY (`optionsId`,`fieldId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `optionsFields`
---
-
-LOCK TABLES `optionsFields` WRITE;
-/*!40000 ALTER TABLE `optionsFields` DISABLE KEYS */;
-/*!40000 ALTER TABLE `optionsFields` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `value`
---
-
-DROP TABLE IF EXISTS `value`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `value` (
-  `applicationId` int(11) NOT NULL AUTO_INCREMENT,
-  `fieldApplicationId` int(11) NOT NULL,
-  `value` varchar(100) DEFAULT NULL,
-  `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `value`
---
-
-LOCK TABLES `value` WRITE;
-/*!40000 ALTER TABLE `value` DISABLE KEYS */;
-/*!40000 ALTER TABLE `value` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `relation`
---
-
-DROP TABLE IF EXISTS `relation`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `relation` (
-  `applicationId` int(11) NOT NULL AUTO_INCREMENT,
-  `contentApplicationId` int(11) NOT NULL,
-  `idRef` varchar(100) DEFAULT NULL,
-  `source` varchar(100) DEFAULT NULL,
-  `sourceId` varchar(100) DEFAULT NULL,
-  `dbId` varchar(100) DEFAULT NULL,
-  `exportedDbId` varchar(100) DEFAULT NULL,
-  `type` varchar(100) DEFAULT NULL,
-  `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `relation`
---
-
-LOCK TABLES `relation` WRITE;
-/*!40000 ALTER TABLE `relation` DISABLE KEYS */;
-/*!40000 ALTER TABLE `relation` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -419,7 +138,7 @@ CREATE TABLE `section` (
   `priority` int(11) DEFAULT NULL,
   `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=23283 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -429,6 +148,167 @@ CREATE TABLE `section` (
 LOCK TABLES `section` WRITE;
 /*!40000 ALTER TABLE `section` DISABLE KEYS */;
 /*!40000 ALTER TABLE `section` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `author`
+--
+
+DROP TABLE IF EXISTS `author`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `author` (
+  `applicationId` int(11) NOT NULL AUTO_INCREMENT,
+  `contentApplicationId` int(11) NOT NULL,
+  `idRef` varchar(100) DEFAULT NULL,
+  `source` varchar(100) DEFAULT NULL,
+  `sourceId` varchar(100) DEFAULT NULL,
+  `dbId` varchar(100) DEFAULT NULL,
+  `firstName` varchar(100) DEFAULT NULL,
+  `lastName` varchar(100) DEFAULT NULL,
+  `userName` varchar(100) DEFAULT NULL,
+  `emailAddress` varchar(100) DEFAULT NULL,
+  `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`applicationId`)
+) ENGINE=InnoDB AUTO_INCREMENT=3935 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `author`
+--
+
+LOCK TABLES `author` WRITE;
+/*!40000 ALTER TABLE `author` DISABLE KEYS */;
+/*!40000 ALTER TABLE `author` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `mirrorSource`
+--
+
+DROP TABLE IF EXISTS `mirrorSource`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mirrorSource` (
+  `applicationId` int(11) NOT NULL AUTO_INCREMENT,
+  `idRef` varchar(100) DEFAULT NULL,
+  `source` varchar(100) DEFAULT NULL,
+  `sourceId` varchar(100) DEFAULT NULL,
+  `dbId` varchar(100) DEFAULT NULL,
+  `exportedDbId` varchar(100) DEFAULT NULL,
+  `publicationName` varchar(100) DEFAULT NULL,
+  `uniqueName` varchar(100) DEFAULT NULL,
+  `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`applicationId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mirrorSource`
+--
+
+LOCK TABLES `mirrorSource` WRITE;
+/*!40000 ALTER TABLE `mirrorSource` DISABLE KEYS */;
+/*!40000 ALTER TABLE `mirrorSource` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `content`
+--
+
+DROP TABLE IF EXISTS `content`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `content` (
+  `applicationId` int(11) NOT NULL AUTO_INCREMENT,
+  `id` varchar(100) DEFAULT NULL,
+  `source` varchar(100) DEFAULT NULL,
+  `sourceId` varchar(100) DEFAULT NULL,
+  `dbId` varchar(100) DEFAULT NULL,
+  `exportedDbId` varchar(100) DEFAULT NULL,
+  `state` varchar(9) DEFAULT NULL,
+  `type` varchar(100) DEFAULT NULL,
+  `publishDate` varchar(100) DEFAULT NULL,
+  `deleteRelations` varchar(100) DEFAULT NULL,
+  `activateDate` varchar(100) DEFAULT NULL,
+  `expireDate` varchar(100) DEFAULT NULL,
+  `creationDate` varchar(100) DEFAULT NULL,
+  `newSource` varchar(100) DEFAULT NULL,
+  `newSourceId` varchar(100) DEFAULT NULL,
+  `creator` int(11) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
+  `uri` varchar(100) DEFAULT NULL,
+  `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`applicationId`)
+) ENGINE=InnoDB AUTO_INCREMENT=3996 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `content`
+--
+
+LOCK TABLES `content` WRITE;
+/*!40000 ALTER TABLE `content` DISABLE KEYS */;
+/*!40000 ALTER TABLE `content` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `field`
+--
+
+DROP TABLE IF EXISTS `field`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `field` (
+  `applicationId` int(11) NOT NULL AUTO_INCREMENT,
+  `contentApplicationId` int(11) DEFAULT NULL,
+  `relationApplicationId` int(11) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `expandEntities` varchar(5) DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `field` text,
+  `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`applicationId`)
+) ENGINE=InnoDB AUTO_INCREMENT=9687 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `field`
+--
+
+LOCK TABLES `field` WRITE;
+/*!40000 ALTER TABLE `field` DISABLE KEYS */;
+/*!40000 ALTER TABLE `field` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `relation`
+--
+
+DROP TABLE IF EXISTS `relation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `relation` (
+  `applicationId` int(11) NOT NULL AUTO_INCREMENT,
+  `contentApplicationId` int(11) NOT NULL,
+  `idRef` varchar(100) DEFAULT NULL,
+  `source` varchar(100) DEFAULT NULL,
+  `sourceId` varchar(100) DEFAULT NULL,
+  `dbId` varchar(100) DEFAULT NULL,
+  `exportedDbId` varchar(100) DEFAULT NULL,
+  `type` varchar(100) DEFAULT NULL,
+  `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`applicationId`)
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `relation`
+--
+
+LOCK TABLES `relation` WRITE;
+/*!40000 ALTER TABLE `relation` DISABLE KEYS */;
+/*!40000 ALTER TABLE `relation` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -440,4 +320,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-06-24 11:43:23
+-- Dump completed on 2014-06-26 12:51:37
