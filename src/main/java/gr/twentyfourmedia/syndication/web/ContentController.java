@@ -10,12 +10,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.io.FileUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -121,7 +123,7 @@ public class ContentController {
 		contents.setVersion("2.0");
 		
 		List<Content> aContent = new ArrayList<Content>();
-		aContent.add(contentService.getContent((long) 4340));
+		aContent.add(contentService.getContent((long) 4020));
 		contents.setContentList(aContent);
 		
 		//List<Content> allTags = contentService.getContents();
@@ -134,10 +136,9 @@ public class ContentController {
 		try {
 			
 			outputStream = new FileOutputStream(new File(path));
-			
 			StreamResult result = new StreamResult(outputStream);
-			
-			marshaller.marshal(contents, result);	
+			marshaller.marshal(contents, result);
+			replaceFileTokens(path);
 		} 
 		catch(FileNotFoundException exception) {
 			
@@ -150,8 +151,6 @@ public class ContentController {
 	@RequestMapping(value = "unmarshall")
 	public String unmarshall(Model model) {
 
-		/*
-		
 		String path = System.getProperty("filepath.syndicationFiles") + "/read/content-tree.xml";
 		
 		FileInputStream inputStream;
@@ -173,7 +172,6 @@ public class ContentController {
 			
 			exception.printStackTrace();
 		} 
-		*/
 		
 		return "/home";
 	}
@@ -214,6 +212,28 @@ public class ContentController {
 					}
 				}
 			}
+		}
+	}
+	
+	private void replaceFileTokens(String path) {
+		
+		File file = new File(path);
+		String fileContents;
+		
+		try {
+			
+			fileContents = FileUtils.readFileToString(new File(path));
+			fileContents = fileContents
+							.replace("&lt;", "<")
+							.replace("&gt;", ">")
+							.replace("&amp;", "&")
+							.replace("&quot;", "\"");
+			
+			FileUtils.writeStringToFile(file, fileContents);			
+		} 
+		catch (IOException exception) {
+			
+			exception.printStackTrace();
 		}
 	}
 	
