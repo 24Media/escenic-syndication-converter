@@ -16,8 +16,6 @@ import java.util.List;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -115,12 +113,7 @@ public class ContentController {
         
         if(result!=null && !result.equals("<![CDATA[]]>")) return result; else return null;
     }	
-	
-	
-	
-	
-	
-	
+
 	@RequestMapping(value = "marshall")
 	public String marshall(Model model) {
 
@@ -165,41 +158,8 @@ public class ContentController {
 			for(Content c : escenic.getContentList()) {
 
 				contentService.persistContent(c);
-				
-				contentHTMLFields(c, path);
-				
-				contentService.mergeContent(c);
-				
-				/*
-				if(c.getFieldList()!=null){
-				for(Field f : c.getFieldList()) {
-					
-					if(f.getField()==null) { //HTML Content
-					
-						System.out.println("@@" + getFieldHTMLContent(path, f.getName(), c.getSourceId(), null));
-					}
-				}
-				}
-				
-				if(c.getRelationSet()!=null) {
-				for(Relation r : c.getRelationSet()) {
-					
-					if(r.getFieldList()!=null) {
-					for(Field f : r.getFieldList()) {
-					
-						if(f.getField()==null) {
-						
-							System.out.println("##" + getFieldHTMLContent(path, f.getName(), c.getSourceId(), r.getSourceId()));
-						}
-					}
-					}
-				}
-				}
-				*/
-				
-				
-				
-				
+				contentHTMLFields(c, path);	
+				contentService.mergeContent(c);		
 			}
 		}
 		catch (FileNotFoundException exception) {
@@ -209,10 +169,7 @@ public class ContentController {
 		
 		return "/home";
 	}
-	
-	
-	
-	
+
 	private void contentHTMLFields(Content content, String path) {
 		
 		/*
@@ -251,10 +208,6 @@ public class ContentController {
 			}
 		}
 	}
-	
-	
-	
-	
 	
 	private List<Content> tagsFiltering(List<Content> contents) {
 		

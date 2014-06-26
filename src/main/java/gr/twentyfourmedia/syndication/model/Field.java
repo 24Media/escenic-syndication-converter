@@ -1,7 +1,5 @@
 package gr.twentyfourmedia.syndication.model;
 
-import gr.twentyfourmedia.syndication.utilities.MapAdapter;
-
 import java.util.Calendar;
 
 import javax.persistence.Column;
@@ -15,10 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -95,10 +91,7 @@ public class Field {
 	@Lob
 	@Column(name = "field", columnDefinition = "text")
 	@XmlValue
-	//@Transient
-	//@XmlAnyElement(MapAdapter.class)
 	@XmlJavaTypeAdapter(value = gr.twentyfourmedia.syndication.utilities.FieldAdapter.class, type = String.class)
-	//@XmlJavaTypeAdapter(value = gr.twentyfourmedia.syndication.utilities.MapAdapter.class)
 	private String field;
 	
 	@Temporal(TemporalType.TIMESTAMP)
