@@ -126,8 +126,15 @@ public class ContentController {
         if(result!=null && !result.equals("<![CDATA[]]>")) return result; else return null;
     }	
 
-	@RequestMapping(value = "marshallToOneFile")
-	public String marshallToOneFile(@RequestParam(value = "id", required = false) Long id, 
+	/**
+	 * Marshall Contents Read From Database, Given an Id, Content's Type et al.
+	 * @param id Application Id Of A Specific Content
+	 * @param type Content Type
+	 * @param model Model
+	 * @return View To Be Rendered
+	 */
+	@RequestMapping(value = "marshall")
+	public String marshallToOneFile(@RequestParam(value = "id", required = false) Long id,
 									@RequestParam(value = "type", required = false) String type, 
 									Model model) {
 
@@ -149,7 +156,6 @@ public class ContentController {
 			contents.setContentList(filterOutElementsAndAttributes(contentService.getContents()));
 		}
 		
-
 		String path = System.getProperty("filepath.syndicationFiles") + "/write/content_export.xml";
 		FileOutputStream outputStream;
 		
@@ -168,19 +174,22 @@ public class ContentController {
 		return "/home";
 	}
 	
-	//TODO Number Of Contents Per File As A Parameter
+	/**
+	 * Marshall Contents Read From Database, Given an Id, Content's Type et al.
+	 * @param type Content Type
+	 * @param itemsPerFile Items Per File
+	 * @param model Model
+	 * @return View To Be Rendered
+	 */
 	@RequestMapping(value = "marshallToMultipleFiles")
-	public String marshallToMultipleFiles(@RequestParam(value = "id", required = false) Long id, 
-										  @RequestParam(value = "type", required = false) String type, 
+	public String marshallToMultipleFiles(@RequestParam(value = "type", required = false) String type, 
+										  @RequestParam(value = "itemsPerFile") int itemsPerFile,
 										  Model model) {
 
 		List<Content> contentsList = new ArrayList<Content>();
-		 
-		if(id != null) {
 		
-			contentsList.add(contentService.getContent(id));
-		}
-		else if(type != null) {
+		
+		if(type != null) {
 			
 			contentsList.addAll(contentService.getContentsByType(type));
 		}
@@ -188,31 +197,49 @@ public class ContentController {
 			
 			contentsList.addAll(contentService.getContents());
 		}
+
+		Escenic escenic = new Escenic();
+		escenic.setVersion("2.0");
 		
-		for(Content c : contentsList) {
+		int contentCounter = 0;
+		int fileCounter = 0;
+		
+		Iterator<Content> iterator = contentsList.iterator();
+		List<Content> escenicContents = new ArrayList<Content>();
+		
+		while(iterator.hasNext()) {
+		
+			Content current = iterator.next();
+			escenicContents.add(current);
+			contentCounter++;
 			
-			Escenic contents = new Escenic();
-			contents.setVersion("2.0");
-			List<Content> aContent = new ArrayList<Content>();
-			aContent.add(c);
-			contents.setContentList(filterOutElementsAndAttributes(aContent));
-			
-			String path = System.getProperty("filepath.syndicationFiles") + "/write/content_export_" + c.getApplicationId() + ".xml";
-			FileOutputStream outputStream;
-			
-			try {
+			if(contentCounter % itemsPerFile == 0 || contentCounter == contentsList.size()) {
 				
-				outputStream = new FileOutputStream(new File(path));
-				StreamResult result = new StreamResult(outputStream);
-				marshaller.marshal(contents, result);
-				replaceHTMLTokens(path);
-			} 
-			catch(FileNotFoundException exception) {
+				escenic.setContentList(filterOutElementsAndAttributes(escenicContents));
 				
-				exception.printStackTrace();
-			}	
+				String fileName = itemsPerFile == 1 ? "Id_" + current.getApplicationId() : "File_" + fileCounter++;
+				String path = System.getProperty("filepath.syndicationFiles") + "/write/Contents_" + fileName + ".xml";
+				FileOutputStream outputStream;
+				
+				try {
+					
+					outputStream = new FileOutputStream(new File(path));
+					StreamResult result = new StreamResult(outputStream);
+					marshaller.marshal(escenic, result);
+					replaceHTMLTokens(path);
+				} 
+				catch(FileNotFoundException exception) {
+					
+					exception.printStackTrace();
+				}
+				
+				//Before Continuing Create A New Escenic Object
+				escenic = new Escenic();
+				escenic.setVersion("2.0");
+				escenicContents = new ArrayList<Content>();
+			}
 		}
-		
+
 		return "/home";
 	}	
 	
@@ -310,13 +337,13 @@ public class ContentController {
 							.replaceAll("&amp;lt;", "<")
 							.replaceAll("&amp;gt;", ">")
 							.replaceAll("&amp;quot;", "\"")
-							.replaceAll("&amp;amp;", "&")
+							.replaceAll("&amp;amp;", "&#38;")
 							.replaceAll("&lt;", "<")
 							.replaceAll("&gt;", ">")
 							.replaceAll("&quot;", "\"")
-							.replaceAll("&amp;", "&");
+							.replaceAll("&amp;", "&#38;");
 
-			FileUtils.writeStringToFile(file, fileContents);			
+			FileUtils.writeStringToFile(file, fileContents);		
 		} 
 		catch (IOException exception) {
 			
@@ -335,10 +362,19 @@ public class ContentController {
 		
 		for(Content c : contents) {
 							
-			//Not Needed Attributes
+			/*
+			 * Not Needed Attributes
+			 */
 			c.setExportedDbId(null);
 			
-			//Not Needed Elements
+			for(Relation r : c.getRelationSet()) {
+				
+				r.setExportedDbId(null);
+			}
+			
+			/*
+			 * Not Needed Elements
+			 */
 			c.setCreator(null);
 			c.setAuthorSet(null);
 			

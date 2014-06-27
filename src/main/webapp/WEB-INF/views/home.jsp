@@ -16,20 +16,19 @@
 <br /><br />
 
 <h3>Export Contents By Type To One File</h3>
-<a href="<c:url value='/content/marshallToOneFile?id=7070' />">Random</a>
-<a href="<c:url value='/content/marshallToOneFile?type=news' />">'news'</a>
-<a href="<c:url value='/content/marshallToOneFile?type=picture' />">'picture'</a>
-<a href="<c:url value='/content/marshallToOneFile?type=multipleTypeVideo' />">'multipleTypeVideo'</a>
-<a href="<c:url value='/content/marshallToOneFile?type=advertorial' />">'advertorial'</a>
-<a href="<c:url value='/content/marshallToOneFile?type=advertorial' />">Export All</a>
+<a href="<c:url value='/content/marshall?id=7070' />">Not So Random Item</a>
+<a href="<c:url value='/content/marshall?type=news' />">'news'</a>
+<a href="<c:url value='/content/marshall?type=picture' />">'picture'</a>
+<a href="<c:url value='/content/marshall?type=multipleTypeVideo' />">'multipleTypeVideo'</a>
+<a href="<c:url value='/content/marshall?type=advertorial' />">'advertorial'</a>
+<a href="<c:url value='/content/marshall' />">Export All</a>
 
 <h3>Export Contents By Type To Multiple Files</h3>
-<a href="<c:url value='/content/marshallToMultipleFiles?id=7070' />">Random</a>
-<a href="<c:url value='/content/marshallToMultipleFiles?type=news' />">'news'</a>
-<a href="<c:url value='/content/marshallToMultipleFiles?type=picture' />">'picture'</a>
-<a href="<c:url value='/content/marshallToMultipleFiles?type=multipleTypeVideo' />">'multipleTypeVideo'</a>
-<a href="<c:url value='/content/marshallToMultipleFiles?type=advertorial' />">'advertorial'</a>
-<a href="<c:url value='/content/marshallToMultipleFiles?type=advertorial' />">Export All</a>
+<a href="<c:url value='/content/marshallToMultipleFiles?type=news&itemsPerFile=1' />">'news'</a>
+<a href="<c:url value='/content/marshallToMultipleFiles?type=picture&itemsPerFile=1' />">'picture'</a>
+<a href="<c:url value='/content/marshallToMultipleFiles?type=multipleTypeVideo&itemsPerFile=1' />">'multipleTypeVideo'</a>
+<a href="<c:url value='/content/marshallToMultipleFiles?type=advertorial&itemsPerFile=1' />">'advertorial'</a>
+<a href="<c:url value='/content/marshallToMultipleFiles?itemsPerFile=1' />">Export All</a>
 
 </body>
 </html>
