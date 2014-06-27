@@ -156,7 +156,7 @@ public class ContentController {
 			contents.setContentList(filterOutElementsAndAttributes(contentService.getContents()));
 		}
 		
-		String path = System.getProperty("filepath.syndicationFiles") + "/write/content_export.xml";
+		String path = System.getProperty("filepath.syndicationFiles") + "/write/Contents_Export.xml";
 		FileOutputStream outputStream;
 		
 		try {
@@ -246,7 +246,7 @@ public class ContentController {
 	@RequestMapping(value = "unmarshall")
 	public String unmarshall(Model model) {
 
-		String path = System.getProperty("filepath.syndicationFiles") + "/read/content-tree.xml";
+		String path = System.getProperty("filepath.syndicationFiles") + "/read/xx.xml";
 		/*
 		FileInputStream inputStream;
 		
