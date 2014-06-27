@@ -15,13 +15,21 @@
 
 <br /><br />
 
-<h3>Export Contents By Type</h3>
-<a href="<c:url value='/content/marshall?id=7070' />">Export Random</a>
-<a href="<c:url value='/content/marshall?type=news' />">Export news</a>
-<a href="<c:url value='/content/marshall?type=picture' />">Export picture</a>
-<a href="<c:url value='/content/marshall?type=multipleTypeVideo' />">Export multipleTypeVideo</a>
-<a href="<c:url value='/content/marshall?type=advertorial' />">Export advertorial</a>
-<a href="<c:url value='/content/marshall?type=advertorial' />">Export All</a>
+<h3>Export Contents By Type To One File</h3>
+<a href="<c:url value='/content/marshallToOneFile?id=7070' />">Random</a>
+<a href="<c:url value='/content/marshallToOneFile?type=news' />">'news'</a>
+<a href="<c:url value='/content/marshallToOneFile?type=picture' />">'picture'</a>
+<a href="<c:url value='/content/marshallToOneFile?type=multipleTypeVideo' />">'multipleTypeVideo'</a>
+<a href="<c:url value='/content/marshallToOneFile?type=advertorial' />">'advertorial'</a>
+<a href="<c:url value='/content/marshallToOneFile?type=advertorial' />">Export All</a>
+
+<h3>Export Contents By Type To Multiple Files</h3>
+<a href="<c:url value='/content/marshallToMultipleFiles?id=7070' />">Random</a>
+<a href="<c:url value='/content/marshallToMultipleFiles?type=news' />">'news'</a>
+<a href="<c:url value='/content/marshallToMultipleFiles?type=picture' />">'picture'</a>
+<a href="<c:url value='/content/marshallToMultipleFiles?type=multipleTypeVideo' />">'multipleTypeVideo'</a>
+<a href="<c:url value='/content/marshallToMultipleFiles?type=advertorial' />">'advertorial'</a>
+<a href="<c:url value='/content/marshallToMultipleFiles?type=advertorial' />">Export All</a>
 
 </body>
 </html>

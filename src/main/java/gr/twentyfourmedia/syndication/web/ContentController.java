@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.transform.stream.StreamResult;
@@ -125,10 +126,10 @@ public class ContentController {
         if(result!=null && !result.equals("<![CDATA[]]>")) return result; else return null;
     }	
 
-	@RequestMapping(value = "marshall")
-	public String marshall(	@RequestParam(value = "id", required = false) Long id, 
-							@RequestParam(value = "type", required = false) String type, 
-							Model model) {
+	@RequestMapping(value = "marshallToOneFile")
+	public String marshallToOneFile(@RequestParam(value = "id", required = false) Long id, 
+									@RequestParam(value = "type", required = false) String type, 
+									Model model) {
 
 		Escenic contents = new Escenic();
 		contents.setVersion("2.0");
@@ -137,19 +138,19 @@ public class ContentController {
 		if(id != null) { //A Single Content Item
 		
 			contentsList.add(contentService.getContent(id));
-			contents.setContentList(contentsList);
+			contents.setContentList(filterOutElementsAndAttributes(contentsList));
 		}
 		else if(type != null) { //Content Items Of Specified Type
 			
-			contents.setContentList(contentService.getContentsByType(type));
+			contents.setContentList(filterOutElementsAndAttributes(contentService.getContentsByType(type)));
 		}
 		else { //All Content Items
 			
-			contents.setContentList(contentService.getContents());
+			contents.setContentList(filterOutElementsAndAttributes(contentService.getContents()));
 		}
-
-		String path = System.getProperty("filepath.syndicationFiles") + "/write/exported-content.xml";
 		
+
+		String path = System.getProperty("filepath.syndicationFiles") + "/write/content_export.xml";
 		FileOutputStream outputStream;
 		
 		try {
@@ -163,6 +164,54 @@ public class ContentController {
 			
 			exception.printStackTrace();
 		}
+
+		return "/home";
+	}
+	
+	//TODO Number Of Contents Per File As A Parameter
+	@RequestMapping(value = "marshallToMultipleFiles")
+	public String marshallToMultipleFiles(@RequestParam(value = "id", required = false) Long id, 
+										  @RequestParam(value = "type", required = false) String type, 
+										  Model model) {
+
+		List<Content> contentsList = new ArrayList<Content>();
+		 
+		if(id != null) {
+		
+			contentsList.add(contentService.getContent(id));
+		}
+		else if(type != null) {
+			
+			contentsList.addAll(contentService.getContentsByType(type));
+		}
+		else {
+			
+			contentsList.addAll(contentService.getContents());
+		}
+		
+		for(Content c : contentsList) {
+			
+			Escenic contents = new Escenic();
+			contents.setVersion("2.0");
+			List<Content> aContent = new ArrayList<Content>();
+			aContent.add(c);
+			contents.setContentList(filterOutElementsAndAttributes(aContent));
+			
+			String path = System.getProperty("filepath.syndicationFiles") + "/write/content_export_" + c.getApplicationId() + ".xml";
+			FileOutputStream outputStream;
+			
+			try {
+				
+				outputStream = new FileOutputStream(new File(path));
+				StreamResult result = new StreamResult(outputStream);
+				marshaller.marshal(contents, result);
+				replaceHTMLTokens(path);
+			} 
+			catch(FileNotFoundException exception) {
+				
+				exception.printStackTrace();
+			}	
+		}
 		
 		return "/home";
 	}	
@@ -171,7 +220,7 @@ public class ContentController {
 	public String unmarshall(Model model) {
 
 		String path = System.getProperty("filepath.syndicationFiles") + "/read/content-tree.xml";
-		
+		/*
 		FileInputStream inputStream;
 		
 		try {
@@ -191,7 +240,7 @@ public class ContentController {
 			
 			exception.printStackTrace();
 		} 
-		
+		*/
 		return "/home";
 	}
 
@@ -275,13 +324,21 @@ public class ContentController {
 		}
 	}
 	
-	private List<Content> tagsFiltering(List<Content> contents) {
+	/**
+	 * Given a List of Contents Filter Out Elements or Attributes That Are Not Needed In The Exported File 
+	 * @param contents List Of Input Contents
+	 * @return List Of Output Contents
+	 */
+	private List<Content> filterOutElementsAndAttributes(List<Content> contents) {
 		
 		List<Content> result = new ArrayList<Content>();
 		
 		for(Content c : contents) {
 							
-			//Not Needed Tag Values
+			//Not Needed Attributes
+			c.setExportedDbId(null);
+			
+			//Not Needed Elements
 			c.setCreator(null);
 			c.setAuthorSet(null);
 			

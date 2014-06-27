@@ -62,7 +62,7 @@ public class SectionController {
 	public String unmarshall(Model model) {
 
 		String path = System.getProperty("filepath.syndicationFiles") + "/read/sectionstree.xml";
-		
+		/*
 		FileInputStream inputStream;
 		
 		try {
@@ -80,7 +80,7 @@ public class SectionController {
 			
 			exception.printStackTrace();
 		} 
-		
+		*/
 		return "/home";
 	}
 	

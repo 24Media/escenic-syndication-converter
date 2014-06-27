@@ -61,7 +61,7 @@ public class Author {
 	 * The source of the author. If this attribute is specified, then sourceid must also be
 	 * specified. One of the following two conditions must be satisfied:
 	 * 		1) The target publication must already contain a "person" content item with source and
-	 * 		sourceid attributes that match this element's source and sourceid , or
+	 * 		sourceid attributes that match this element's source and sourceid, or
 	 * 		2) A person element with source and sourceid attributes that match source and sourceid 
 	 * 		must appear somewhere before this author element in the syndication file.
 	 * If dbid is specified, then source and sourceid are ignored.
