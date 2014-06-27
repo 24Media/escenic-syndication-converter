@@ -15,6 +15,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
@@ -60,6 +62,11 @@ import org.springframework.format.annotation.DateTimeFormat;
  *  Note 1 : Use of <reference /> element is deprecated. It is only retained for reasons of backwards compatibility.
  *  Note 2 : <uri/> Element Is Not Referenced In Escenic's Documentation
  */
+@NamedQueries({
+	@NamedQuery(
+			name = "findContentsByType",
+			query = "FROM Content WHERE type = :type")
+})
 @Entity
 @Table(name = "content")
 @XmlRootElement(name = "content")

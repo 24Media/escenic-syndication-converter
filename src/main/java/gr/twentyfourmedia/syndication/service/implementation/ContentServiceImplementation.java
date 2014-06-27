@@ -73,4 +73,10 @@ public class ContentServiceImplementation implements ContentService {
 		
 		return contentDao.getAll();
 	}
+	
+	@Override
+	public List<Content> getContentsByType(String type) {
+		
+		return contentDao.getByType(type);
+	}
 }

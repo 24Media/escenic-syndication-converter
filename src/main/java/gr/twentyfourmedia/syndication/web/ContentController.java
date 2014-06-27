@@ -27,6 +27,7 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/content")
@@ -125,17 +126,27 @@ public class ContentController {
     }	
 
 	@RequestMapping(value = "marshall")
-	public String marshall(Model model) {
+	public String marshall(	@RequestParam(value = "id", required = false) Long id, 
+							@RequestParam(value = "type", required = false) String type, 
+							Model model) {
 
 		Escenic contents = new Escenic();
 		contents.setVersion("2.0");
+		List<Content> contentsList = new ArrayList<Content>();
+		 
+		if(id != null) { //A Single Content Item
 		
-		List<Content> aContent = new ArrayList<Content>();
-		aContent.add(contentService.getContent((long) 3996));
-		contents.setContentList(aContent);
-		
-		//List<Content> allTags = contentService.getContents();
-		//contents.setContentList(tagsFiltering(allTags));
+			contentsList.add(contentService.getContent(id));
+			contents.setContentList(contentsList);
+		}
+		else if(type != null) { //Content Items Of Specified Type
+			
+			contents.setContentList(contentService.getContentsByType(type));
+		}
+		else { //All Content Items
+			
+			contents.setContentList(contentService.getContents());
+		}
 
 		String path = System.getProperty("filepath.syndicationFiles") + "/write/exported-content.xml";
 		
@@ -242,9 +253,9 @@ public class ContentController {
 			fileContents = FileUtils.readFileToString(new File(path));
 
 			/*
-			 * JAXB Sucks When It Comes To Marshalling and HTML Character Escaping. '>' Character For Example Will Be Escaped 
-			 * to '&gt;'. But If Your Text Actually Contains '&gt;' It Will Be Escaped To '&amp;gt;'. So If You Can Not Find 
-			 * A Way To Completely Disable Character Escaping, Special Consideration Is Needed To Remove This Kind Of Garbage 
+			 * '>' Character (For Example) Will Be Escaped to '&gt;'. But If Your Text Actually Contains '&gt;' It Will 
+			 * Be Escaped To '&amp;gt;'. So If You Can Not Find A Way To Completely Disable Character Escaping and You 
+			 * Need To Do Some String Replacing, Special Consideration Is Needed To Remove This Kind Of Garbage 
 			 */
 			fileContents = fileContents
 							.replaceAll("&amp;lt;", "<")

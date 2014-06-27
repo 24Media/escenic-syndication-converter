@@ -13,4 +13,6 @@ public interface ContentService {
 	Content getContent(Long id);
 	
 	List<Content> getContents();
+	
+	List<Content> getContentsByType(String type);
 }
