@@ -26,7 +26,7 @@
 		<!-- Type Excluding Home Section -->
 		<a href="<c:url value='/content/marshall?type=news&homeSections=kairos&homeSectionsExcluded=exclude' />">'news' Excluding Home Section 'kairos'</a>
 		<a href="<c:url value='/content/marshall?type=picture&homeSections=kairos&homeSectionsExcluded=exclude' />">'picture' Excluding Home Section 'kairos'</a>
-		<a href="<c:url value='/content/marshall?type=multipleTypeVideo&homeSections=kairoshomeSectionsExcluded-exclude' />">'multipleTypeVideo' Excluding Home Section 'kairos'</a>
+		<a href="<c:url value='/content/marshall?type=multipleTypeVideo&homeSections=kairos&homeSectionsExcluded=exclude' />">'multipleTypeVideo' Excluding Home Section 'kairos'</a>
 		<!-- Type and HomeSection -->
 		<a href="<c:url value='/content/marshall?type=news&homeSections=kairos' />">'news' with Home Section 'kairos'</a>
 		<a href="<c:url value='/content/marshall?type=picture&homeSections=kairos' />">'picture' with Home Section 'kairos'</a>
@@ -41,11 +41,11 @@
 		<a href="<c:url value='/content/marshallToMultipleFiles?type=picture&itemsPerFile=10' />">All 'picture'</a>
 		<a href="<c:url value='/content/marshallToMultipleFiles?type=multipleTypeVideo&itemsPerFile=10' />">All 'multipleTypeVideo'</a>
 		<!-- Type Excluding Home Section -->
-		<a href="<c:url value='/content/marshallToMultipleFiles?type=news&homeSections=kairos&homeSectionsExcluded=exclude&itemsPerFile=10' />">'news' Excluding Home Section 'kairos'</a>
+		<a href="<c:url value='/content/marshallToMultipleFiles?type=news&homeSections=kairos&homeSectionsExcluded=exclude&itemsPerFile=1' />">'news' Excluding Home Section 'kairos'</a>
 		<a href="<c:url value='/content/marshallToMultipleFiles?type=picture&homeSections=kairos&homeSectionsExcluded=exclude&itemsPerFile=10' />">'picture' Excluding Home Section 'kairos'</a>
-		<a href="<c:url value='/content/marshallToMultipleFiles?type=multipleTypeVideo&homeSections=kairoshomeSectionsExcluded-exclude&itemsPerFile=10' />">'multipleTypeVideo' Excluding Home Section 'kairos'</a>
+		<a href="<c:url value='/content/marshallToMultipleFiles?type=multipleTypeVideo&homeSections=kairos&homeSectionsExcluded=exclude&itemsPerFile=10' />">'multipleTypeVideo' Excluding Home Section 'kairos'</a>
 		<!-- Type and HomeSection -->
-		<a href="<c:url value='/content/marshallToMultipleFiles?type=news&homeSections=kairos&itemsPerFile=10' />">'news' with Home Section 'kairos'</a>
+		<a href="<c:url value='/content/marshallToMultipleFiles?type=news&homeSections=kairos&itemsPerFile=1' />">'news' with Home Section 'kairos'</a>
 		<a href="<c:url value='/content/marshallToMultipleFiles?type=picture&homeSections=kairos&itemsPerFile=10' />">'picture' with Home Section 'kairos'</a>
 		<a href="<c:url value='/content/marshallToMultipleFiles?type=multipleTypeVideo&homeSections=kairos&itemsPerFile=10' />">'multipleTypeVideo' with Home Section 'kairos'</a>
 </div>

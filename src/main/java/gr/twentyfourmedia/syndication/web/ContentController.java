@@ -5,6 +5,7 @@ import gr.twentyfourmedia.syndication.model.Escenic;
 import gr.twentyfourmedia.syndication.model.Field;
 import gr.twentyfourmedia.syndication.model.Relation;
 import gr.twentyfourmedia.syndication.service.ContentService;
+import gr.twentyfourmedia.syndication.service.FieldService;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,6 +40,9 @@ public class ContentController {
 	
 	@Autowired
 	private ContentService contentService;	
+	
+	@Autowired
+	private FieldService fieldService;
 	
 	/**
 	 * Given a Content or A Content's Relation, Parse Syndication File and Wrap Found Value With <![CDATA[...]]> Tokens
@@ -243,7 +247,7 @@ public class ContentController {
 				escenic.setContentList(filterOutElementsAndAttributes(escenicContents));
 				
 				String fileName = itemsPerFile == 1 ? "Id_" + current.getApplicationId() : "File_" + fileCounter++;
-				String path = System.getProperty("filepath.syndicationFiles") + "/write/Contents_" + fileName + ".xml";
+				String path = System.getProperty("filepath.syndicationFiles") + "/write/News_" + fileName + ".xml";
 				FileOutputStream outputStream;
 				
 				try {
@@ -267,7 +271,7 @@ public class ContentController {
 
 		return "/home";
 	}	
-	
+
 	@RequestMapping(value = "unmarshall")
 	public String unmarshall(Model model) {
 

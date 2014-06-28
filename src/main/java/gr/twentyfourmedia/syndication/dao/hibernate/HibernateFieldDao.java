@@ -1,5 +1,8 @@
 package gr.twentyfourmedia.syndication.dao.hibernate;
 
+import java.util.List;
+
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import gr.twentyfourmedia.syndication.dao.FieldDao;
@@ -27,5 +30,14 @@ public class HibernateFieldDao extends HibernateAbstractDao<Field> implements Fi
 			f.setContentApplicationId(content);
 			merge(f);
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Field> getByBodyContaining(String token) {
+		
+		Query query = getSession().getNamedQuery("findFieldBodyContaining");
+		query.setParameter("token", '%' + token + '%');
+		return (List<Field>) query.list();
 	}
 }

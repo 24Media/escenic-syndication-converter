@@ -26,6 +26,8 @@
 		<property name="password" value="${dataSource.password}" />
 	</bean>
 
+	<bean class="org.springframework.jdbc.core.JdbcTemplate" p:dataSource-ref="dataSource"  />
+
 	<util:properties id="hibernateProperties">
 		<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
 		<prop key="hibernate.show_sql">true</prop>

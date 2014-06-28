@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -34,6 +36,11 @@ import org.springframework.format.annotation.DateTimeFormat;
  * 
  * Note : ((ANYTHING|<relation>...</relation>|text)*|<field>...</field>*|<value>...</value>*)<options>...</options>? Syntax Simplified To text
  */
+@NamedQueries({
+	@NamedQuery(
+			name = "findFieldBodyContaining",
+			query = "FROM Field WHERE name = 'body' AND field LIKE :token")
+})
 @Entity
 @Table(name = "field")
 @XmlRootElement(name = "field")
