@@ -1,5 +1,6 @@
 h1 {
-	background-color:#D1D1FF;
+	background-color:#000099;
+	color:#E8E8E8;
 	height:80px;
 	line-height:80px;
 	text-align:center;
@@ -7,14 +8,14 @@ h1 {
 }
 h3 {
 	background-color:#6666FF;
-	color:white;
+	color:#E8E8E8;
 	height:40px;
 	line-height:40px;
 	text-align:center;
 	margin:0;
 }
 h4 {
-	background-color:#FFCC66;
+	background-color:#CCFFCC;
 	height:30px;
 	line-height:30px;
 	text-align:center;
@@ -25,6 +26,7 @@ h4.title {
 }
 h5 {
 	clear:both;
+	background-color:#FF9999;
 	text-align:center;
 	font-weight:normal;
 	font-style:italic;
@@ -45,10 +47,28 @@ div.rightColumn {
 	width:50%;
 }
 a {
+	display:inline-block;
 	color:blue;
 	font-weight:bold;
-	display:block;
-	padding-top:15px;
-	padding-bottom:15px;
+	padding:15px 0 15px 15px;
 	text-align:center;
+}
+/*
+* TABLES
+*/
+table {
+  	border-collapse:collapse;
+	width:100%;
+}
+th, td {
+	border:1px solid #666666;
+	text-align:center;
+	height:35px;
+}
+th {
+  	background-color:#CCFFCC;
+}
+td.error {
+	background-color:#FF9999;
+	color:white;
 }

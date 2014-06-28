@@ -43,5 +43,6 @@
 		  p:packagesToScan="gr.twentyfourmedia.syndication.model" />
 		  
 	<context:component-scan base-package="gr.twentyfourmedia.syndication.dao.hibernate" />
+	<context:component-scan base-package="gr.twentyfourmedia.syndication.dao.jdbc" />
 
 </beans>

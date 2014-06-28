@@ -1,7 +1,11 @@
 package gr.twentyfourmedia.syndication.web;
 
 import gr.twentyfourmedia.syndication.model.Field;
+import gr.twentyfourmedia.syndication.model.Relation;
+import gr.twentyfourmedia.syndication.model.RelationCheck;
 import gr.twentyfourmedia.syndication.service.FieldService;
+import gr.twentyfourmedia.syndication.service.RelationCheckService;
+import gr.twentyfourmedia.syndication.service.RelationService;
 
 import java.util.List;
 
@@ -15,36 +19,77 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdministratorController {
 
 	@Autowired
-	private FieldService fieldService;	
+	private FieldService fieldService;
 	
-	@RequestMapping(value = "relations")
-	public String relations(Model model) {
-
-		List<Field> fields = fieldService.getFieldsByBodyContaining("<relation ");
+	@Autowired
+	private RelationService relationService;
+	
+	@Autowired
+	private RelationCheckService relationCheckService;
+	
+	@RequestMapping(value = "relationCheck")
+	public String relationList(Model model) {
 		
-		System.out.println(fields.size());
+		/*
+		 * Re-Calculate Relations
+		 */
+		relationCheckService.deleteRelationCheckTable();
+		persistRelations();
+		persistInlineRelations();
+		
+		/*
+		 * Add Attributes To Model
+		 */
+		List<RelationCheck> relations = relationCheckService.getRelationChecks();
+		
+		int nullRelations = 0;
+		
+		for(RelationCheck r : relations) {
+			if(r.getRelatedContentType() == null) {
+				nullRelations++;
+			}
+		}
+		
+		model.addAttribute("relations", relations);
+		model.addAttribute("nullRelations", nullRelations);
+		
+		return "/administrator/relations";
+	}
+	
+	private void persistRelations() {
+		
+		List<Relation> relations = relationService.getRelations();
+		
+		for(Relation r : relations) {
+		
+			relationCheckService.persisteRelationCheckEntry(r.getContentApplicationId().getApplicationId(), r.getContentApplicationId().getType(), r.getSource(), r.getSourceId(), r.getType());
+		}
+	}
+	
+	private void persistInlineRelations() {
+		
+		List<Field> fields = fieldService.getFieldsByBodyContaining("<relation ");
 		
 		for(Field f : fields) {
 			
-			System.out.println(f.getContentApplicationId().getApplicationId());
-			parseBody(f.getField());
-			
-			//break;
+			parseBodyFieldAndPersist(f.getContentApplicationId().getApplicationId(), f.getContentApplicationId().getType(), f.getField());
 		}
-		
-		
-		return "/home";
 	}
 	
-	public void parseBody(String body) {
+	/**
+	 * Persist RelationCheck Entry. All Body Field Relations Are Consider To Have A New Type : INLINE 
+	 * @param contentApplicationId Content's Id
+	 * @param contentType Content's Type
+	 * @param body Body Field
+	 */
+	private void parseBodyFieldAndPersist(Long contentApplicationId, String contentType, String body) {
 		
 		String input = body;
 		String split = "<relation ";
 		String source = "source=\"";
 		String sourceId = "sourceid=\"";
 		
-		
-		while(input.indexOf(split) > -1) {
+		while(input.indexOf(split) > -1) { //Body Field Has More Relations
 			
 			input = input.substring(input.indexOf(split)+10);
 			
@@ -52,12 +97,7 @@ public class AdministratorController {
 			String temporarySource = input.substring(input.indexOf(source)+8);
 			String temporarySourceId = input.substring(input.indexOf(sourceId)+10);
 			
-			
-			
-			System.out.println(temporarySource.substring(0, temporarySource.indexOf("\"")));
-			System.out.println(temporarySourceId.substring(0, temporarySourceId.indexOf("\"")));
+			relationCheckService.persisteRelationCheckEntry(contentApplicationId, contentType, temporarySource.substring(0, temporarySource.indexOf("\"")), temporarySourceId.substring(0, temporarySourceId.indexOf("\"")), "INLINE");
 		}
-		
-		
 	}
 }
