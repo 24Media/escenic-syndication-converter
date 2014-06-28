@@ -136,6 +136,8 @@ public class ContentController {
 	@RequestMapping(value = "marshall")
 	public String marshallToOneFile(@RequestParam(value = "id", required = false) Long id,
 									@RequestParam(value = "type", required = false) String type, 
+									@RequestParam(value = "homeSections", required = false) String homeSections,
+									@RequestParam(value = "homeSectionsExcluded", required = false) String homeSectionsExcluded,
 									Model model) {
 
 		Escenic contents = new Escenic();
@@ -146,6 +148,17 @@ public class ContentController {
 		
 			contentsList.add(contentService.getContent(id));
 			contents.setContentList(filterOutElementsAndAttributes(contentsList));
+		}
+		else if(type != null && homeSections != null) { //Content Items Of Specified Home Sections
+
+			if(homeSectionsExcluded != null) { //Excluded
+
+				contents.setContentList(filterOutElementsAndAttributes(contentService.getContentsByTypeExcludingHomeSections(type, homeSectionsListFromString(homeSections))));
+			}
+			else { //Included
+			
+				contents.setContentList(filterOutElementsAndAttributes(contentService.getContentsByTypeAndHomeSections(type, homeSectionsListFromString(homeSections))));
+			}
 		}
 		else if(type != null) { //Content Items Of Specified Type
 			
@@ -182,14 +195,26 @@ public class ContentController {
 	 * @return View To Be Rendered
 	 */
 	@RequestMapping(value = "marshallToMultipleFiles")
-	public String marshallToMultipleFiles(@RequestParam(value = "type", required = false) String type, 
+	public String marshallToMultipleFiles(@RequestParam(value = "type", required = false) String type,
+										  @RequestParam(value = "homeSections", required = false) String homeSections,
+										  @RequestParam(value = "homeSectionsExcluded", required = false) String homeSectionsExcluded,
 										  @RequestParam(value = "itemsPerFile") int itemsPerFile,
 										  Model model) {
 
 		List<Content> contentsList = new ArrayList<Content>();
 		
-		
-		if(type != null) {
+		if(type != null && homeSections != null) { //Content Items Of Specified Home Sections
+
+			if(homeSectionsExcluded != null) { //Excluded
+
+				contentsList.addAll(contentService.getContentsByTypeExcludingHomeSections(type, homeSectionsListFromString(homeSections)));
+			}
+			else { //Included
+			
+				contentsList.addAll(contentService.getContentsByTypeAndHomeSections(type, homeSectionsListFromString(homeSections)));
+			}
+		}
+		else if(type != null) {
 			
 			contentsList.addAll(contentService.getContentsByType(type));
 		}
@@ -379,6 +404,25 @@ public class ContentController {
 			c.setAuthorSet(null);
 			
 			result.add(c);
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * Given a General Description For Home Sections Build A List of All Actual Home Sections Related To That Description 
+	 * @param homeSections General Description
+	 * @return List of Home Sections
+	 */
+	private List<String> homeSectionsListFromString(String homeSections) {
+		
+		List<String> result = new ArrayList<String>();
+		
+		if(homeSections.equals("kairos")) {
+			
+			result.add("kairos");
+			result.add("kairos-eidiseis"); //I Think I Don't Need Those
+			result.add("kairos-lifestyle");
 		}
 		
 		return result;

@@ -15,4 +15,8 @@ public interface ContentService {
 	List<Content> getContents();
 	
 	List<Content> getContentsByType(String type);
+	
+	List<Content> getContentsByTypeAndHomeSections(String type, List<String> homeSections);
+	
+	List<Content> getContentsByTypeExcludingHomeSections(String type, List<String> homeSections);
 }

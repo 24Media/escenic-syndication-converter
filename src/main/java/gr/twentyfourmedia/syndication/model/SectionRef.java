@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,6 +32,14 @@ import org.springframework.format.annotation.DateTimeFormat;
  * 		home-section="(true|false)"?
  * />
  */
+@NamedQueries({
+	@NamedQuery(
+			name = "findSectionRefsByHomeSections",
+			query = "FROM SectionRef WHERE homeSection = 'true' AND uniqueName IN (:homeSections)"),
+	@NamedQuery(
+			name = "findSectionRefsExcludingHomeSections",
+			query = "FROM SectionRef WHERE homeSection = 'true' AND uniqueName NOT IN (:homeSections)")			
+})
 @Entity
 @Table(name = "sectionRef")
 @XmlRootElement(name = "section-ref")

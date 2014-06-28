@@ -1,5 +1,6 @@
 package gr.twentyfourmedia.syndication.service.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gr.twentyfourmedia.syndication.dao.AuthorDao;
@@ -8,6 +9,7 @@ import gr.twentyfourmedia.syndication.dao.FieldDao;
 import gr.twentyfourmedia.syndication.dao.RelationDao;
 import gr.twentyfourmedia.syndication.dao.SectionRefDao;
 import gr.twentyfourmedia.syndication.model.Content;
+import gr.twentyfourmedia.syndication.model.SectionRef;
 import gr.twentyfourmedia.syndication.service.ContentService;
 
 import javax.transaction.Transactional;
@@ -78,5 +80,39 @@ public class ContentServiceImplementation implements ContentService {
 	public List<Content> getContentsByType(String type) {
 		
 		return contentDao.getByType(type);
+	}
+	
+	@Override
+	public List<Content> getContentsByTypeAndHomeSections(String type, List<String> homeSections) {
+		
+		List<Content> contentList = new ArrayList<Content>();
+		List<SectionRef> sectionRefList = sectionRefDao.getByHomeSections(homeSections);
+		
+		for(SectionRef r : sectionRefList) {
+		
+			if(r.getContentApplicationId().getType().equals(type)) {
+				
+				contentList.add(r.getContentApplicationId());
+			}
+		}
+		
+		return contentList;
+	}
+	
+	@Override
+	public List<Content> getContentsByTypeExcludingHomeSections(String type, List<String> homeSections) {
+		
+		List<Content> contentList = new ArrayList<Content>();
+		List<SectionRef> sectionRefList = sectionRefDao.getExcludingHomeSections(homeSections);
+		
+		for(SectionRef r : sectionRefList) {
+		
+			if(r.getContentApplicationId().getType().equals(type)) {
+				
+				contentList.add(r.getContentApplicationId());
+			}
+		}
+		
+		return contentList;
 	}
 }
