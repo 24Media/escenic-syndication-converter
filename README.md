@@ -1,8 +1,7 @@
 ### About
-Convert Exported Syndication Files to the Required by the Import Mechanism Format
+Convertion of Exported Escenic Syndication Files to the Required by the Import Mechanism Format
 
 ### Technologies / Tools
-
 <ul>
 <li>Spring Framework</li>
 <li>Spring MVC</li>
