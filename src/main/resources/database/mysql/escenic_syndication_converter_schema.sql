@@ -192,9 +192,10 @@ CREATE TABLE `relationCheck` (
   `sourceId` varchar(100) DEFAULT NULL,
   `relationType` varchar(100) DEFAULT NULL,
   `pictureBinaryName` varchar(100) DEFAULT NULL,
+  `pictureBinaryExists` varchar(3) DEFAULT NULL,
   `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=11056 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14147 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -260,4 +261,4 @@ CREATE TABLE `sectionRef` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-06-29 17:37:38
+-- Dump completed on 2014-06-29 21:43:39
