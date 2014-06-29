@@ -247,7 +247,7 @@ public class ContentController {
 				escenic.setContentList(filterOutElementsAndAttributes(escenicContents));
 				
 				String fileName = itemsPerFile == 1 ? "Id_" + current.getApplicationId() : "File_" + fileCounter++;
-				String path = System.getProperty("filepath.syndicationFiles") + "/write/News_" + fileName + ".xml";
+				String path = System.getProperty("filepath.syndicationFiles") + "/write/Contents_Export_" + fileName + ".xml";
 				FileOutputStream outputStream;
 				
 				try {
@@ -275,7 +275,7 @@ public class ContentController {
 	@RequestMapping(value = "unmarshall")
 	public String unmarshall(Model model) {
 
-		String path = System.getProperty("filepath.syndicationFiles") + "/read/xx.xml";
+		String path = System.getProperty("filepath.syndicationFiles") + "/read/Contents_Input.xml";
 		/*
 		FileInputStream inputStream;
 		
@@ -366,10 +366,14 @@ public class ContentController {
 							.replaceAll("&amp;lt;", "<")
 							.replaceAll("&amp;gt;", ">")
 							.replaceAll("&amp;quot;", "\"")
+							.replaceAll("&amp;#39;", "'")
+							.replaceAll("&amp;mdash;", "-")
 							.replaceAll("&amp;amp;", "&#38;")
 							.replaceAll("&lt;", "<")
 							.replaceAll("&gt;", ">")
 							.replaceAll("&quot;", "\"")
+							.replaceAll("&#39;", "'")
+							.replaceAll("&mdash;", "-")
 							.replaceAll("&amp;", "&#38;");
 
 			FileUtils.writeStringToFile(file, fileContents);		
