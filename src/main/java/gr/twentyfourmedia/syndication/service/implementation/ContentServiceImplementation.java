@@ -71,6 +71,28 @@ public class ContentServiceImplementation implements ContentService {
 	}
 	
 	@Override
+	public Content getContent(String sourceId) {
+		
+		return contentDao.getBySourceId(sourceId);
+	}
+	
+	@Override
+	public String getContentHomeSection(Content content) {
+		
+		String result = null;
+		
+		for(SectionRef r : content.getSectionRefSet()) {
+			
+			if(r.getHomeSection()!=null && r.getHomeSection().equals("true")) {
+				
+				result = r.getUniqueName();
+			}
+		}
+		
+		return result;
+	}
+	
+	@Override
 	public List<Content> getContents() {
 		
 		return contentDao.getAll();

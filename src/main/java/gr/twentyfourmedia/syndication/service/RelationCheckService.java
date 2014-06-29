@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface RelationCheckService {
 
-	void persisteRelationCheckEntry(Long contentApplicationId, String contentType, String source, String sourceId, String relationType);
+	void persistRelationCheckEntry(Long contentApplicationId, String contentType, String contentHomeSection, String source, String sourceId, String relationType);
 	
 	List<RelationCheck> getRelationChecks();
 	

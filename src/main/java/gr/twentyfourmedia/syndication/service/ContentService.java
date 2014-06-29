@@ -12,6 +12,10 @@ public interface ContentService {
 	
 	Content getContent(Long id);
 	
+	Content getContent(String sourceId);
+	
+	String getContentHomeSection(Content content);
+	
 	List<Content> getContents();
 	
 	List<Content> getContentsByType(String type);

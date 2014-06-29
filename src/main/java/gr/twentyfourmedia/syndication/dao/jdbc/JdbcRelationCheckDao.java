@@ -18,21 +18,21 @@ public class JdbcRelationCheckDao implements RelationCheckDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	private static final String INSERT_RELATION_QUERY = "INSERT INTO relationCheck(contentApplicationId, contentType, source, sourceId, relationType) VALUES (?, ?, ?, ?, ?)";
+	private static final String INSERT_RELATION_QUERY = "INSERT INTO relationCheck(contentApplicationId, contentType, contentHomeSection, source, sourceId, relationType) VALUES (?, ?, ?, ?, ?, ?)";
 		
 	/**
 	 * Persist Entries Given All Related Data
 	 */
 	@Override
-	public void persistEntry(Long contentApplicationId, String contentType, String source, String sourceId, String relationType) {
+	public void persistEntry(Long contentApplicationId, String contentType, String contentHomeSection, String source, String sourceId, String relationType) {
 		
-		jdbcTemplate.update(INSERT_RELATION_QUERY, new Object[] { contentApplicationId, contentType, source, sourceId, relationType });
+		jdbcTemplate.update(INSERT_RELATION_QUERY, new Object[] { contentApplicationId, contentType, contentHomeSection, source, sourceId, relationType });
 	}
 
 	@Override
 	public List<RelationCheck> getEntries() {
 		
-		String sql = "SELECT R.applicationId, R.contentApplicationId, R.contentType, R.source, R.sourceId, R.relationType, C.type, R.applicationDateUpdated " +
+		String sql = "SELECT R.applicationId, R.contentApplicationId, R.contentType, R.contentHomeSection, R.source, R.sourceId, R.relationType, C.type, R.applicationDateUpdated " +
 					 "FROM relationCheck AS R " +
 					 "LEFT JOIN content AS C " +
 					 "ON R.source = C.source AND R.sourceId = C.sourceId " +
@@ -47,6 +47,7 @@ public class JdbcRelationCheckDao implements RelationCheckDao {
 			relationCheck.setApplicationId((Integer) row.get("applicationId"));
 			relationCheck.setContentApplicationId((Integer) row.get("contentApplicationId"));
 			relationCheck.setContentType((String) row.get("contentType"));
+			relationCheck.setContentHomeSection((String) row.get("contentHomeSection"));
 			relationCheck.setSource((String) row.get("source"));
 			relationCheck.setSourceId((String) row.get("sourceId"));
 			relationCheck.setRelationType((String) row.get("relationType"));

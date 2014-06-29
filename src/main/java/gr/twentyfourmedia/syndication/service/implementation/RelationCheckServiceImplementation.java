@@ -19,9 +19,9 @@ public class RelationCheckServiceImplementation implements RelationCheckService 
 	private RelationCheckDao relationCheckDao;
 	
 	@Override
-	public void persisteRelationCheckEntry(Long contentApplicationId, String contentType, String source, String sourceId, String relationType) {
+	public void persistRelationCheckEntry(Long contentApplicationId, String contentType, String contentHomeSection, String source, String sourceId, String relationType) {
 		
-		relationCheckDao.persistEntry(contentApplicationId, contentType, source, sourceId, relationType);
+		relationCheckDao.persistEntry(contentApplicationId, contentType, contentHomeSection, source, sourceId, relationType);
 	}
 	
 	@Override

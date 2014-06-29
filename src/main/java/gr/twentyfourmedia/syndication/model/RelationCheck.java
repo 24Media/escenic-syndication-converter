@@ -13,6 +13,8 @@ public class RelationCheck {
 	
 	private String contentType;
 	
+	private String contentHomeSection;
+	
 	private String source;
 	
 	private String sourceId;
@@ -51,6 +53,16 @@ public class RelationCheck {
 	public String getContentType() {
 		
 		return contentType;
+	}
+	
+	public void setContentHomeSection(String contentHomeSection) {
+		
+		this.contentHomeSection = contentHomeSection;
+	}
+	
+	public String getContentHomeSection() {
+		
+		return contentHomeSection;
 	}
 
 	public void setSource(String source) {

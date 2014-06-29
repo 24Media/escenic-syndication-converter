@@ -1,8 +1,10 @@
 package gr.twentyfourmedia.syndication.web;
 
+import gr.twentyfourmedia.syndication.model.Content;
 import gr.twentyfourmedia.syndication.model.Field;
 import gr.twentyfourmedia.syndication.model.Relation;
 import gr.twentyfourmedia.syndication.model.RelationCheck;
+import gr.twentyfourmedia.syndication.service.ContentService;
 import gr.twentyfourmedia.syndication.service.FieldService;
 import gr.twentyfourmedia.syndication.service.RelationCheckService;
 import gr.twentyfourmedia.syndication.service.RelationService;
@@ -18,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/administrator")
 public class AdministratorController {
 
+	@Autowired
+	private ContentService contentService;
+	
 	@Autowired
 	private FieldService fieldService;
 	
@@ -62,7 +67,7 @@ public class AdministratorController {
 		
 		for(Relation r : relations) {
 		
-			relationCheckService.persisteRelationCheckEntry(r.getContentApplicationId().getApplicationId(), r.getContentApplicationId().getType(), r.getSource(), r.getSourceId(), r.getType());
+			relationCheckService.persistRelationCheckEntry(r.getContentApplicationId().getApplicationId(), r.getContentApplicationId().getType(), contentService.getContentHomeSection(r.getContentApplicationId()), r.getSource(), r.getSourceId(), r.getType());
 		}
 	}
 	
@@ -72,7 +77,7 @@ public class AdministratorController {
 		
 		for(Field f : fields) {
 			
-			parseBodyFieldAndPersist(f.getContentApplicationId().getApplicationId(), f.getContentApplicationId().getType(), f.getField());
+			parseBodyFieldAndPersist(f.getContentApplicationId(), f.getField());
 		}
 	}
 	
@@ -82,7 +87,7 @@ public class AdministratorController {
 	 * @param contentType Content's Type
 	 * @param body Body Field
 	 */
-	private void parseBodyFieldAndPersist(Long contentApplicationId, String contentType, String body) {
+	private void parseBodyFieldAndPersist(Content content, String body) {
 		
 		String input = body;
 		String split = "<relation ";
@@ -97,7 +102,7 @@ public class AdministratorController {
 			String temporarySource = input.substring(input.indexOf(source)+8);
 			String temporarySourceId = input.substring(input.indexOf(sourceId)+10);
 			
-			relationCheckService.persisteRelationCheckEntry(contentApplicationId, contentType, temporarySource.substring(0, temporarySource.indexOf("\"")), temporarySourceId.substring(0, temporarySourceId.indexOf("\"")), "INLINE");
+			relationCheckService.persistRelationCheckEntry(content.getApplicationId(), content.getType(), contentService.getContentHomeSection(content), temporarySource.substring(0, temporarySource.indexOf("\"")), temporarySourceId.substring(0, temporarySourceId.indexOf("\"")), "INLINE");
 		}
 	}
 }

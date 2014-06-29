@@ -64,6 +64,9 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 @NamedQueries({
 	@NamedQuery(
+			name = "findContentBySourceId",
+			query = "FROM Content WHERE sourceId = :sourceId"),
+	@NamedQuery(
 			name = "findContentsByType",
 			query = "FROM Content WHERE type = :type")
 })

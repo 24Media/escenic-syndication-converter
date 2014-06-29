@@ -12,6 +12,7 @@
 	<tr>
 		<th>Content Application Id</th>
 		<th>Content Type</th>
+		<th>Content Home Section</th>
 		<th>Relation Source</th>
 		<th>Relation Source Id</th>
 		<th>Relation Type</th>
@@ -21,6 +22,7 @@
 		<tr>
 			<td><c:out value="${relation.contentApplicationId}" /></td>
 			<td><c:out value="${relation.contentType}" /></td>
+			<td><c:out value="${relation.contentHomeSection}" /></td>
 			<td><c:out value="${relation.source}" /></td>
 			<td><c:out value="${relation.sourceId}" /></td>
 			<td><c:out value="${relation.relationType}" /></td>
