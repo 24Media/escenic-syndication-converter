@@ -31,4 +31,6 @@ filepath.syndicationFiles=/home/blixabargeld/Desktop/folder-for-read-and-write
 
 2) Due to tight deadlines Field's `((ANYTHING|<relation>...</relation>|text)*|<field>...</field>*|<value>...</value>*)<options>...</options>?` Element substituted by text inside CDATA tokens. Further parsing of this Element may be a good idea.
 
+4) Model remaining Escenic Entities (person, inbox et al.)
+
 3) Create a real User Interface.
