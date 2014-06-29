@@ -9,6 +9,7 @@ import gr.twentyfourmedia.syndication.service.FieldService;
 import gr.twentyfourmedia.syndication.service.RelationCheckService;
 import gr.twentyfourmedia.syndication.service.RelationService;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,18 +42,8 @@ public class AdministratorController {
 		relationCheckService.deleteRelationCheckTable();
 		persistRelations();
 		persistInlineRelations();
-		
-		/*
-		 * Get Picture Binary Names
-		 */
-		List<String> sourceIds = relationCheckService.getDistinctSourceId();
-		
-		for(String s : sourceIds) {
-			
-			String pictureBinaryName = contentService.getPictureContentBinaryName(contentService.getContent(s));
-			if(pictureBinaryName != null) relationCheckService.updateRelationCheckPictureEntry(s, pictureBinaryName); //May Update More Than One Entries
-		}
-		
+		persistPictureBinaryNames();
+
 		/*
 		 * Add Attributes To Model
 		 */
@@ -87,8 +78,25 @@ public class AdministratorController {
 		List<Field> fields = fieldService.getFieldsByBodyContaining("<relation ");
 		
 		for(Field f : fields) {
-			
+		
 			parseBodyFieldAndPersist(f.getContentApplicationId(), f.getField());
+		}
+	}
+	
+	private void persistPictureBinaryNames() {
+		
+		List<String> sourceIds = relationCheckService.getDistinctSourceId();
+		String path = System.getProperty("filepath.syndicationFiles") + "/images/";
+		
+		for(String s : sourceIds) {
+			
+			String pictureBinaryName = contentService.getPictureContentBinaryName(contentService.getContent(s));
+			if(pictureBinaryName != null) {
+				
+				File file = new File(path + pictureBinaryName);
+				String pictureBinaryExists = file.exists() ? "YES" : "NO";
+				relationCheckService.updateRelationCheckPictureEntry(s, pictureBinaryName, pictureBinaryExists); //May Update More Than One Entries
+			}
 		}
 	}
 	

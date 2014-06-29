@@ -8,7 +8,7 @@ public interface RelationCheckDao {
 
 	void persistEntry(Long contentApplicationId, String contentType, String contentHomeSection, String source, String sourceId, String relationType); 
 	
-	void updatePictureEntries(String sourceId, String pictureBinaryName);
+	void updatePictureEntries(String sourceId, String pictureBinaryName, String pictureBinaryExists);
 	
 	List<RelationCheck> getEntries();
 	

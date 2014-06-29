@@ -25,6 +25,8 @@ public class RelationCheck {
 	
 	private String pictureBinaryName;
 	
+	private String pictureBinaryExists;
+	
 	private Timestamp applicationDateUpdated;
 
 	public void setApplicationId(Integer applicationId) {
@@ -117,6 +119,16 @@ public class RelationCheck {
 		return pictureBinaryName;
 	}
 
+	public void setPictureBinaryExists(String pictureBinaryExists) {
+		
+		this.pictureBinaryExists = pictureBinaryExists;
+	}
+	
+	public String getPictureBinaryExists() {
+		
+		return pictureBinaryExists;
+	}
+	
 	public void setApplicationDateUpdated(Timestamp applicationDateUpdated) {
 		
 		this.applicationDateUpdated = applicationDateUpdated;

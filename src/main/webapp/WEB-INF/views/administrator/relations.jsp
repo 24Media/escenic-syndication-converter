@@ -10,7 +10,7 @@
 <h3>${fn:length(relations)} Relations | Content Does Not Exist For ${nullRelations}</h3>
 <table>
 	<tr>
-		<th style="width:50px;">Content Application Id</th>
+		<th>Content Application Id</th>
 		<th>Content Type</th>
 		<th>Content Home Section</th>
 		<th>Relation Source</th>
@@ -18,6 +18,7 @@
 		<th>Relation Type</th>
 		<th>Related Content Type</th>
 		<th>Picture Binary Name</th>
+		<th>Picture Binary Exist</th>
 	</tr>
 	<c:forEach var="relation" items="${relations}">
 		<tr>
@@ -41,11 +42,17 @@
 				<c:when test="${not empty relation.pictureBinaryName}">
 					<td><c:out value="${relation.pictureBinaryName}" /></td>
 				</c:when>
-				<c:when test="${relation.relationType=='INLINE'}">
-					<td class="warning">-</td>
+				<c:otherwise>
+					<td>-</td>
+				</c:otherwise>
+			</c:choose>
+			<!-- Picture Binary Exist -->
+			<c:choose>
+				<c:when test="${relation.pictureBinaryExists=='NO'}">
+					<td class="error"><c:out value="${relation.pictureBinaryExists}" /></td>
 				</c:when>
-				<c:when test="${relation.relationType=='PICTUREREL'}">
-					<td class="error">-</td>
+				<c:when test="${relation.pictureBinaryExists=='YES'}">
+					<td><c:out value="${relation.pictureBinaryExists}" /></td>
 				</c:when>
 				<c:otherwise>
 					<td>-</td>
@@ -53,6 +60,7 @@
 			</c:choose>
 		</tr>
 	</c:forEach>
-</table>	
+</table>
+<h5 style="border-top:none;">Make Sure Your Images Are Placed In A Sub-Folder Of /syndication-files Named /images</h5>
 </body>
 </html>

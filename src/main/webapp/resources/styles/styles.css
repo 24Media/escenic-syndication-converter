@@ -1,21 +1,24 @@
+body {
+	background:#E9E9EA;	
+}
 h1 {
-	background-color:#000099;
-	color:#E8E8E8;
+	background-color:#595D60;
+	color:white;
 	height:80px;
 	line-height:80px;
 	text-align:center;
 	margin:0;
 }
 h3 {
-	background-color:#6666FF;
-	color:#E8E8E8;
+	background-color:#3366CC;
+	color:white;
 	height:40px;
 	line-height:40px;
 	text-align:center;
 	margin:0;
 }
 h4 {
-	background-color:#CCFFCC;
+	background-color:#99FF99;
 	height:30px;
 	line-height:30px;
 	text-align:center;
@@ -26,7 +29,7 @@ h4.title {
 }
 h5 {
 	clear:both;
-	background-color:#FF9999;
+	background-color:#FF9933;
 	text-align:center;
 	font-weight:normal;
 	font-style:italic;
@@ -48,7 +51,7 @@ div.rightColumn {
 }
 a {
 	display:inline-block;
-	color:blue;
+	color:#595D60;
 	font-weight:bold;
 	padding:15px 0 15px 15px;
 	text-align:center;
@@ -64,15 +67,35 @@ table {
 th, td {
 	border:1px solid #666666;
 	text-align:center;
-	height:35px;
+	height:40px;
+	padding:4px;
 }
 th {
-  	background-color:#CCFFCC;
+  	background-color:#99FF99;
+}
+
+th:first-child, td:first-child { /*Id*/
+	width:80px;
+}
+th:nth-last-child(2), td:nth-last-child(2) { /*Picture Name*/
+	width:150px;
+	/*I Don't Think These Work*/
+ 	white-space: pre;           /* CSS 2.0 */
+    white-space: pre-wrap;      /* CSS 2.1 */
+    white-space: pre-line;      /* CSS 3.0 */
+    white-space: -pre-wrap;     /* Opera 4-6 */
+    white-space: -o-pre-wrap;   /* Opera 7 */
+    white-space: -moz-pre-wrap; /* Mozilla */
+    white-space: -hp-pre-wrap;  /* HP Printers */
+    word-wrap: break-word;      /* IE 5+ */
+}
+th:last-child, td:last-child { /*Picture Exists*/
+	width:80px;
 }
 td.error {
 	background-color:#FF9999;
 	color:white;
 }
 td.warning {
-	background-color:#FFEBCD;
+	background-color:#FFFFB2;
 }
