@@ -29,5 +29,7 @@ filepath.syndicationFiles=/home/blixabargeld/Desktop/folder-for-read-and-write
 
 ### Future Improvements
 1) It's ridiculous to parse the marshalled files in order to replace escaped HTML Characters just because you don't know how to completely disable HTML Character escaping. Find the way or change your JAXB Implementation to some other.
+
 2) Due to tight deadlines Field's `((ANYTHING|<relation>...</relation>|text)*|<field>...</field>*|<value>...</value>*)<options>...</options>?` Element substituted by text inside CDATA tokens. Further parsing of this Element may be a good idea.
+
 3) Create a real User Interface.
