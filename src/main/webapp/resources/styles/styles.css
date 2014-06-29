@@ -59,6 +59,7 @@ a {
 table {
   	border-collapse:collapse;
 	width:100%;
+	font-size:13px;
 }
 th, td {
 	border:1px solid #666666;
@@ -71,4 +72,7 @@ th {
 td.error {
 	background-color:#FF9999;
 	color:white;
+}
+td.warning {
+	background-color:#FFEBCD;
 }

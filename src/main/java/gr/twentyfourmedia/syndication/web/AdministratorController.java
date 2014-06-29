@@ -43,6 +43,17 @@ public class AdministratorController {
 		persistInlineRelations();
 		
 		/*
+		 * Get Picture Binary Names
+		 */
+		List<String> sourceIds = relationCheckService.getDistinctSourceId();
+		
+		for(String s : sourceIds) {
+			
+			String pictureBinaryName = contentService.getPictureContentBinaryName(contentService.getContent(s));
+			if(pictureBinaryName != null) relationCheckService.updateRelationCheckPictureEntry(s, pictureBinaryName); //May Update More Than One Entries
+		}
+		
+		/*
 		 * Add Attributes To Model
 		 */
 		List<RelationCheck> relations = relationCheckService.getRelationChecks();

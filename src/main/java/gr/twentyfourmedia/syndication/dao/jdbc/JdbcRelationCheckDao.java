@@ -19,7 +19,8 @@ public class JdbcRelationCheckDao implements RelationCheckDao {
 	private JdbcTemplate jdbcTemplate;
 	
 	private static final String INSERT_RELATION_QUERY = "INSERT INTO relationCheck(contentApplicationId, contentType, contentHomeSection, source, sourceId, relationType) VALUES (?, ?, ?, ?, ?, ?)";
-		
+	private static final String UPDATE_PICTURE_RELATION = "UPDATE relationCheck SET pictureBinaryName = ? WHERE sourceId = ?";	
+	
 	/**
 	 * Persist Entries Given All Related Data
 	 */
@@ -30,9 +31,15 @@ public class JdbcRelationCheckDao implements RelationCheckDao {
 	}
 
 	@Override
+	public void updatePictureEntries(String sourceId, String pictureBinaryName) {
+
+		jdbcTemplate.update(UPDATE_PICTURE_RELATION, new Object[] { pictureBinaryName, sourceId});
+	}
+	
+	@Override
 	public List<RelationCheck> getEntries() {
 		
-		String sql = "SELECT R.applicationId, R.contentApplicationId, R.contentType, R.contentHomeSection, R.source, R.sourceId, R.relationType, C.type, R.applicationDateUpdated " +
+		String sql = "SELECT R.applicationId, R.contentApplicationId, R.contentType, R.contentHomeSection, R.source, R.sourceId, R.relationType, C.type, R.pictureBinaryName, R.applicationDateUpdated " +
 					 "FROM relationCheck AS R " +
 					 "LEFT JOIN content AS C " +
 					 "ON R.source = C.source AND R.sourceId = C.sourceId " +
@@ -52,9 +59,26 @@ public class JdbcRelationCheckDao implements RelationCheckDao {
 			relationCheck.setSourceId((String) row.get("sourceId"));
 			relationCheck.setRelationType((String) row.get("relationType"));
 			relationCheck.setRelatedContentType((String) row.get("type"));
+			relationCheck.setPictureBinaryName((String) row.get("pictureBinaryName"));
 			relationCheck.setApplicationDateUpdated((Timestamp) row.get("applicationDateUpdated"));
 
 			result.add(relationCheck);
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public List<String> getDistinctSourceId() {
+		
+		String sql = "SELECT DISTINCT(sourceId) FROM relationCheck";
+	
+		List<String> result = new ArrayList<String>();
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+		
+		for(Map<String, Object> row : rows) {
+			
+			result.add((String) row.get("sourceId"));
 		}
 		
 		return result;

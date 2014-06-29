@@ -16,6 +16,8 @@ public interface ContentService {
 	
 	String getContentHomeSection(Content content);
 	
+	String getPictureContentBinaryName(Content content);
+	
 	List<Content> getContents();
 	
 	List<Content> getContentsByType(String type);

@@ -9,6 +9,7 @@ import gr.twentyfourmedia.syndication.dao.FieldDao;
 import gr.twentyfourmedia.syndication.dao.RelationDao;
 import gr.twentyfourmedia.syndication.dao.SectionRefDao;
 import gr.twentyfourmedia.syndication.model.Content;
+import gr.twentyfourmedia.syndication.model.Field;
 import gr.twentyfourmedia.syndication.model.SectionRef;
 import gr.twentyfourmedia.syndication.service.ContentService;
 
@@ -86,6 +87,25 @@ public class ContentServiceImplementation implements ContentService {
 			if(r.getHomeSection()!=null && r.getHomeSection().equals("true")) {
 				
 				result = r.getUniqueName();
+			}
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public String getPictureContentBinaryName(Content content) {
+		
+		String result = null;
+		
+		if(content!=null && content.getType().equals("picture")) {
+			
+			for(Field f : content.getFieldList()) {
+				
+				if(f.getName()!=null && f.getName().equals("binary")) {
+					
+					result = f.getField();
+				}
 			}
 		}
 		

@@ -23,6 +23,8 @@ public class RelationCheck {
 	
 	private String relatedContentType;
 	
+	private String pictureBinaryName;
+	
 	private Timestamp applicationDateUpdated;
 
 	public void setApplicationId(Integer applicationId) {
@@ -105,6 +107,16 @@ public class RelationCheck {
 		return relatedContentType;
 	}
 	
+	public void setPictureBinaryName(String pictureBinaryName) {
+		
+		this.pictureBinaryName = pictureBinaryName;
+	}
+	
+	public String getPictureBinaryName() {
+		
+		return pictureBinaryName;
+	}
+
 	public void setApplicationDateUpdated(Timestamp applicationDateUpdated) {
 		
 		this.applicationDateUpdated = applicationDateUpdated;
