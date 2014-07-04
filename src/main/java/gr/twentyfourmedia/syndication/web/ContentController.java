@@ -247,7 +247,7 @@ public class ContentController {
 				escenic.setContentList(filterOutElementsAndAttributes(escenicContents));
 				
 				String fileName = itemsPerFile == 1 ? "Id_" + current.getApplicationId() : "File_" + fileCounter++;
-				String path = System.getProperty("filepath.syndicationFiles") + "/write/Contents_Export_" + fileName + ".xml";
+				String path = System.getProperty("filepath.syndicationFiles") + "/write/Tag_" + fileName + ".xml";
 				FileOutputStream outputStream;
 				
 				try {
@@ -274,9 +274,9 @@ public class ContentController {
 
 	@RequestMapping(value = "unmarshall")
 	public String unmarshall(Model model) {
-
-		String path = System.getProperty("filepath.syndicationFiles") + "/read/Contents_Input.xml";
-		/*
+		
+		String path = System.getProperty("filepath.syndicationFiles") + "/read/Content_Import.xml";
+		
 		FileInputStream inputStream;
 		
 		try {
@@ -296,7 +296,7 @@ public class ContentController {
 			
 			exception.printStackTrace();
 		} 
-		*/
+		
 		return "/home";
 	}
 
@@ -429,8 +429,10 @@ public class ContentController {
 		if(homeSections.equals("kairos")) {
 			
 			result.add("kairos");
-			result.add("kairos-eidiseis"); //I Think I Don't Need Those
+			result.add("kairos-eidiseis");
+			result.add("kairos-environment");
 			result.add("kairos-lifestyle");
+			result.add("kairos-taksidi");
 		}
 		
 		return result;

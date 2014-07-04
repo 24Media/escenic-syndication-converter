@@ -95,7 +95,7 @@ public class AdministratorController {
 				
 				File file = new File(path + pictureBinaryName);
 				String pictureBinaryExists = file.exists() ? "YES" : "NO";
-				relationCheckService.updateRelationCheckPictureEntry(s, pictureBinaryName, pictureBinaryExists); //May Update More Than One Entries
+				relationCheckService.updateRelationCheckPictureEntry(s, pictureBinaryExists); //May Update More Than One Entries
 			}
 		}
 	}

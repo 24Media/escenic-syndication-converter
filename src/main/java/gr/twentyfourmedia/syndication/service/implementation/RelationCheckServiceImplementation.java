@@ -25,9 +25,9 @@ public class RelationCheckServiceImplementation implements RelationCheckService 
 	}
 	
 	@Override
-	public void updateRelationCheckPictureEntry(String sourceId, String pictureBinaryName, String pictureBinaryExists) {
+	public void updateRelationCheckPictureEntry(String sourceId, String pictureBinaryExists) {
 		
-		relationCheckDao.updatePictureEntries(sourceId, pictureBinaryName, pictureBinaryExists);
+		relationCheckDao.updatePictureEntries(sourceId, pictureBinaryExists);
 	}
 	
 	@Override
