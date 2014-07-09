@@ -38,7 +38,7 @@ public class SectionController {
 		List<Section> allSections = sectionService.getSections();
 		sections.setSectionList(sectionsFiltering(allSections));
 
-		String path = System.getProperty("filepath.syndicationFiles") + "/write/Sections_Output.xml";
+		String path = System.getProperty("filepath.syndicationFiles") + "/write/Section_Export.xml";
 		
 		FileOutputStream outputStream;
 		
@@ -61,7 +61,7 @@ public class SectionController {
 	@RequestMapping(value = "unmarshall")
 	public String unmarshall(Model model) {
 		
-		String path = System.getProperty("filepath.syndicationFiles") + "/read/Sections_Input.xml";
+		String path = System.getProperty("filepath.syndicationFiles") + "/read/Section_Import.xml";
 		
 		FileInputStream inputStream;
 		

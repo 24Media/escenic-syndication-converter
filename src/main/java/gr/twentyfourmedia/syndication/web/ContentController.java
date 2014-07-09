@@ -173,7 +173,7 @@ public class ContentController {
 			contents.setContentList(filterOutElementsAndAttributes(contentService.getContents()));
 		}
 		
-		String path = System.getProperty("filepath.syndicationFiles") + "/write/Contents_Export.xml";
+		String path = System.getProperty("filepath.syndicationFiles") + "/write/Content_Export.xml";
 		FileOutputStream outputStream;
 		
 		try {
@@ -247,7 +247,7 @@ public class ContentController {
 				escenic.setContentList(filterOutElementsAndAttributes(escenicContents));
 				
 				String fileName = itemsPerFile == 1 ? "Id_" + current.getApplicationId() : "File_" + fileCounter++;
-				String path = System.getProperty("filepath.syndicationFiles") + "/write/Tag_" + fileName + ".xml";
+				String path = System.getProperty("filepath.syndicationFiles") + "/write/Content_Export_" + fileName + ".xml";
 				FileOutputStream outputStream;
 				
 				try {
