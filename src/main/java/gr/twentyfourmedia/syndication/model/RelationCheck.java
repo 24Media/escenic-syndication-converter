@@ -23,8 +23,6 @@ public class RelationCheck {
 	
 	private String relatedContentType;
 	
-	private String pictureBinaryName;
-	
 	private String pictureBinaryExists;
 	
 	private Timestamp applicationDateUpdated;
@@ -109,16 +107,6 @@ public class RelationCheck {
 		return relatedContentType;
 	}
 	
-	public void setPictureBinaryName(String pictureBinaryName) {
-		
-		this.pictureBinaryName = pictureBinaryName;
-	}
-	
-	public String getPictureBinaryName() {
-		
-		return pictureBinaryName;
-	}
-
 	public void setPictureBinaryExists(String pictureBinaryExists) {
 		
 		this.pictureBinaryExists = pictureBinaryExists;

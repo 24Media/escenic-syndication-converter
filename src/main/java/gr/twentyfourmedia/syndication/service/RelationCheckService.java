@@ -8,7 +8,7 @@ public interface RelationCheckService {
 
 	void persistRelationCheckEntry(Long contentApplicationId, String contentType, String contentHomeSection, String source, String sourceId, String relationType);
 	
-	void updateRelationCheckPictureEntry(String sourceId, String pictureBinaryName, String pictureBinaryExists);
+	void updateRelationCheckPictureEntry(String sourceId, String pictureBinaryExists);
 	
 	List<RelationCheck> getRelationChecks();
 	

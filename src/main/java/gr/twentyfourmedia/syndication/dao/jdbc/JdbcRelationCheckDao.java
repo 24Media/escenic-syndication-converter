@@ -19,7 +19,7 @@ public class JdbcRelationCheckDao implements RelationCheckDao {
 	private JdbcTemplate jdbcTemplate;
 	
 	private static final String INSERT_RELATION_QUERY = "INSERT INTO relationCheck(contentApplicationId, contentType, contentHomeSection, source, sourceId, relationType) VALUES (?, ?, ?, ?, ?, ?)";
-	private static final String UPDATE_PICTURE_RELATION = "UPDATE relationCheck SET pictureBinaryName = ?, pictureBinaryExists = ? WHERE sourceId = ?";	
+	private static final String UPDATE_PICTURE_RELATION = "UPDATE relationCheck SET pictureBinaryExists = ? WHERE sourceId = ?";	
 	
 	/**
 	 * Persist Entries Given All Related Data
@@ -31,15 +31,15 @@ public class JdbcRelationCheckDao implements RelationCheckDao {
 	}
 
 	@Override
-	public void updatePictureEntries(String sourceId, String pictureBinaryName, String pictureBinaryExists) {
+	public void updatePictureEntries(String sourceId, String pictureBinaryExists) {
 
-		jdbcTemplate.update(UPDATE_PICTURE_RELATION, new Object[] { pictureBinaryName, pictureBinaryExists, sourceId});
+		jdbcTemplate.update(UPDATE_PICTURE_RELATION, new Object[] { pictureBinaryExists, sourceId});
 	}
 	
 	@Override
 	public List<RelationCheck> getEntries() {
 		
-		String sql = "SELECT R.applicationId, R.contentApplicationId, R.contentType, R.contentHomeSection, R.source, R.sourceId, R.relationType, C.type, R.pictureBinaryName, R.pictureBinaryExists, R.applicationDateUpdated " +
+		String sql = "SELECT R.applicationId, R.contentApplicationId, R.contentType, R.contentHomeSection, R.source, R.sourceId, R.relationType, C.type, R.pictureBinaryExists, R.applicationDateUpdated " +
 					 "FROM relationCheck AS R " +
 					 "LEFT JOIN content AS C " +
 					 "ON R.source = C.source AND R.sourceId = C.sourceId " +
@@ -59,7 +59,6 @@ public class JdbcRelationCheckDao implements RelationCheckDao {
 			relationCheck.setSourceId((String) row.get("sourceId"));
 			relationCheck.setRelationType((String) row.get("relationType"));
 			relationCheck.setRelatedContentType((String) row.get("type"));
-			relationCheck.setPictureBinaryName((String) row.get("pictureBinaryName"));
 			relationCheck.setPictureBinaryExists((String) row.get("pictureBinaryExists"));
 			relationCheck.setApplicationDateUpdated((Timestamp) row.get("applicationDateUpdated"));
 

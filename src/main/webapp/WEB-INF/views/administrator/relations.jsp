@@ -17,7 +17,6 @@
 		<th>Relation Source Id</th>
 		<th>Relation Type</th>
 		<th>Related Content Type</th>
-		<th>Picture Binary Name</th>
 		<th>Picture Binary Exist</th>
 	</tr>
 	<c:forEach var="relation" items="${relations}">
@@ -35,15 +34,6 @@
 				</c:when>
 				<c:otherwise>
 					<td><c:out value="${relation.relatedContentType}" /></td>
-				</c:otherwise>
-			</c:choose>
-			<!-- Picture Binary Name -->
-			<c:choose>
-				<c:when test="${not empty relation.pictureBinaryName}">
-					<td><c:out value="${relation.pictureBinaryName}" /></td>
-				</c:when>
-				<c:otherwise>
-					<td>-</td>
 				</c:otherwise>
 			</c:choose>
 			<!-- Picture Binary Exist -->
