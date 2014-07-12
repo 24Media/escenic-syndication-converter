@@ -15,6 +15,7 @@
 		<commons-dbcp-version>1.4</commons-dbcp-version>
 		<commons-lang-version>3.2.1</commons-lang-version>
 		<commons-io-version>2.4</commons-io-version>
+		<eclipse-moxy-version>2.5.1</eclipse-moxy-version>
 		<log4j-version>1.2.15</log4j-version>
 		<dom4j-version>1.6.1</dom4j-version>
 		<jaxen-version>1.1.1</jaxen-version>
@@ -82,6 +83,12 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>${commons-io-version}</version>
+		</dependency>
+		<!-- Eclipse Moxy JAXB Implementation -->
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>org.eclipse.persistence.moxy</artifactId>
+			<version>${eclipse-moxy-version}</version>
 		</dependency>
 		<!-- Dom4J Libraries -->
 		<dependency>
