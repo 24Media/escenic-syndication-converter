@@ -10,6 +10,8 @@
 	</configs>
 	<autoconfigs>
 		<config>src/main/webapp/WEB-INF/spring/beans-web.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/beans-data.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/beans-service.xml</config>
 	</autoconfigs>
 	<configSets>
 	</configSets>
