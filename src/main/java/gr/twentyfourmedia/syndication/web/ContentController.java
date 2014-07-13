@@ -2,7 +2,6 @@ package gr.twentyfourmedia.syndication.web;
 
 import gr.twentyfourmedia.syndication.model.Content;
 import gr.twentyfourmedia.syndication.model.Escenic;
-import gr.twentyfourmedia.syndication.model.Field;
 import gr.twentyfourmedia.syndication.model.Relation;
 import gr.twentyfourmedia.syndication.service.ContentService;
 import gr.twentyfourmedia.syndication.service.FieldService;
@@ -12,20 +11,20 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.io.FileUtils;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
+import org.eclipse.persistence.oxm.CharacterEscapeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,100 +35,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ContentController {
 	
 	@Autowired
-	private Jaxb2Marshaller marshaller;
-	
-	@Autowired
 	private ContentService contentService;	
 	
 	@Autowired
 	private FieldService fieldService;
 	
-	/**
-	 * Given a Content or A Content's Relation, Parse Syndication File and Wrap Found Value With <![CDATA[...]]> Tokens
-	 * @param path Path To Syndication File
-	 * @param htmlField Field HTML Name
-	 * @param contentSourceId Content's Source Id
-	 * @param relationSourceId Relation's Source Id
-	 * @return Content or Relation's Value Wrapped With <![CDATA[...]]> Tokens
-	 */
-	@SuppressWarnings("unchecked")
-	private String getFieldHTMLContent(String path, String htmlField, String contentSourceId, String relationSourceId) {
-        
-		Document doc;
-        String result = null;
-        
-        try {
-        	
-            File xml = new File(path);
-            SAXReader reader = new SAXReader();
-            doc = reader.read(xml);
-            Element root = doc.getRootElement();
-            List<Element> contents = root.elements("content");
-            List<Element> fields;
-            
-            for(Element content : contents) {
-            	
-            	String contentId = content.attributeValue("sourceid");
-            	
-                if(contentId!=null && !contentId.isEmpty() && contentId.equals(contentSourceId)) {
-                	
-                	if(relationSourceId == null) { //Content Fields
-                		
-	                	fields = content.elements("field");
-	                    
-	                    for(Element field : fields) {
-	                        
-	                    	String fieldName = field.attributeValue("name");
-	                        
-	                        if(fieldName.equals(htmlField)) {
-	                        	
-	                        	result = field.asXML();
-	                            result = result.replaceAll("<field xmlns=\"http://xmlns.escenic.com/2009/import\" name=\"" + htmlField + "\">", "");
-	                            result = result.replaceAll("<field xmlns=\"http://xmlns.escenic.com/2009/import\" name=\"" + htmlField + "\"/>", "");
-	                            result = result.replaceAll("</field>", "");
-	                            result = "<![CDATA[" + result + "]]>";
-	                        }
-	                    }
-                	}
-                	else { //Content Relation Fields
-                		
-                    	List<Element> relations = content.elements("relation");
-                    	
-                    	for(Element relation : relations) {
-                    		
-                    		String relationId = relation.attributeValue("sourceid");
-                    		
-                    		if(relationId!=null && !relationId.isEmpty() && relationId.equals(relationSourceId)) {
-
-    		                	fields = relation.elements("field");
-    		                    
-    		                    for(Element field : fields) {
-    		                        
-    		                    	String fieldName = field.attributeValue("name");
-    		                        
-    		                        if(fieldName.equals(htmlField)) {
-    		                        	
-    		                        	result = field.asXML();
-    		                            result = result.replaceAll("<field xmlns=\"http://xmlns.escenic.com/2009/import\" name=\"" + htmlField + "\">", "");
-    		                            result = result.replaceAll("<field xmlns=\"http://xmlns.escenic.com/2009/import\" name=\"" + htmlField + "\"/>", "");
-    		                            result = result.replaceAll("</field>", "");
-    		                            result = "<![CDATA[" + result + "]]>";
-    		                        }
-    		                    }
-                    		}
-                    	}
-                	}
-                }
-            }
-        }
-        catch(DocumentException exception) {
-        
-        	System.out.println(exception);
-        }
-        
-        if(result!=null && !result.equals("<![CDATA[]]>")) return result; else return null;
-    }	
-
+	public static final List<String> KAIROS_SECTIONS;
+	static {
+		List<String> temporary = new ArrayList<String>();
+		temporary.add("kairos");
+		temporary.add("kairos-eidiseis");
+		temporary.add("kairos-environment");
+		temporary.add("kairos-lifestyle");
+		temporary.add("kairos-taksidi");
+		KAIROS_SECTIONS = temporary;
+	}
+	
 	/**
 	 * Marshall Contents Read From Database, Given an Id, Content's Type et al.
 	 * @param id Application Id Of A Specific Content
@@ -173,18 +94,34 @@ public class ContentController {
 			contents.setContentList(filterOutElementsAndAttributes(contentService.getContents()));
 		}
 		
-		String path = System.getProperty("filepath.syndicationFiles") + "/write/Content_Export.xml";
+		String path = System.getProperty("filepath.syndicationFiles") + "/write/Contents_Export.xml";
 		FileOutputStream outputStream;
 		
 		try {
 			
 			outputStream = new FileOutputStream(new File(path));
 			StreamResult result = new StreamResult(outputStream);
-			marshaller.marshal(contents, result);
-			replaceHTMLTokens(path);
+			JAXBContext jaxbContext = JAXBContext.newInstance(Escenic.class);
+            Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            
+            marshaller.setProperty("com.sun.xml.internal.bind.characterEscapeHandler",
+                new CharacterEscapeHandler() {
+                    @Override
+                    public void escape(char[] ch, int start, int length, boolean isAttVal, Writer writer) throws IOException {
+                    	writer.write(ch, start, length);
+                    }
+                }
+            );
+            
+            marshaller.marshal(contents, result);
 		} 
 		catch(FileNotFoundException exception) {
 			
+			exception.printStackTrace();
+		} 
+		catch (JAXBException exception) {
+
 			exception.printStackTrace();
 		}
 
@@ -247,18 +184,34 @@ public class ContentController {
 				escenic.setContentList(filterOutElementsAndAttributes(escenicContents));
 				
 				String fileName = itemsPerFile == 1 ? "Id_" + current.getApplicationId() : "File_" + fileCounter++;
-				String path = System.getProperty("filepath.syndicationFiles") + "/write/Content_Export_" + fileName + ".xml";
+				String path = System.getProperty("filepath.syndicationFiles") + "/write/Contents_Export_" + fileName + ".xml";
 				FileOutputStream outputStream;
 				
 				try {
-					
+
 					outputStream = new FileOutputStream(new File(path));
 					StreamResult result = new StreamResult(outputStream);
-					marshaller.marshal(escenic, result);
-					replaceHTMLTokens(path);
+					JAXBContext jaxbContext = JAXBContext.newInstance(Escenic.class);
+		            Marshaller marshaller = jaxbContext.createMarshaller();
+		            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		            
+		            marshaller.setProperty("com.sun.xml.internal.bind.characterEscapeHandler",
+		                new CharacterEscapeHandler() {
+		                    @Override
+		                    public void escape(char[] ch, int start, int length, boolean isAttVal, Writer writer) throws IOException {
+		                    	writer.write(ch, start, length);
+		                    }
+		                }
+		            );
+		            
+		            marshaller.marshal(escenic, result);
 				} 
 				catch(FileNotFoundException exception) {
 					
+					exception.printStackTrace();
+				}
+				catch (JAXBException exception) {
+
 					exception.printStackTrace();
 				}
 				
@@ -275,7 +228,7 @@ public class ContentController {
 	@RequestMapping(value = "unmarshall")
 	public String unmarshall(Model model) {
 		
-		String path = System.getProperty("filepath.syndicationFiles") + "/read/Content_Import.xml";
+		String path = System.getProperty("filepath.syndicationFiles") + "/read/Contents_Input.xml";
 		
 		FileInputStream inputStream;
 		
@@ -283,105 +236,28 @@ public class ContentController {
 			inputStream = new FileInputStream(new File(path));
 			StreamSource source = new StreamSource(inputStream);
 			
-			Escenic escenic = (Escenic) marshaller.unmarshal(source);
+			Escenic escenic = null;
+			JAXBContext	jaxbContext = JAXBContext.newInstance(Escenic.class);
+	        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+	        escenic = (Escenic) unmarshaller.unmarshal(source);
 			
 			for(Content c : escenic.getContentList()) {
 
 				contentService.persistContent(c);
-				contentHTMLFields(c, path);	
+				contentService.handleContentHTMLFields(c, path);	
 				contentService.mergeContent(c);		
 			}
 		}
 		catch (FileNotFoundException exception) {
 			
 			exception.printStackTrace();
-		} 
-		
-		return "/home";
-	}
-
-	/**
-	 * If <![CDATA[...]]> Element Created, Set Corresponding Object Attributes To Ensure That Merging Of Content Will Merge These Attributes Too 
-	 * @param content Content Object
-	 * @param path Path To Syndication File
-	 */
-	private void contentHTMLFields(Content content, String path) {
-		
-		/*
-		 * Set HTML Content Fields 
-		 */
-		if(content.getFieldList()!=null) {
-		
-			for(Field f : content.getFieldList()) {
-			
-				if(f.getField()==null) { //Possible HTML Value
-			
-					String result = getFieldHTMLContent(path, f.getName(), content.getSourceId(), null);
-					if(result!=null) f.setField(result);
-				}
-			}
 		}
-		
-		/*
-		 * Set HTML Content Relation Field
-		 */
-		if(content.getRelationSet()!=null) {
-		
-			for(Relation r : content.getRelationSet()) {
-		
-				if(r.getFieldList()!=null) {
-		
-					for(Field f : r.getFieldList()) {
-		
-						if(f.getField()==null) { //Possible HTML Value
-					
-							String result = getFieldHTMLContent(path, f.getName(), content.getSourceId(), r.getSourceId());
-							if(result!=null) f.setField(result);
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	/**
-	 * Read Marshalled Syndication File And Unescape HTML Characters like '&lt;', '&gt;' Than Can Not Imported Properly To Escenic
-	 * @param path Path To Marshalled Syndication File
-	 */
-	private void replaceHTMLTokens(String path) {
-		
-		File file = new File(path);
-		String fileContents;
-		
-		try {
-			
-			fileContents = FileUtils.readFileToString(new File(path));
-
-			/*
-			 * '>' Character (For Example) Will Be Escaped to '&gt;'. But If Your Text Actually Contains '&gt;' It Will 
-			 * Be Escaped To '&amp;gt;'. So If You Can Not Find A Way To Completely Disable Character Escaping and You 
-			 * Need To Do Some String Replacing, Special Consideration Is Needed To Remove This Kind Of Garbage 
-			 */
-			fileContents = fileContents
-							.replaceAll("&amp;lt;", "<")
-							.replaceAll("&amp;gt;", ">")
-							.replaceAll("&amp;quot;", "\"")
-							.replaceAll("&amp;#39;", "'")
-							.replaceAll("&amp;mdash;", "-")
-							.replaceAll("&amp;amp;", "&#38;")
-							.replaceAll("&lt;", "<")
-							.replaceAll("&gt;", ">")
-							.replaceAll("&quot;", "\"")
-							.replaceAll("&#39;", "'")
-							.replaceAll("&mdash;", "-")
-							.replaceAll("&amp;", "&#38;");
-
-			FileUtils.writeStringToFile(file, fileContents);		
-		} 
-		catch (IOException exception) {
+		catch (JAXBException exception) {
 			
 			exception.printStackTrace();
 		}
+		
+		return "/home";
 	}
 	
 	/**
@@ -428,11 +304,7 @@ public class ContentController {
 		
 		if(homeSections.equals("kairos")) {
 			
-			result.add("kairos");
-			result.add("kairos-eidiseis");
-			result.add("kairos-environment");
-			result.add("kairos-lifestyle");
-			result.add("kairos-taksidi");
+			result = KAIROS_SECTIONS;
 		}
 		
 		return result;
