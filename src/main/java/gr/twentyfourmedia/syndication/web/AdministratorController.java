@@ -90,7 +90,7 @@ public class AdministratorController {
 		
 		for(String s : sourceIds) {
 			
-			String pictureBinaryName = contentService.getPictureContentBinaryName(contentService.getContent(s));
+			String pictureBinaryName = contentService.getPictureContentBinaryName(contentService.getFilteredContent(s));
 			if(pictureBinaryName != null) {
 				
 				File file = new File(path + pictureBinaryName);

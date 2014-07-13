@@ -32,6 +32,9 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDefs;
+import org.hibernate.annotations.FilterDef;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -69,6 +72,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 	@NamedQuery(
 			name = "findContentsByType",
 			query = "FROM Content WHERE type = :type")
+})
+@FilterDefs({
+    @FilterDef(name = "excludeAuthors")
 })
 @Entity
 @Table(name = "content")
@@ -235,6 +241,7 @@ public class Content {
 	@XmlElement(name = "update")
 	private Update update;
 	
+	@Filter(name = "excludeAuthors", condition="applicationId = -1")
 	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SELECT)
 	@OrderBy(value = "applicationId ASC")

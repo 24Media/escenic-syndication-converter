@@ -12,17 +12,33 @@ import gr.twentyfourmedia.syndication.model.Content;
 public class HibernateContentDao extends HibernateAbstractDao<Content> implements ContentDao {
 
 	@Override
-	public Content getBySourceId(String sourceId) {
+	public Content getFiltered(Long id) {
 		
+		getSession().enableFilter("excludeAuthors");
+		return get(id);
+	}
+	
+	@Override
+	public Content getFilteredBySourceId(String sourceId) {
+		
+		getSession().enableFilter("excludeAuthors");
 		Query query = getSession().getNamedQuery("findContentBySourceId");
 		query.setParameter("sourceId", sourceId);
-		return (Content) query.uniqueResult();		
+		return (Content) query.uniqueResult();
+	}
+	
+	@Override
+	public List<Content> getFiltered() {
+		
+		getSession().enableFilter("excludeAuthors");
+		return getAll();
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Content> getByType(String type) {
+	public List<Content> getFilteredByType(String type) {
 		
+		getSession().enableFilter("excludeAuthors");
 		Query query = getSession().getNamedQuery("findContentsByType");
 		query.setParameter("type", type);
 		return (List<Content>) query.list();

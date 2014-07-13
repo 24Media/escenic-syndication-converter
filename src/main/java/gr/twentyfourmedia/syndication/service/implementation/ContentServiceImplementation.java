@@ -72,15 +72,15 @@ public class ContentServiceImplementation implements ContentService {
 	}
 
 	@Override
-	public Content getContent(Long id) {
+	public Content getFilteredContent(Long id) {
 		
-		return contentDao.get(id);
+		return contentDao.getFiltered(id);
 	}
 	
 	@Override
-	public Content getContent(String sourceId) {
+	public Content getFilteredContent(String sourceId) {
 		
-		return contentDao.getBySourceId(sourceId);
+		return contentDao.getFilteredBySourceId(sourceId);
 	}
 	
 	@Override
@@ -119,15 +119,15 @@ public class ContentServiceImplementation implements ContentService {
 	}
 	
 	@Override
-	public List<Content> getContents() {
+	public List<Content> getFilteredContents() {
 		
-		return contentDao.getAll();
+		return contentDao.getFiltered();
 	}
 	
 	@Override
-	public List<Content> getContentsByType(String type) {
+	public List<Content> getFilteredContentsByType(String type) {
 		
-		return contentDao.getByType(type);
+		return contentDao.getFilteredByType(type);
 	}
 	
 	@Override

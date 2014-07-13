@@ -6,7 +6,11 @@ import gr.twentyfourmedia.syndication.model.Content;
 
 public interface ContentDao extends AbstractDao<Content> {
 
-	Content getBySourceId(String sourceId);
+	Content getFiltered(Long id);
 	
-	List<Content> getByType(String type);
+	Content getFilteredBySourceId(String sourceId);
+	
+	List<Content> getFiltered();
+	
+	List<Content> getFilteredByType(String type);
 }

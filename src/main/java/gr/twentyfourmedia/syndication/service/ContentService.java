@@ -10,17 +10,17 @@ public interface ContentService {
 	
 	void mergeContent(Content content);
 	
-	Content getContent(Long id);
+	Content getFilteredContent(Long id);
 	
-	Content getContent(String sourceId);
+	Content getFilteredContent(String sourceId);
 	
 	String getContentHomeSection(Content content);
 	
 	String getPictureContentBinaryName(Content content);
 	
-	List<Content> getContents();
+	List<Content> getFilteredContents();
 	
-	List<Content> getContentsByType(String type);
+	List<Content> getFilteredContentsByType(String type);
 	
 	List<Content> getContentsByTypeAndHomeSections(String type, List<String> homeSections);
 	

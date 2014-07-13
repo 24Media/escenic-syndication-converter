@@ -68,30 +68,32 @@ public class ContentController {
 		Escenic contents = new Escenic();
 		contents.setVersion("2.0");
 		List<Content> contentsList = new ArrayList<Content>();
-		 
+		
 		if(id != null) { //A Single Content Item
 		
-			contentsList.add(contentService.getContent(id));
+			contentsList.add(contentService.getFilteredContent(id));
 			contents.setContentList(filterOutElementsAndAttributes(contentsList));
 		}
 		else if(type != null && homeSections != null) { //Content Items Of Specified Home Sections
 
 			if(homeSectionsExcluded != null) { //Excluded
 
+				//TODO Filter Content Items
 				contents.setContentList(filterOutElementsAndAttributes(contentService.getContentsByTypeExcludingHomeSections(type, homeSectionsListFromString(homeSections))));
 			}
 			else { //Included
 			
+				//TODO Filter Content Items
 				contents.setContentList(filterOutElementsAndAttributes(contentService.getContentsByTypeAndHomeSections(type, homeSectionsListFromString(homeSections))));
 			}
 		}
 		else if(type != null) { //Content Items Of Specified Type
 			
-			contents.setContentList(filterOutElementsAndAttributes(contentService.getContentsByType(type)));
+			contents.setContentList(filterOutElementsAndAttributes(contentService.getFilteredContentsByType(type)));
 		}
 		else { //All Content Items
 			
-			contents.setContentList(filterOutElementsAndAttributes(contentService.getContents()));
+			contents.setContentList(filterOutElementsAndAttributes(contentService.getFilteredContents()));
 		}
 		
 		String path = System.getProperty("filepath.syndicationFiles") + "/write/Contents_Export.xml";
@@ -148,20 +150,22 @@ public class ContentController {
 
 			if(homeSectionsExcluded != null) { //Excluded
 
+				//TODO Filter Content Items
 				contentsList.addAll(contentService.getContentsByTypeExcludingHomeSections(type, homeSectionsListFromString(homeSections)));
 			}
 			else { //Included
 			
+				//TODO Filter Content Items
 				contentsList.addAll(contentService.getContentsByTypeAndHomeSections(type, homeSectionsListFromString(homeSections)));
 			}
 		}
 		else if(type != null) {
 			
-			contentsList.addAll(contentService.getContentsByType(type));
+			contentsList.addAll(contentService.getFilteredContentsByType(type));
 		}
 		else {
 			
-			contentsList.addAll(contentService.getContents());
+			contentsList.addAll(contentService.getFilteredContents());
 		}
 
 		Escenic escenic = new Escenic();
@@ -285,7 +289,7 @@ public class ContentController {
 			 * Not Needed Elements
 			 */
 			c.setCreator(null);
-			c.setAuthorSet(null);
+			//c.setAuthorSet(null);
 			
 			result.add(c);
 		}
