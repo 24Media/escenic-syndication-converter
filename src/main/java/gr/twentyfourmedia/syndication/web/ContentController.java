@@ -2,7 +2,6 @@ package gr.twentyfourmedia.syndication.web;
 
 import gr.twentyfourmedia.syndication.model.Content;
 import gr.twentyfourmedia.syndication.model.Escenic;
-import gr.twentyfourmedia.syndication.model.Relation;
 import gr.twentyfourmedia.syndication.service.ContentService;
 import gr.twentyfourmedia.syndication.service.FieldService;
 
@@ -275,19 +274,6 @@ public class ContentController {
 		
 		for(Content c : contents) {
 							
-			/*
-			 * Not Needed Attributes
-			 */
-			c.setExportedDbId(null);
-			
-			for(Relation r : c.getRelationSet()) {
-				
-				r.setExportedDbId(null);
-			}
-			
-			/*
-			 * Not Needed Elements
-			 */
 			c.setCreator(null);
 			//c.setAuthorSet(null);
 			
