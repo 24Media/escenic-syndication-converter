@@ -26,5 +26,7 @@ public interface ContentService {
 	
 	List<Content> getContentsByTypeExcludingHomeSections(String type, List<String> homeSections);
 	
+	void handleContentHTMLFields(Content content, String path);
+	
 	String getFieldHTMLContent(String path, String htmlField, String contentSourceId, String relationSourceId);
 }

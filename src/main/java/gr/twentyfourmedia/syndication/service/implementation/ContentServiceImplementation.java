@@ -11,6 +11,7 @@ import gr.twentyfourmedia.syndication.dao.RelationDao;
 import gr.twentyfourmedia.syndication.dao.SectionRefDao;
 import gr.twentyfourmedia.syndication.model.Content;
 import gr.twentyfourmedia.syndication.model.Field;
+import gr.twentyfourmedia.syndication.model.Relation;
 import gr.twentyfourmedia.syndication.model.SectionRef;
 import gr.twentyfourmedia.syndication.service.ContentService;
 
@@ -162,6 +163,51 @@ public class ContentServiceImplementation implements ContentService {
 		
 		return contentList;
 	}
+	
+	/**
+	 * If <![CDATA[...]]> Element Created, Set Corresponding Object Attributes To Ensure That Merging Of Content Will Merge These Attributes Too 
+	 * @param content Content Object
+	 * @param path Path To Syndication File
+	 */
+	@Override
+	public void handleContentHTMLFields(Content content, String path) {
+		
+		/*
+		 * Set HTML Content Fields 
+		 */
+		if(content.getFieldList()!=null) {
+		
+			for(Field f : content.getFieldList()) {
+			
+				if(f.getField()==null) { //Possible HTML Value
+			
+					String result = getFieldHTMLContent(path, f.getName(), content.getSourceId(), null);
+					if(result!=null) f.setField(result);
+				}
+			}
+		}
+		
+		/*
+		 * Set HTML Content Relation Field
+		 */
+		if(content.getRelationSet()!=null) {
+		
+			for(Relation r : content.getRelationSet()) {
+		
+				if(r.getFieldList()!=null) {
+		
+					for(Field f : r.getFieldList()) {
+		
+						if(f.getField()==null) { //Possible HTML Value
+					
+							String result = getFieldHTMLContent(path, f.getName(), content.getSourceId(), r.getSourceId());
+							if(result!=null) f.setField(result);
+						}
+					}
+				}
+			}
+		}
+	}	
 	
 	/**
 	 * Given a Content or A Content's Relation, Parse Syndication File and Wrap Found Value With <![CDATA[...]]> Tokens

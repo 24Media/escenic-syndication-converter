@@ -12,7 +12,9 @@ public class FieldAdapter extends XmlAdapter<String, String>{
 
 	@Override
 	public String marshal(String value) throws Exception {
-
-		return value.replaceAll("<!\\[CDATA\\[", "").replaceAll("\\]\\]>", "");
+		
+		return value.replaceAll("<!\\[CDATA\\[", "")
+					.replaceAll("\\]\\]>", "")
+					.replaceAll("&amp;", "&#38;");
 	}
 }
