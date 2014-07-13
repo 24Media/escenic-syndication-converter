@@ -1,3 +1,6 @@
+escenic-syndication-converter
+=============================
+
 ### About
 Convertion of Exported Escenic Syndication Files to the Required by the Import Mechanism Format
 
@@ -31,6 +34,8 @@ filepath.syndicationFiles=/home/blixabargeld/Desktop/folder-for-read-and-write
 
 2) Due to tight deadlines Field's `((ANYTHING|<relation>...</relation>|text)*|<field>...</field>*|<value>...</value>*)<options>...</options>?` Element substituted by text inside CDATA tokens. Further parsing of this Element may be a good idea.
 
-3) Model remaining Escenic Entities (person, inbox et al.)
+3) Find a way to correctly Import Author and Creator Entities to Escenic.
 
-4) Create a real User Interface.
+4) Model remaining Escenic Entities (person, inbox et al.)
+
+5) Create a real User Interface.
