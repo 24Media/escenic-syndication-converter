@@ -37,8 +37,8 @@
 		<a href="<c:url value='/content/marshallToMultipleFiles?itemsPerFile=10' />">All 'content'</a><br />
 		<a href="<c:url value='/content/marshallToMultipleFiles?type=tag&itemsPerFile=1' />">All 'tag'</a><br />
 		<a href="<c:url value='/content/marshallToMultipleFiles?type=news&itemsPerFile=1' />">All 'news'</a><br />
-		<a href="<c:url value='/content/marshallToMultipleFiles?type=picture&itemsPerFile=10' />">All 'picture'</a><br />
-		<a href="<c:url value='/content/marshallToMultipleFiles?type=multipleTypeVideo&itemsPerFile=10' />">All 'multipleTypeVideo'</a><br />
+		<a href="<c:url value='/content/marshallToMultipleFiles?type=picture&itemsPerFile=1' />">All 'picture'</a><br />
+		<a href="<c:url value='/content/marshallToMultipleFiles?type=multipleTypeVideo&itemsPerFile=1' />">All 'multipleTypeVideo'</a><br />
 		<a href="<c:url value='/content/marshallToMultipleFiles?type=photostory&itemsPerFile=1' />">All 'photostory'</a><br />
 		<!-- Type Excluding Home Section -->
 		<a href="<c:url value='/content/marshallToMultipleFiles?type=news&homeSections=kairos&homeSectionsExcluded=exclude&itemsPerFile=1' />">'news' Excluding Home Section 'kairos'</a><br />

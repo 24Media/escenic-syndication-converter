@@ -15,6 +15,7 @@ public class FieldAdapter extends XmlAdapter<String, String>{
 		
 		return value.replaceAll("<!\\[CDATA\\[", "")
 					.replaceAll("\\]\\]>", "")
-					.replaceAll("&amp;", "&#38;");
+					.replaceAll("&amp;", "&#38;")
+					.replaceAll("&", "&#38;");
 	}
 }
