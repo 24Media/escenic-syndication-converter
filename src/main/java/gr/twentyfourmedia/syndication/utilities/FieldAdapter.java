@@ -13,9 +13,19 @@ public class FieldAdapter extends XmlAdapter<String, String>{
 	@Override
 	public String marshal(String value) throws Exception {
 		
+		/*
+		 * Order Of Replacements Does Matter
+		 */
 		return value.replaceAll("<!\\[CDATA\\[", "")
 					.replaceAll("\\]\\]>", "")
-					.replaceAll("&amp;", "&#38;")
-					.replaceAll("&", "&#38;");
+					.replaceAll("&", "&#38;")
+					.replaceAll("&#38;lt;", "<")
+					.replaceAll("&#38;gt;", ">")
+					.replaceAll("&#38;quot;", "\"")
+					.replaceAll("&#38;#39;", "'")
+					.replaceAll("&#38;mdash;", "—")
+					.replaceAll("&#38;amp;", "&#38;")
+					.replaceAll(" allowfullscreen>", " allowfullscreen=\"allowfullscreen\">")
+					.replaceAll(" async ", " async=\"async\" ");
 	}
 }
