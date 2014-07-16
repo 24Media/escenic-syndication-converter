@@ -18,7 +18,7 @@
 	<h4>Content</h4>
 		<!-- All -->
 		<a href="<c:url value='/content/marshall' />">All 'content'</a><br />
-		<a href="<c:url value='/content/marshall?id=7070' />"> A (Not So) Random Content</a><br />
+		<a href="<c:url value='/content/marshall?id=25979' />"> A (Not So) Random Content</a><br />
 		<!-- Type -->
 		<a href="<c:url value='/content/marshall?type=tag' />">All 'tag'</a><br />
 		<a href="<c:url value='/content/marshall?type=news' />">All 'news'</a><br />

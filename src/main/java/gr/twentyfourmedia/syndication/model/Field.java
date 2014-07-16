@@ -93,6 +93,7 @@ public class Field {
 	 */
 	@Column(name = "title")
 	@XmlAttribute(name = "title")
+	@XmlJavaTypeAdapter(value = gr.twentyfourmedia.syndication.utilities.FieldAdapter.class, type = String.class)
 	private String title;
 	
 	@Lob
