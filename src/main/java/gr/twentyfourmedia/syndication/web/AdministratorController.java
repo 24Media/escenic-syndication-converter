@@ -1,16 +1,7 @@
 package gr.twentyfourmedia.syndication.web;
 
-import gr.twentyfourmedia.syndication.model.Content;
-import gr.twentyfourmedia.syndication.model.Field;
-import gr.twentyfourmedia.syndication.model.Relation;
-import gr.twentyfourmedia.syndication.model.RelationCheck;
-import gr.twentyfourmedia.syndication.service.ContentService;
-import gr.twentyfourmedia.syndication.service.FieldService;
-import gr.twentyfourmedia.syndication.service.RelationCheckService;
-import gr.twentyfourmedia.syndication.service.RelationService;
-
-import java.io.File;
-import java.util.List;
+import gr.twentyfourmedia.syndication.service.AdministratorService;
+import gr.twentyfourmedia.syndication.service.RelationInlineService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,31 +13,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdministratorController {
 
 	@Autowired
-	private ContentService contentService;
+	private RelationInlineService relationInlineService;
 	
 	@Autowired
-	private FieldService fieldService;
+	private AdministratorService administratorService;
 	
-	@Autowired
-	private RelationService relationService;
+	@RequestMapping(value = "parseInlineRelations")
+	public String parseInlineRelations(Model model) {
+		
+		relationInlineService.deleteAllRelationsInline();
+		administratorService.parseInlineRelations();
+		
+		return "/home";
+	}
 	
-	@Autowired
-	private RelationCheckService relationCheckService;
-	
+	/*
 	@RequestMapping(value = "relationCheck")
 	public String relationList(Model model) {
 		
-		/*
-		 * Re-Calculate Relations
-		 */
+		//Re-Calculate Relations
 		relationCheckService.deleteRelationCheckTable();
-		persistRelations();
-		persistInlineRelations();
-		persistPictureBinaryNames();
+		//persistRelations();
+		//persistInlineRelations();
+		//persistPictureBinaryNames();
 
-		/*
-		 * Add Attributes To Model
-		 */
+		//Add Attributes To Model
 		List<RelationCheck> relations = relationCheckService.getRelationChecks();
 		
 		int nullRelations = 0;
@@ -72,7 +63,7 @@ public class AdministratorController {
 			relationCheckService.persistRelationCheckEntry(r.getContentApplicationId().getApplicationId(), r.getContentApplicationId().getType(), contentService.getContentHomeSection(r.getContentApplicationId()), r.getSource(), r.getSourceId(), r.getType());
 		}
 	}
-	
+
 	private void persistInlineRelations() {
 		
 		List<Field> fields = fieldService.getFieldsByBodyContaining("<relation ");
@@ -82,7 +73,7 @@ public class AdministratorController {
 			parseBodyFieldAndPersist(f.getContentApplicationId(), f.getField());
 		}
 	}
-	
+
 	private void persistPictureBinaryNames() {
 		
 		List<String> sourceIds = relationCheckService.getDistinctSourceId();
@@ -99,13 +90,13 @@ public class AdministratorController {
 			}
 		}
 	}
-	
-	/**
+
+	/ **
 	 * Persist RelationCheck Entry. All Body Field Relations Are Consider To Have A New Type : INLINE 
 	 * @param contentApplicationId Content's Id
 	 * @param contentType Content's Type
 	 * @param body Body Field
-	 */
+	 * /
 	private void parseBodyFieldAndPersist(Content content, String body) {
 		
 		String input = body;
@@ -124,4 +115,5 @@ public class AdministratorController {
 			relationCheckService.persistRelationCheckEntry(content.getApplicationId(), content.getType(), contentService.getContentHomeSection(content), temporarySource.substring(0, temporarySource.indexOf("\"")), temporarySourceId.substring(0, temporarySourceId.indexOf("\"")), "INLINE");
 		}
 	}
+	*/
 }

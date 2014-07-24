@@ -58,17 +58,20 @@ public class ContentServiceImplementation implements ContentService {
 	}
 	
 	@Override
-	public void mergeContent(Content content) {
+	public void mergeContent(Content content, boolean initialize) {
 		
 		contentDao.merge(content);
 		
-		/*
-		 * Merge All Content's References
-		 */
-		if(content.getSectionRefSet()!=null && !content.getSectionRefSet().isEmpty()) sectionRefDao.mergeContentSectionRefs(content);
-		if(content.getRelationSet()!=null && !content.getRelationSet().isEmpty()) relationDao.mergeContentRelations(content);
-		if(content.getFieldList()!=null && !content.getFieldList().isEmpty()) fieldDao.mergeContentFields(content);
-		if(content.getAuthorSet()!=null && !content.getAuthorSet().isEmpty()) authorDao.mergeContentAuthors(content);
+		if(initialize == true) {
+		
+			/*
+			 * Merge All Content's References
+			 */
+			if(content.getSectionRefSet()!=null && !content.getSectionRefSet().isEmpty()) sectionRefDao.mergeContentSectionRefs(content);
+			if(content.getRelationSet()!=null && !content.getRelationSet().isEmpty()) relationDao.mergeContentRelations(content);
+			if(content.getFieldList()!=null && !content.getFieldList().isEmpty()) fieldDao.mergeContentFields(content);
+			if(content.getAuthorSet()!=null && !content.getAuthorSet().isEmpty()) authorDao.mergeContentAuthors(content);
+		}
 	}
 
 	@Override
@@ -97,6 +100,38 @@ public class ContentServiceImplementation implements ContentService {
 		}
 		
 		return result;
+	}
+	
+	@Override
+	public Field getContentHomeField(Content content) {
+		
+		Field body = null;
+		
+		for(Field f : content.getFieldList()) {
+			
+			if(f.getName().equals("body")) {
+				
+				body = f;
+				break;
+			}
+		}
+		
+		return body;
+	}
+	
+	@Override
+	public String getContentHomeFieldField(Content content) {
+
+		Field field = getContentHomeField(content); 
+		
+		if(field != null) {
+			
+			return field.getField(); 
+		}
+		else {
+		
+			return null;
+		}
 	}
 	
 	@Override

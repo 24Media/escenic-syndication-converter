@@ -248,7 +248,7 @@ public class ContentController {
 
 				contentService.persistContent(c);
 				contentService.handleContentHTMLFields(c, path);	
-				contentService.mergeContent(c);		
+				contentService.mergeContent(c, true);		
 			}
 		}
 		catch (FileNotFoundException exception) {

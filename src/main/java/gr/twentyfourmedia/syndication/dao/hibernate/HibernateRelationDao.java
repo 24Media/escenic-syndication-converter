@@ -10,7 +10,7 @@ import gr.twentyfourmedia.syndication.model.Field;
 import gr.twentyfourmedia.syndication.model.Relation;
 
 @Repository
-public class HibernateRelationDao  extends HibernateAbstractDao<Relation> implements RelationDao {
+public class HibernateRelationDao extends HibernateAbstractDao<Relation> implements RelationDao {
 
 	@Autowired
 	private FieldDao fieldDao;

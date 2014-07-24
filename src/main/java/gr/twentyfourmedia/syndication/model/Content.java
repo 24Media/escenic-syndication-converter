@@ -84,13 +84,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Content {
 
-	private enum Problem {
-		
-		MISSING_BINARIES,
-		MISSING_RELATIONS,
-		DUPLICATE_INLINE_RELATIONS
-	}
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "applicationId")
@@ -217,6 +210,12 @@ public class Content {
 	@XmlElement(name = "relation")
 	private Set<Relation> relationSet;
 	
+	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SELECT)
+	@OrderBy(value = "applicationId ASC")
+	@XmlTransient
+	private Set<RelationInline> relationInlineSet;
+	
 	/**
 	 * Represents one field in a content item or relation. The element's content model appears to allow almost anything, but in practice 
 	 * this is not the case. When importing, the field element content is expected to conform to a field definition identified by the 
@@ -273,9 +272,9 @@ public class Content {
 	private String uri;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name = "problem")
+	@Column(name = "contentProblem")
 	@XmlTransient
-	private Problem problem;
+	private ContentProblem contentProblem;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -433,6 +432,16 @@ public class Content {
 		return relationSet;
 	}
 	
+	public void setRelationInlineSet(Set<RelationInline> relationInlineSet) {
+		
+		this.relationInlineSet = relationInlineSet;
+	}
+	
+	public Set<RelationInline> getRelationInlineSet() {
+		
+		return relationInlineSet;
+	}
+
 	public void setFieldList(List<Field> fieldList) {
 		
 		this.fieldList = fieldList;
@@ -493,14 +502,14 @@ public class Content {
 		return uri;
 	}
 	
-	public void setProblem(Problem problem) {
+	public void setContentProblem(ContentProblem contentProblem) {
 		
-		this.problem = problem;
+		this.contentProblem = contentProblem;
 	}
 	
-	public Problem getProblem() {
+	public ContentProblem getContentProblem() {
 		
-		return problem;
+		return contentProblem;
 	}
 	
 	public void setApplicationDateUpdated(Calendar applicationDateUpdated) {
