@@ -10,5 +10,13 @@ public interface SectionService {
 	
 	void mergeSection(Section section);
 	
+	Section getSectionBySourceId(String sourceId);
+	
+	Section getSectionByUniqueNameElement(String uniqueNameElement);
+	
 	List<Section> getSections();
+	
+	boolean sectionExistsBySourceId(String sourceId);
+	
+	boolean sectionExistsByUniqueNameElement(String uniqueNameElement);
 }

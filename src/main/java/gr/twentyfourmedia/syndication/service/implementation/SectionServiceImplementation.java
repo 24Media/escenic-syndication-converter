@@ -21,7 +21,10 @@ public class SectionServiceImplementation implements SectionService {
 	@Override
 	public void persistSection(Section section) {
 		
-		sectionDao.persist(section);
+		if(!sectionExistsBySourceId(section.getSourceId()) && !sectionExistsByUniqueNameElement(section.getUniqueNameElement())) {
+		
+			sectionDao.persist(section);
+		}
 	}
 
 	@Override
@@ -29,10 +32,34 @@ public class SectionServiceImplementation implements SectionService {
 		
 		sectionDao.merge(section);
 	}
+
+	@Override
+	public Section getSectionBySourceId(String sourceId) {
+		
+		return sectionDao.getBySourceId(sourceId);
+	}	
+	
+	@Override
+	public Section getSectionByUniqueNameElement(String uniqueNameElement) {
+		
+		return sectionDao.getByUniqueNameElement(uniqueNameElement);
+	}
 	
 	@Override
 	public List<Section> getSections() {
 
 		return sectionDao.getAll();
+	}
+
+	@Override
+	public boolean sectionExistsBySourceId(String sourceId) {
+		
+		if(getSectionBySourceId(sourceId) != null) return true; else return false;
+	}	
+	
+	@Override
+	public boolean sectionExistsByUniqueNameElement(String uniqueNameElement) {
+		
+		if(getSectionByUniqueNameElement(uniqueNameElement) != null) return true; else return false;
 	}
 }

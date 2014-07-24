@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -45,6 +47,14 @@ import org.springframework.format.annotation.DateTimeFormat;
  *		<priority/>?
  *	</section>
  */
+@NamedQueries({
+	@NamedQuery(
+			name = "findSectionByUniqueNameElement",
+			query = "FROM Section WHERE uniqueNameElement = :uniqueNameElement"),
+	@NamedQuery(
+			name = "findSectionBySourceId",
+			query = "FROM Section WHERE sourceId = :sourceId")		
+})
 @Entity
 @Table(name = "section")
 @XmlRootElement(name = "section")
