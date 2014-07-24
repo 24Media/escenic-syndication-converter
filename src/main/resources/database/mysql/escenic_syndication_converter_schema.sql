@@ -36,7 +36,24 @@ CREATE TABLE `sectionRef` (
   `homeSection` varchar(5) DEFAULT NULL,
   `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=40451 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=41125 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `relationInline`
+--
+
+DROP TABLE IF EXISTS `relationInline`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `relationInline` (
+  `applicationId` int(11) NOT NULL AUTO_INCREMENT,
+  `contentApplicationId` int(11) NOT NULL,
+  `source` varchar(100) DEFAULT NULL,
+  `sourceId` varchar(100) DEFAULT NULL,
+  `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`applicationId`)
+) ENGINE=InnoDB AUTO_INCREMENT=310 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -57,7 +74,7 @@ CREATE TABLE `parent` (
   `inheritAccessControlList` varchar(5) DEFAULT NULL,
   `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=582 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2906 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,28 +96,7 @@ CREATE TABLE `creator` (
   `emailAddress` varchar(100) DEFAULT NULL,
   `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=28727 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `relationCheck`
---
-
-DROP TABLE IF EXISTS `relationCheck`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `relationCheck` (
-  `applicationId` int(11) NOT NULL AUTO_INCREMENT,
-  `contentApplicationId` int(11) NOT NULL,
-  `contentType` varchar(100) DEFAULT NULL,
-  `contentHomeSection` varchar(100) DEFAULT NULL,
-  `source` varchar(100) DEFAULT NULL,
-  `sourceId` varchar(100) DEFAULT NULL,
-  `relationType` varchar(100) DEFAULT NULL,
-  `pictureBinaryExists` varchar(3) DEFAULT NULL,
-  `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=12043 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=29226 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -132,7 +128,7 @@ CREATE TABLE `section` (
   `priority` int(11) DEFAULT NULL,
   `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=583 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2911 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -155,7 +151,7 @@ CREATE TABLE `author` (
   `emailAddress` varchar(100) DEFAULT NULL,
   `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=27398 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27878 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,7 +172,7 @@ CREATE TABLE `mirrorSource` (
   `uniqueName` varchar(100) DEFAULT NULL,
   `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=308 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1536 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -205,10 +201,10 @@ CREATE TABLE `content` (
   `creator` int(11) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
   `uri` varchar(100) DEFAULT NULL,
-  `problem` varchar(45) DEFAULT NULL,
+  `contentProblem` varchar(45) DEFAULT NULL,
   `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=28728 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29227 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -228,7 +224,7 @@ CREATE TABLE `field` (
   `field` text,
   `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=261898 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=266426 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -249,7 +245,7 @@ CREATE TABLE `relation` (
   `type` varchar(100) DEFAULT NULL,
   `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=14055 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14279 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -261,4 +257,4 @@ CREATE TABLE `relation` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-07-24 14:56:25
+-- Dump completed on 2014-07-24 19:00:58
