@@ -330,4 +330,10 @@ public class ContentServiceImplementation implements ContentService {
         
         if(result!=null && !result.equals("<![CDATA[]]>")) return result; else return null;
     }
+
+	@Override
+	public boolean contentExists(String sourceId) {
+
+		if(getFilteredContent(sourceId) != null) return true; else return false;
+	}
 }

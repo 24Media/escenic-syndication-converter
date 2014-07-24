@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface ContentService {
 
-	//TODO Add Existing Logic to all Persist Methods (Content, Relation, InlineRelation et al.)
-	
 	void persistContent(Content content);
 	
 	void mergeContent(Content content, boolean initialize);
@@ -36,4 +34,6 @@ public interface ContentService {
 	void handleContentHTMLFields(Content content, String path);
 	
 	String getFieldHTMLContent(String path, String htmlField, String contentSourceId, String relationSourceId);
+	
+	boolean contentExists(String sourceId);
 }

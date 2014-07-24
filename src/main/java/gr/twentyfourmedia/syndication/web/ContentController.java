@@ -246,9 +246,12 @@ public class ContentController {
 			
 			for(Content c : escenic.getContentList()) {
 
-				contentService.persistContent(c);
-				contentService.handleContentHTMLFields(c, path);	
-				contentService.mergeContent(c, true);		
+				if(!contentService.contentExists(c.getSourceId())) { //Persist Contents That Do Not Already Exist
+					
+					contentService.persistContent(c);
+					contentService.handleContentHTMLFields(c, path);	
+					contentService.mergeContent(c, true);		
+				}
 			}
 		}
 		catch (FileNotFoundException exception) {
