@@ -10,6 +10,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -81,6 +83,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 @XmlRootElement(name = "content")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Content {
+
+	private enum Problem {
+		
+		MISSING_BINARIES,
+		MISSING_RELATIONS,
+		DUPLICATE_INLINE_RELATIONS
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -262,6 +271,11 @@ public class Content {
 	@Column(name = "uri")
 	@XmlElement(name = "uri")
 	private String uri;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "problem")
+	@XmlTransient
+	private Problem problem;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -477,6 +491,16 @@ public class Content {
 	public String getUri() {
 		
 		return uri;
+	}
+	
+	public void setProblem(Problem problem) {
+		
+		this.problem = problem;
+	}
+	
+	public Problem getProblem() {
+		
+		return problem;
 	}
 	
 	public void setApplicationDateUpdated(Calendar applicationDateUpdated) {
