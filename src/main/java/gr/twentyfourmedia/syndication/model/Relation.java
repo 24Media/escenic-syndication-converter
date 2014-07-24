@@ -53,22 +53,20 @@ public class Relation {
 	private Content contentApplicationId;
 	
 	/**
-	 * The id of the related content item. If this attribute is specified, a content element with an id 
-	 * attribute that matches this attribute must appear somewhere before this relation element in the 
-	 * syndication file. If dbid or source and sourceid are specified, then this attribute is ignored.
+	 * The id of the related content item. If this attribute is specified, a content element with an id attribute that matches this 
+	 * attribute must appear somewhere before this relation element in the syndication file.
 	 */
 	@Column(name = "idRef")
 	@XmlAttribute(name = "id-ref")
 	private String idRef;
 	
 	/**
-	 * The source of the related content item. If this attribute is specified, then sourceid must
-	 * also be specified. One of the following two conditions must be satisfied:
-	 * 		1) The target publication must already contain a content item with source and
- 	 * 		sourceid attributes that match this element's source and sourceid, or
-	 * 		2) A content element with source and sourceid attributes that match source and sourceid 
-	 * 		must appear somewhere before this relation element in the syndication file.
-	 * If dbid is specified, then source and sourceid are ignored.
+	 * The source of the related content item. If this attribute is specified, then sourceid must also be specified. One of the following
+	 * two conditions must be satisfied:
+	 * 	1) The target publication must already contain a content item with source and sourceid attributes that match this element's 
+	 * 	source and sourceid
+	 * 	2) A content element with source and sourceid attributes that match source and sourceid must appear somewhere before this 
+	 * 	relation element in the syndication file.
 	 */
 	@Column(name = "source")
 	@XmlAttribute(name = "source")
@@ -82,13 +80,12 @@ public class Relation {
 	private String sourceId;
 	
 	/**
-	 * The dbid of the related content item. If this attribute is specified, then one of the
-	 * following two conditions must be satisfied:
-	 * 		1) The target publication must already contain a content item with a dbid that matches this attribute, or
-	 * 		2) A content element with a dbid attribute that matches this attribute must appear somewhere before 
-	 * 		this relation element in the syndication file.
-	 * This attribute is never present in syndication files that have been exported from a database. IDs are always 
-	 * written to exported-dbid attributes in exported syndication files.
+	 * The dbid of the related content item. If this attribute is specified, then one of the following two conditions must be satisfied:
+	 * 	1) The target publication must already contain a content item with a dbid that matches this attribute
+	 * 	2) A content element with a dbid attribute that matches this attribute must appear somewhere before this relation element in the 
+	 * 	syndication file.
+	 * This attribute is never present in syndication files that have been exported from a database. IDs are always written to 
+	 * exported-dbid attributes in exported syndication files.
 	 */
 	@Column(name = "dbId")
 	@XmlAttribute(name = "dbid")
@@ -102,9 +99,8 @@ public class Relation {
 	private String exportedDbId;
 	
 	/**
-	 * Defines the type of relation represented by this relation element. For import, the
-	 * value specified must be the name of a relation type as defined in the target publication's
-	 * content-type resource. The value you specify here will determine how the relationship
+	 * Defines the type of relation represented by this relation element. For import, the value specified must be the name of a relation 
+	 * type as defined in the target publication's content-type resource. The value you specify here will determine how the relationship
 	 * defined by this element is presented both in the publication and in Content Studio.
 	 */
 	@Column(name = "type")

@@ -64,32 +64,30 @@ public class Field {
 	private Relation relationApplicationId;
 
 	/**
-	 * Identifies the content item/relation field represented by this field element. For import, the value specified must be 
-	 * the name of one of the fields defined for the content item/relation in the target publication's content-type resource.
-	 * The value you specify here will then determine  what kind of content your field element may have. If, for example, your
-	 * field element has the name "headline" and belongs to a content element with the type "news", then:
-	 * 		1) The content-type resource of the target publication must contain a content-type element with the name "news".
-	 * 		2) The "news" content-type element must contain a field element with the name "headline".
-	 * 		3) The content of your field element must conform to the "headline" field definition in the content-type resource.
+	 * Identifies the content item/relation field represented by this field element. For import, the value specified must be the name of 
+	 * one of the fields defined for the content item/relation in the target publication's content-type resource. The value you specify 
+	 * here will then determine  what kind of content your field element may have. If, for example, your field element has the name 
+	 * "headline" and belongs to a content element with the type "news", then:
+	 * 	1) The content-type resource of the target publication must contain a content-type element with the name "news"
+	 * 	2) The "news" content-type element must contain a field element with the name "headline"
+	 * 	3) The content of your field element must conform to the "headline" field definition in the content-type resource
 	 */
 	@Column(name = "name")
 	@XmlAttribute(name = "name")
 	private String name;
 	
 	/**
-	 * If set to true, then any HTML entities in the field content are expanded during import. 
-	 * If set to false, any entities are retained.
+	 * If set to true, then any HTML entities in the field content are expanded during import. If set to false, any entities are retained
 	 */
 	@Column(name = "expandEntities")
 	@XmlAttribute(name = "expand-entities")
 	private String expandEntities;
 	
 	/**
-	 * A title associated with the field. This attribute is only used for link fields (fields that are
-	 * defined in the content-type resource as having the type "link"). It is used to hold an
-	 * alternative name for the resource referenced in the field. It could be used, for example,
-	 * to contain a descriptive title (e.g "London Bridge") for a link field containing the URL
-	 * of an image file with a cryptic auto-generated name (e.g image-store://places/img099345.jpg).
+	 * A title associated with the field. This attribute is only used for link fields (fields that are defined in the content-type 
+	 * resource as having the type "link"). It is used to hold an alternative name for the resource referenced in the field. It could be 
+	 * used, for example, to contain a descriptive title (e.g "London Bridge") for a link field containing the URL of an image file with 
+	 * a cryptic auto-generated name (e.g image-store://places/img099345.jpg)
 	 */
 	@Column(name = "title")
 	@XmlAttribute(name = "title")

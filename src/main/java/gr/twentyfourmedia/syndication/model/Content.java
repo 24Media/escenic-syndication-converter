@@ -89,34 +89,27 @@ public class Content {
 	private Long applicationId;
 	
 	/**
-	 * A unique identifier for this content element. It is only valid and unique within the
-	 * current syndication file and can be used to enable the establishment of relationships
- 	 * between elements in the file. Other elements in the file have id-ref attributes that can be
-	 * used to reference content elements. If a content element does not have an id attribute
- 	 * then it must have either a dbid attribute or both a source and a sourceid attribute. A
-	 * content element may have several or all of these attributes, in which case any of them
-	 * can be used for establishing relationships. The id attribute is not imported along with content 
-	 * items. Unless a dbid has been specified, all content items are assigned new internal IDs during import.
+	 * A unique identifier for this content element. It is only valid and unique within the current syndication file and can be used to 
+	 * enable the establishment of relationships between elements in the file. Other elements in the file have id-ref attributes that 
+	 * can be used to reference content elements. If a content element does not have an id attribute then it must have either a dbid 
+	 * attribute or both a source and a sourceid attribute. A content element may have several or all of these attributes, in which case 
+	 * any of them can be used for establishing relationships. The id attribute is not imported along with content items. Unless a dbid 
+	 * has been specified, all content items are assigned new internal IDs during import.
 	 */
 	@Column(name = "id")
 	@XmlAttribute(name = "id")
 	private String id;
 	
 	/**
-	 * The name of the system from which this content item originates. Together with the
-	 * sourceid attribute it forms a globally unique external identifier for the content item
-	 * that can be used for establishing relationships between elements in the syndication file.
-	 * Other elements in the file have source and sourceid attributes that can be used for this
-	 * purpose. If this attribute is specified then a sourceid attribute must also be specified.
-	 * If a content element does not have a source and sourceid attribute then it must have
-	 * either a dbid attribute or an id attribute. A content element may have several or all of
-	 * these attributes, in which case any of them can be used for establishing relationships.
-	 * If supplied, source and sourceid are imported and stored with content items. If source
-	 * and sourceid are supplied and dbid is not supplied, then they are used to lookup an
-	 * existing content item. If a content item with matching source and sourceid is found,
-	 * then this content item is updated; otherwise a new content item is created.
-	 * If supplied, source and sourceid are imported and stored when creating new content
-	 * items, but not when updating existing content items.
+	 * The name of the system from which this content item originates. Together with the sourceid attribute it forms a globally unique 
+	 * external identifier for the content item that can be used for establishing relationships between elements in the syndication file.
+	 * Other elements in the file have source and sourceid attributes that can be used for this purpose. If this attribute is specified 
+	 * then a sourceid attribute must also be specified. If a content element does not have a source and sourceid attribute then it must 
+	 * have either a dbid attribute or an id attribute. A content element may have several or all of these attributes, in which case any 
+	 * of them can be used for establishing relationships. If supplied, source and sourceid are imported and stored with content items. 
+	 * If source and sourceid are supplied and dbid is not supplied, then they are used to lookup an existing content item. If a content 
+	 * item with matching source and sourceid is found, then this content item is updated; otherwise a new content item is created.
+	 * If supplied, source and sourceid are imported when creating new content items, but not when updating existing content items.
 	 */
 	@Column(name = "source")
 	@XmlAttribute(name = "source")
@@ -130,22 +123,21 @@ public class Content {
 	private String sourceId;
 	
 	/**
-	 * The internal Content Engine ID of this content item, which can be used when importing updated versions of 
-	 * existing content items. It can also be used for establishing relationships between elements in the syndication 
-	 * file. Other elements in the file have dbid attributes that can be used for this purpose. If a content element 
-	 * does not have a dbid attribute then it must have either a source and sourceid attribute or an id attribute. A content 
-	 * element may have several or all of these attributes, in which case any of them can be used for establishing 
-	 * relationships. You should only use the dbid attribute when importing updated versions of existing content items.
-	 * This attribute is never present in syndication files that have been exported from a database. The ID is always 
-	 * written to the exported-dbid attribute in exported syndication files.
+	 * The internal Content Engine ID of this content item, which can be used when importing updated versions of existing content items. 
+	 * It can also be used for establishing relationships between elements in the syndication file. Other elements in the file have dbid 
+	 * attributes that can be used for this purpose. If a content element does not have a dbid attribute then it must have either a 
+	 * source and sourceid attribute or an id attribute. A content element may have several or all of these attributes, in which case any
+	 * of them can be used for establishing relationships. You should only use the dbid attribute when importing updated versions of 
+	 * existing content items. This attribute is never present in syndication files that have been exported from a database. The ID is 
+	 * always written to the exported-dbid attribute in exported syndication files.
 	 */
 	@Column(name = "dbId")
 	@XmlAttribute(name = "dbid")
 	private String dbId;
 	
 	/**
-	 * The internal Content Engine ID of this content item, which can be used to identify the content item in the database 
-	 * from which it was exported. This attribute is generated during export, but ignored during import.
+	 * The internal Content Engine ID of this content item, which can be used to identify the content item in the database from which it 
+	 * was exported. This attribute is generated during export, but ignored during import.
 	 */
 	@Column(name = "exportedDbId")
 	@XmlAttribute(name = "exported-dbid")
@@ -159,9 +151,9 @@ public class Content {
 	private String state;
 	
 	/**
-	 * Defines the type of content item represented by this content element. For import, the value specified must be 
-	 * the name of a content type as defined in the target publication's content-type resource. The value you specify 
-	 * here will then determine what kind of field elements the content element may own
+	 * Defines the type of content item represented by this content element. For import, the value specified must be the name of a content 
+	 * type as defined in the target publication's content-type resource. The value you specify here will then determine what kind of 
+	 * field elements the content element may own
 	 */
 	@Column(name = "type")
 	@XmlAttribute(name = "type")
@@ -175,8 +167,7 @@ public class Content {
 	private String publishDate;
 	
 	/**
-	 * If this attribute is set to true when re-importing an existing content 
-	 * item, then all the content item's existing relations are deleted.
+	 * If this attribute is true when re-importing an existing content item, then all the content item's existing relations are deleted
 	 */
 	@Column(name = "deleteRelations")
 	@XmlAttribute(name = "delete-relations")
@@ -197,10 +188,9 @@ public class Content {
 	private String expireDate;
 	
 	/**
-	 * The date this content item was created. If specified, this attribute is used when importing
-	 * new content items that do not already exist in the database. It is, however, ignored when
-	 * importing updates to content items that already exist. If it is omitted when importing a
-	 * new content item, then the new content item's creation date is set to the current date
+	 * The date this content item was created. If specified, this attribute is used when importing new content items that do not already 
+	 * exist in the database. It is, however, ignored when importing updates to content items that already exist. If it is omitted when 
+	 * importing a new content item, then the new content item's creation date is set to the current date
 	 */
 	@Column(name = "creationDate")
 	@XmlAttribute(name = "creationdate")
@@ -219,10 +209,9 @@ public class Content {
 	private Set<Relation> relationSet;
 	
 	/**
-	 * Represents one field in a content item or relation. The element's content model appears
-	 * to allow almost anything, but in practice this is not the case. When importing, the field
-	 * element content is expected to conform to a field definition identified by the name attribute,
-	 * and will fail to be imported if this is not the case.
+	 * Represents one field in a content item or relation. The element's content model appears to allow almost anything, but in practice 
+	 * this is not the case. When importing, the field element content is expected to conform to a field definition identified by the 
+	 * name attribute, and will fail to be imported if this is not the case.
 	 */
 	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SELECT)
@@ -230,8 +219,8 @@ public class Content {
 	private List<Field> fieldList;
 	
 	/**
-	 * When importing a content item that already exists in the target publication, you can use this
-	 * element to update the content item's source and source ID references
+	 * When importing a content item that already exists in the target publication, you can use this element to update the content 
+	 * item's source and source ID references
 	 */
 	@Embedded
 	@AttributeOverrides({
@@ -249,10 +238,10 @@ public class Content {
 	private Set<Author> authorSet;
 	
 	/**
-	 * A reference to the creator of a content item. Content item authors are themselves represented by person objects. 
-	 * A person object is a special type of content item containing the fields needed to hold the usual kinds of personal 
-	 * details (name, phone number, email address and so on). A creator element must therefore contain a reference to a 
-	 * person object in the publication or a person element in the syndication file.
+	 * A reference to the creator of a content item. Content item authors are themselves represented by person objects. A person object 
+	 * is a special type of content item containing the fields needed to hold the usual kinds of personal details (name, phone number, 
+	 * email address and so on). A creator element must therefore contain a reference to a person object in the publication or a person 
+	 * element in the syndication file.
 	 */
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "creator", referencedColumnName = "applicationId", nullable = true)

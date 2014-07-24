@@ -48,23 +48,21 @@ public class MirrorSource {
 	private Section section;
 	
 	/**
-	 * The id of the section this section is to mirror. If this attribute is specified, a section element
-	 * with an id attribute that matches this attribute must appear somewhere before this mirror-source
-	 * element in the syndication file. The referenced section element must have its mirror-source attribute 
-	 * set to true. If dbid or source and sourceid are specified, then this attribute is ignored
+	 * The id of the section this section is to mirror. If this attribute is specified, a section element with an id attribute that 
+	 * matches this attribute must appear somewhere before this mirror-source element in the syndication file. The referenced section 
+	 * element must have its mirror-source attribute set to true
 	 */
 	@XmlAttribute(name = "id-ref")
 	private String idRef;
 	
 	/**
-	 * The source of the section this section is to mirror. If this attribute is specified, then
-	 * sourceid must also be specified. One of the following two conditions must be satisfied:
-	 * 		1) The target publication must already contain a mirrorable section with source and
-	 *		sourceid attributes that match source and sourceid , or
-	 * 		2) A section element with source and sourceid attributes that match source and
-	 *		sourceid must appear somewhere before this mirror-source element in the syndication file. 
-	 * 		The referenced section element must have its mirror-source attribute set to true.
-	 * If dbid is specified, then source and sourceid are ignored.
+	 * The source of the section this section is to mirror. If this attribute is specified, then sourceid must also be specified. One of 
+	 * the following two conditions must be satisfied:
+	 * 	1) The target publication must already contain a mirrorable section with source and sourceid attributes that match source and 
+	 * 	sourceid
+	 * 	2) A section element with source and sourceid attributes that match source and sourceid must appear somewhere before this 
+	 * 	mirror-source element in the syndication file. 
+	 * The referenced section element must have its mirror-source attribute set to true.
 	 */
 	@XmlAttribute(name = "source")
 	private String source;
@@ -76,13 +74,11 @@ public class MirrorSource {
 	private String sourceId;
 	
 	/**
-	 * The dbid of the section this section is to mirror. If this attribute is specified then one of
-	 * the following two conditions must be satisfied:
-	 * 		1) The target publication must already contain a mirrorable section with a dbid
-	 * 		attribute that matches this attribute, or
-	 * 		2) A section element with a dbid attribute that matches this attribute must appear somewhere 
-	 * 		before this mirror-source element in the syndication file. The referenced section element must 
-	 * 		have its mirror-source attribute set to true.
+	 * The dbid of the section this section is to mirror. If this attribute is specified then one of the following two conditions must 
+	 * be satisfied:
+	 * 	1) The target publication must already contain a mirrorable section with a dbid attribute that matches this attribute
+	 *	2) A section element with a dbid attribute that matches this attribute must appear somewhere before this mirror-source element 
+	 *	in the syndication file. The referenced section element must have its mirror-source attribute set to true.
 	 */
 	@XmlAttribute(name = "dbid")
 	private String dbId;
@@ -101,15 +97,13 @@ public class MirrorSource {
 	private String publicationName;
 	
 	/**
-	 * The unique-name or name of the section this section is to mirror. If this attribute is
-	 * specified, then one of the following conditions must be satisified:
-	 * 		1) The target publication must already contain a mirrorable section with a uniquename
-	 *		or name attribute that matches this attribute, or
-	 * 		2) A section element with a unique-name or name attribute that matches this attribute
-	 * 		must appear somewhere before this mirror-source element in the syndication file.
-	 * 		The referenced section element must have its mirror-source attribute set to true.
-	 * If this is not the case, or if there is a matching name attribute but it is not unique, then
-	 * import will fail. If dbid or source and sourceid or id are specified, then this attribute is ignored.
+	 * The unique-name or name of the section this section is to mirror. If this attribute is specified, then one of the following 
+	 * conditions must be satisified:
+	 * 	1) The target publication must already contain a mirrorable section with a uniquename or name attribute that matches this 
+	 * 	attribute
+	 * 	2) A section element with a unique-name or name attribute that matches this attribute must appear somewhere before this 
+	 * 	mirror-source element in the syndication file. The referenced section element must have its mirror-source attribute set to true.
+	 * If this is not the case, or if there is a matching name attribute but it is not unique, then import will fail
 	 */
 	@XmlAttribute(name = "unique-name")
 	private String uniqueName;

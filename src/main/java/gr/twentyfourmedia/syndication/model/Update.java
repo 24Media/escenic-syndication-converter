@@ -24,7 +24,7 @@ public class Update {
 	private String newSource;
 	
 	/**
-	 * The new source ID to be assigned to the content item in the target publication
+	 * The new source id to be assigned to the content item in the target publication
 	 */
 	@XmlAttribute(name = "new-sourceid")
 	private String newSourceId;

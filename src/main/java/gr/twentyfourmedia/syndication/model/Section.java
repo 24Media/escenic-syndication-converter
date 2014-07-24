@@ -58,29 +58,25 @@ public class Section {
 	private Long applicationId;
 	
 	/**
-	 * A unique identifier for this section element. It is only valid and unique within the
-	 * current syndication file and can be used to enable the establishment of relationships
-	 * between elements in the file. Other elements in the file have id-ref attributes that can be
-	 * used to reference section elements.The id attribute is not imported along with sections. 
-	 * Unless a dbid has been specified, all sections are assigned new internal IDs during import
+	 * A unique identifier for this section element. It is only valid and unique within the current syndication file and can be used 
+	 * to enable the establishment of relationships between elements in the file. Other elements in the file have id-ref attributes 
+	 * that can be used to reference section elements.The id attribute is not imported along with sections. Unless a dbid has been 
+	 * specified, all sections are assigned new internal IDs during import
 	 */
 	@Column(name = "id")
 	@XmlAttribute(name = "id")
 	private String id;
 	
 	/**
-	 * The name of the system from which this section originates. Together with the sourceid
-	 * attribute it forms a globally unique external identifier for the section that can be used
-	 * for establishing relationships between elements in the syndication file. If
-	 * this attribute is specified then a sourceid attribute must also be specified. If a section
-	 * element does not have a source and sourceid attribute then it must have either a
-	 * dbid attribute or an id attribute. A section element may have several or all of these
-	 * attributes, in which case any of them can be used for establishing relationships.
-	 * If supplied, source and sourceid are imported and stored with sections. If source and
-	 * sourceid are supplied and dbid is not supplied, then they are used to lookup an existing
-	 * section. If a section with matching source and sourceid is found, then this section is
-	 * updated; otherwise a new section is created. If supplied, source and sourceid are imported 
-	 * and stored when creating new sections, but not when updating existing sections.
+	 * The name of the system from which this section originates. Together with the sourceid attribute it forms a globally unique 
+	 * external identifier for the section that can be used for establishing relationships between elements in the syndication file. If
+	 * this attribute is specified then a sourceid attribute must also be specified. If a section element does not have a source and 
+	 * sourceid attribute then it must have either a dbid attribute or an id attribute. A section element may have several or all of 
+	 * these attributes, in which case any of them can be used for establishing relationships. If supplied, source and sourceid are 
+	 * imported and stored with sections. If source and sourceid are supplied and dbid is not supplied, then they are used to lookup an 
+	 * existing section. If a section with matching source and sourceid is found, then this section is updated; otherwise a new section 
+	 * is created. If supplied, source and sourceid are imported and stored when creating new sections, but not when updating existing 
+	 * sections.
 	 */
 	@Column(name = "source")
 	@XmlAttribute(name = "source")
@@ -94,20 +90,18 @@ public class Section {
 	private String sourceId;
 	
 	/**
-	 * The internal Content Engine ID of this section, which can be used when importing
-	 * updated versions of existing content items. It can also be used for establishing
-	 * relationships between elements in the syndication file. You should only use the 
-	 * dbid attribute when importing updated versions of existing sections. This attribute 
-	 * is never present in syndication files that have been exported from a database. 
-	 * The ID is always written to the exported-dbid attribute in exported syndication files.
+	 * The internal Content Engine ID of this section, which can be used when importing updated versions of existing content items. It 
+	 * can also be used for establishing relationships between elements in the syndication file. You should only use the dbid attribute 
+	 * when importing updated versions of existing sections. This attribute is never present in syndication files that have been exported
+	 * from a database. The ID is always written to the exported-dbid attribute in exported syndication files.
 	 */
 	@Column(name = "dbId")
 	@XmlAttribute(name = "dbid")
 	private String dbId;
 	
 	/**
-	 * The internal Content Engine ID of this section, which can be used to identify the section in the
-	 * database from which it was exported. This attribute is generated during export but ignored during import.
+	 * The internal Content Engine ID of this section, which can be used to identify the section in the database from which it was 
+	 * exported. This attribute is generated during export but ignored during import.
 	 */
 	@Column(name = "exportedDbId")
 	@XmlAttribute(name = "exported-dbid")
@@ -121,16 +115,13 @@ public class Section {
 	private String name;
 	
 	/**
-	 * The unique-name or name of an existing section to be updated. You can only use this
-	 * attribute for look-up purposes, not for setting a section's unique name. To set the 
-	 * unique name of a section you are creating or updating, use the child unique-name element. 
-	 * If this attribute is specified, then one of the following conditions must be satisified:
-	 * 		1) The target publication must already contain a section with a uniquename or name 
-	 * 		attribute that matches this attribute, or
-	 * 		2) A section element with a unique-name or name attribute that matches this attribute 
-	 * 		must appear somewhere before this section element in the syndication file.
-	 * If this is not the case, or if there is a matching name attribute but it is not unique, then
-	 * import will fail. If dbid or source and sourceid or id are specified, then this attribute is ignored.
+	 * The unique-name or name of an existing section to be updated. You can only use this attribute for look-up purposes, not for 
+	 * setting a section's unique name. To set the unique name of a section you are creating or updating, use the child unique-name 
+	 * element. If this attribute is specified, then one of the following conditions must be satisified:
+	 * 	1) The target publication must already contain a section with a uniquename or name attribute that matches this attribute
+	 *	2) A section element with a unique-name or name attribute that matches this attribute must appear somewhere before this section 
+	 *	element in the syndication file.
+	 * If this is not the case, or if there is a matching name attribute but it is not unique, then import will fail.
 	 */
 	@Column(name = "uniqueNameAttribute")
 	@XmlAttribute(name = "unique-name")
@@ -144,10 +135,10 @@ public class Section {
 	private String mirrorSourceAttribute;
 	
 	/**
-	 * Used to specify that the section referenced by this element's parent section is to be deleted
-	 * from the target publication. The section can only be deleted if either: recursive is set to true OR
-	 * Both of the following conditions are satisfied: 1) It contains no child sections or move-sections is set 
-	 * to true AND 2) It is not the home section of any content items or delete-content is set to true
+	 * Used to specify that the section referenced by this element's parent section is to be deleted from the target publication. The 
+	 * section can only be deleted if either: recursive is set to true OR Both of the following conditions are satisfied: 1) It contains 
+	 * no child sections or move-sections is set to true AND 2) It is not the home section of any content items or delete-content is set 
+	 * to true
 	 */
 	@Embedded
 	@AttributeOverrides({
@@ -167,9 +158,8 @@ public class Section {
 	private Parent parent;
 	
 	/**
-	 * A reference to a section that this element's owning section is to mirror. The owning section
-	 * has no content of its own, but just mirrors the content of the section referenced here. The
-	 * owning section's mirror-source attribute may not be set to true .
+	 * A reference to a section that this element's owning section is to mirror. The owning section has no content of its own, but just 
+	 * mirrors the content of the section referenced here. The owning section's mirror-source attribute may not be set to true .
 	 */
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "mirrorSourceElement", referencedColumnName = "applicationId", nullable = true)

@@ -58,24 +58,20 @@ public class SectionRef {
 	private Content contentApplicationId;
 	
 	/**
-	 * The id of the section to which the content item represented by the owning content
-	 * element belongs/is to be added. If this attribute is specified, a section element with an
-	 * id attribute that matches this attribute must appear somewhere before this section-ref element 
-	 * in the syndication file. If dbid or source and sourceid are specified, then this attribute is ignored.
+	 * The id of the section to which the content item represented by the owning content element belongs/is to be added. If this 
+	 * attribute is specified, a section element with an id attribute that matches this attribute must appear somewhere before this 
+	 * section-ref element in the syndication file.
 	 */
 	@Column(name = "idRef")
 	@XmlAttribute(name = "id-ref")
 	private String idRef;
 	
 	/**
-	 * The source of the section to which the content item represented by the owning content
-	 * element belongs/is to be added. If this attribute is specified, then sourceid must also be
-	 * specified. One of the following two conditions must be satisfied:
-	 * 		1) The target publication must already contain a section with source and sourceid
-	 *		attributes that match source and sourceid, or
-	 * 		2) A section element with source and sourceid attributes that match source
-	 * 		and sourceid must appear somewhere before this section-ref element in the syndication file.
-	 * If dbid is specified, then source and sourceid are ignored.
+	 * The source of the section to which the content item represented by the owning content element belongs/is to be added. If this 
+	 * attribute is specified, then sourceid must also be specified. One of the following two conditions must be satisfied:
+	 * 	1) The target publication must already contain a section with source and sourceid attributes that match source and sourceid 
+	 * 	2) A section element with source and sourceid attributes that match source and sourceid must appear somewhere before this 
+	 * 	section-ref element in the syndication file.
 	 */
 	@Column(name = "source")
 	@XmlAttribute(name = "source")
@@ -89,26 +85,23 @@ public class SectionRef {
 	private String sourceId;
 	
 	/**
-	 * The dbid of the section to which the content item represented by the owning contentelement belongs/is 
-	 * to be added. If this attribute is specified then one of the following two conditions must be satisfied:
-	 * 		1) The target publication must already contain a section with a dbid that matches this attribute, or
-	 * 		2) A section element with a dbid attribute that matches this attribute must appear somewhere before 
-	 * 		this section-ref element in the syndication file.
+	 * The dbid of the section to which the content item represented by the owning contentelement belongs/is  to be added. If this 
+	 * attribute is specified then one of the following two conditions must be satisfied:
+	 * 	1) The target publication must already contain a section with a dbid that matches this attribute, or
+	 * 	2) A section element with a dbid attribute that matches this attribute must appear somewhere before this section-ref element in 
+	 * 	the syndication file.
 	 */
 	@Column(name = "dbId")
 	@XmlAttribute(name = "dbid")
 	private String dbId;
 	
 	/**
-	 * The unique-name or name of the section to which the content item represented by the
-	 * owning content element belongs/is to be added. If this attribute is specified, then one of
-	 * the following conditions must be satisified:
-	 * 		1) The target publication must already contain a section with a uniquename or name
-	 * 		attribute that matches this attribute, or
-	 * 		2) A section element with a unique-name or name attribute that matches this attribute
-	 *		must appear somewhere before this section-ref element in the syndication file.
-	 * If this is not the case, or if there is a matching name attribute but it is not unique, then import will fail.
-	 * If dbid or source and sourceid or id are specified, then this attribute is ignored.
+	 * The unique-name or name of the section to which the content item represented by the owning content element belongs/is to be 
+	 * added. If this attribute is specified, then one of the following conditions must be satisified:
+	 * 	1) The target publication must already contain a section with a uniquename or name attribute that matches this attribute
+	 * 	2) A section element with a unique-name or name attribute that matches this attribute must appear somewhere before this 
+	 * 	section-ref element in the syndication file.
+	 * If this is not the case, or if there is a matching name attribute but it is not unique, then import will fail
 	 */
 	@Column(name = "uniqueName")
 	@XmlAttribute(name = "unique-name")

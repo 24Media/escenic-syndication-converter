@@ -47,22 +47,20 @@ public class Creator {
 	private Content content;
 	
 	/**
-	 * The id of the creator. If this attribute is specified, a person element with an id attribute
-	 * that matches this attribute must appear somewhere before this creator element in the syndication 
-	 * file. If dbid or source and sourceid are specified, then this attribute is ignored
+	 * The id of the creator. If this attribute is specified, a person element with an id attribute that matches this attribute must 
+	 * appear somewhere before this creator element in the syndication file.
 	 */
 	@Column(name = "idRef")
 	@XmlAttribute(name = "id-ref")
 	private String idRef;
 	
 	/**
-	 * The source of the creator. If this attribute is specified, then sourceid must also be
-	 * specified. One of the following two conditions must be satisfied:
-	 * 		1) The target publication must already contain a "person" content item with source and
-	 * 		sourceid attributes that match this element's source and sourceid , or
-	 * 		2) A person element with source and sourceid attributes that match source and sourceid 
-	 * 		must appear somewhere before this creator element in the syndication file.
-	 * If dbid is specified, then source and sourceid are ignored.
+	 * The source of the creator. If this attribute is specified, then sourceid must also be specified. One of the following two 
+	 * conditions must be satisfied:
+	 * 	1) The target publication must already contain a "person" content item with source and sourceid attributes that match this 
+	 *  element's source and sourceid
+	 * 	2) A person element with source and sourceid attributes that match source and sourceid must appear somewhere before this creator 
+	 * 	element in the syndication file.
 	 */
 	@Column(name = "source")
 	@XmlAttribute(name = "source")
@@ -77,8 +75,8 @@ public class Creator {
 	
 	/**
 	 * The dbid of the creator. If this attribute is specified, then one of the following two conditions must be satisfied:
-	 * 		1) The target publication must already contain a "person" item with a dbid attribute that matches this attribute, or
-	 *		2) A person with a dbid attribute that matches this attribute must appear somewhere before this element in the syndication file.
+	 * 	1) The target publication must already contain a "person" item with a dbid attribute that matches this attribute
+	 *	2) A person with a dbid attribute that matches this attribute must appear somewhere before this element in the syndication file
 	 */
 	@Column(name = "dbId")
 	@XmlAttribute(name = "dbid")
@@ -86,17 +84,16 @@ public class Creator {
 	
 	/**
 	 * The first name of the this creator. If this attribute is specified, then one of the following two conditions must be satisfied:
-	 *		1) The target publication must already contain a "person" content item with a firstname field that matches this attribute, or
-	 * 		2) A person with a firstName child that matches this attribute must appear somewhere before this creator in the syndication file.
+	 *	1) The target publication must already contain a "person" content item with a firstname field that matches this attribute, or
+	 * 	2) A person with a firstName child that matches this attribute must appear somewhere before this creator in the syndication file.
 	 * Using the firstname attribute on its own is not recommended; you should use it in combination with the surname attribute.
-	 * If dbid or source and sourceid or id-ref are specified, then this attribute is ignored.
 	 */
 	@Column(name = "firstName")
 	@XmlAttribute(name = "first-name")
 	private String firstName;
 	
 	/**
-	 * Using the surname attribute on its own is not recommended; you should use it in combination with the firstname attribute.
+	 * Using the surname attribute on its own is not recommended; you should use it in combination with the firstname attribute
 	 */
 	@Column(name = "lastName")
 	@XmlAttribute(name = "last-name")
@@ -104,9 +101,8 @@ public class Creator {
 
 	/**
 	 * The username of the this creator. If this attribute is specified, then one of the following two conditions must be satisfied:
-	 * 		1) The target publication must already contain a "person" content item with a username field that matches this attribute, or
-	 * 		2) A person with a username that matches this attribute must appear somewhere before this creator in the syndication file.
-	 * If dbid or source and sourceid or id-ref are specified, then this attribute is ignored.
+	 * 	1) The target publication must already contain a "person" content item with a username field that matches this attribute
+	 * 	2) A person with a username that matches this attribute must appear somewhere before this creator in the syndication file.
 	 */
 	@Column(name = "userName")
 	@XmlAttribute(name = "username")
@@ -114,9 +110,8 @@ public class Creator {
 	
 	/**
 	 * The email of the this creator. If this attribute is specified, then one of the following two conditions must be satisfied:
-	 * 		1) The target publication must already contain a "person" content item with a email field that matches this attribute, or
-	 * 		2) A person with a email-address that matches this attribute must appear somewhere before this creator in the syndication file.
-	 * If dbid or source and sourceid or id-ref are specified, then this attribute is ignored.
+	 *	1) The target publication must already contain a "person" content item with a email field that matches this attribute
+	 *	2) A person with a email-address that matches this attribute must appear somewhere before this creator in the syndication file
 	 */
 	@Column(name = "emailAddress")
 	@XmlAttribute(name = "email-address")
