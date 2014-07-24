@@ -93,9 +93,12 @@ public class SectionController {
 	        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 	        escenic = (Escenic) unmarshaller.unmarshal(source);	
 			
-			for(Section e : escenic.getSectionList()) {
+			for(Section s : escenic.getSectionList()) { //Persist Sections That Do Not Already Exist
 
-				sectionService.persistSection(e);
+				if(!sectionService.sectionExistsBySourceId(s.getSourceId()) && !sectionService.sectionExistsByUniqueNameElement(s.getUniqueNameElement())) {
+
+					sectionService.persistSection(s);
+				}
 			}
 		}
 		catch (FileNotFoundException exception) {

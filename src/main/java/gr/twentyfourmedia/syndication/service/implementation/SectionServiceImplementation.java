@@ -21,10 +21,7 @@ public class SectionServiceImplementation implements SectionService {
 	@Override
 	public void persistSection(Section section) {
 		
-		if(!sectionExistsBySourceId(section.getSourceId()) && !sectionExistsByUniqueNameElement(section.getUniqueNameElement())) {
-		
-			sectionDao.persist(section);
-		}
+		sectionDao.persist(section);
 	}
 
 	@Override
