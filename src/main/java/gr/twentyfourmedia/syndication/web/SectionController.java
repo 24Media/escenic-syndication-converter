@@ -19,6 +19,7 @@ import javax.xml.transform.stream.StreamSource;
 import gr.twentyfourmedia.syndication.model.Escenic;
 import gr.twentyfourmedia.syndication.model.Section;
 import gr.twentyfourmedia.syndication.service.SectionService;
+import gr.twentyfourmedia.syndication.utilities.CustomException;
 
 import org.eclipse.persistence.oxm.CharacterEscapeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,9 +78,9 @@ public class SectionController {
 	}
 	
 	@RequestMapping(value = "unmarshall")
-	public String unmarshall(Model model) {
+	public String unmarshall(Model model) throws Exception {
 		
-		String path = System.getProperty("filepath.syndicationFiles") + "/read/Section_Import.xml";
+		String path = System.getProperty("filepath.syndicationFiles") + "/read/Sections_Import.xml";
 		
 		FileInputStream inputStream;
 		
@@ -103,11 +104,7 @@ public class SectionController {
 		}
 		catch (FileNotFoundException exception) {
 			
-			exception.printStackTrace();
-		}
-		catch (JAXBException exception) {
-			
-			exception.printStackTrace();
+			throw new CustomException("${syndicationFiles}/read/Sections_Import.xml File Does Not Exist");
 		}
 		
 		return "/home";

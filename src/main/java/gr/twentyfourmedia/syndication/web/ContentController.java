@@ -4,6 +4,7 @@ import gr.twentyfourmedia.syndication.model.Content;
 import gr.twentyfourmedia.syndication.model.Escenic;
 import gr.twentyfourmedia.syndication.service.ContentService;
 import gr.twentyfourmedia.syndication.service.FieldService;
+import gr.twentyfourmedia.syndication.utilities.CustomException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -229,13 +230,14 @@ public class ContentController {
 	}	
 
 	@RequestMapping(value = "unmarshall")
-	public String unmarshall(Model model) {
+	public String unmarshall(Model model) throws Exception {
 		
-		String path = System.getProperty("filepath.syndicationFiles") + "/read/Contents_Input.xml";
+		String path = System.getProperty("filepath.syndicationFiles") + "/read/Contents_Import.xml";
 		
 		FileInputStream inputStream;
 		
 		try {
+			
 			inputStream = new FileInputStream(new File(path));
 			StreamSource source = new StreamSource(inputStream);
 			
@@ -256,11 +258,7 @@ public class ContentController {
 		}
 		catch (FileNotFoundException exception) {
 			
-			exception.printStackTrace();
-		}
-		catch (JAXBException exception) {
-			
-			exception.printStackTrace();
+			throw new CustomException("${syndicationFiles}/read/Contents_Import.xml File Does Not Exist");
 		}
 		
 		return "/home";
