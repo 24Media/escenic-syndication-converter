@@ -166,6 +166,12 @@ public class ContentServiceImplementation implements ContentService {
 	}
 	
 	@Override
+	public List<Content> getFilteredContentsWithRelationsInline() {
+	
+		return contentDao.getFilteredWithRelationsInline();
+	}
+	
+	@Override
 	public List<Content> getContentsByTypeAndHomeSections(String type, List<String> homeSections) {
 		
 		List<Content> contentList = new ArrayList<Content>();

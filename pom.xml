@@ -17,6 +17,7 @@
 		<commons-io-version>2.4</commons-io-version>
 		<eclipse-moxy-version>2.5.1</eclipse-moxy-version>
 		<log4j-version>1.2.15</log4j-version>
+		<jsoup-version>1.7.2</jsoup-version>
 		<dom4j-version>1.6.1</dom4j-version>
 		<jaxen-version>1.1.1</jaxen-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
@@ -89,6 +90,12 @@
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>org.eclipse.persistence.moxy</artifactId>
 			<version>${eclipse-moxy-version}</version>
+		</dependency>
+		<!-- jsoup Library -->
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>${jsoup-version}</version>
 		</dependency>
 		<!-- Dom4J Libraries -->
 		<dependency>

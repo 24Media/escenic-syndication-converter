@@ -73,7 +73,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 			query = "FROM Content WHERE sourceId = :sourceId"),
 	@NamedQuery(
 			name = "findContentsByType",
-			query = "FROM Content WHERE type = :type")
+			query = "FROM Content WHERE type = :type"),
+	@NamedQuery(
+			name = "findContentsWithRelationsInline",
+			query = "FROM Content c WHERE c.relationInlineSet IS NOT EMPTY")			
 })
 @FilterDefs({
     @FilterDef(name = "excludeAuthors")

@@ -43,4 +43,13 @@ public class HibernateContentDao extends HibernateAbstractDao<Content> implement
 		query.setParameter("type", type);
 		return (List<Content>) query.list();
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Content> getFilteredWithRelationsInline() {
+
+		getSession().enableFilter("excludeAuthors");
+		Query query = getSession().getNamedQuery("findContentsWithRelationsInline");
+		return (List<Content>) query.list();
+	}
 }

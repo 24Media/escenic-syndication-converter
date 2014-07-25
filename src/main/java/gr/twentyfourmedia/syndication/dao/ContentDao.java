@@ -13,4 +13,6 @@ public interface ContentDao extends AbstractDao<Content> {
 	List<Content> getFiltered();
 	
 	List<Content> getFilteredByType(String type);
+	
+	List<Content> getFilteredWithRelationsInline();
 }

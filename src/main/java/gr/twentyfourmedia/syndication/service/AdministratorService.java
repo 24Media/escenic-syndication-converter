@@ -10,4 +10,8 @@ public interface AdministratorService {
 	void parseInlineRelations();
 	
 	Set<RelationInline> parseBodyPersistRelationsInline(Content content, String body);
+	
+	void parseRSSFeedPersistAnchors(String search);
+	
+	String getUrlContent(Long publicationId, Long articleId, String ident);
 }
