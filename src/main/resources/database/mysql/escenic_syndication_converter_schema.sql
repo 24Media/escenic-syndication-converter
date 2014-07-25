@@ -51,9 +51,10 @@ CREATE TABLE `relationInline` (
   `contentApplicationId` int(11) NOT NULL,
   `source` varchar(100) DEFAULT NULL,
   `sourceId` varchar(100) DEFAULT NULL,
+  `problem` varchar(45) DEFAULT NULL,
   `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=310 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=646 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -201,7 +202,7 @@ CREATE TABLE `content` (
   `creator` int(11) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
   `uri` varchar(100) DEFAULT NULL,
-  `contentProblem` varchar(45) DEFAULT NULL,
+  `problem` varchar(45) DEFAULT NULL,
   `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicationId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=29227 DEFAULT CHARSET=utf8;
@@ -257,4 +258,4 @@ CREATE TABLE `relation` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-07-24 19:00:58
+-- Dump completed on 2014-07-25 19:06:08

@@ -275,7 +275,7 @@ public class Content {
 	private String uri;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name = "contentProblem")
+	@Column(name = "problem")
 	@XmlTransient
 	private ContentProblem contentProblem;
 	
