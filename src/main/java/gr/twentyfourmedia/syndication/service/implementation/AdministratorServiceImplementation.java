@@ -118,10 +118,7 @@ public class AdministratorServiceImplementation implements AdministratorService 
 		
 		for(Content c : contents) {
 			
-			Long articleId = Long.valueOf(c.getUri().replaceAll("article", "").replaceAll(".ece", ""));
-			String content = getContentFromRSSFeed(publicationId, articleId, ident);
-			
-			if(content != null) parseBodyPersistAnchorsInline(c, content);
+			parseBodyPersistAnchorsInline(c, publicationId, ident);
 		}
 	}
 	
@@ -157,29 +154,49 @@ public class AdministratorServiceImplementation implements AdministratorService 
 	}
 
 	/**
-	 * Parse Content's Body Field And Persist Possible Inline Anchors
-	 * @param contentEntity Content
-	 * @param contentString Content As Read From RSS Feed
+	 * Parse Content's Body Field As Read From RSS Feed and Persist Possible Inline Anchors
+	 * @param content Content
+	 * @param publicationId Content's Publication Id
+	 * @param ident Ident
 	 */
 	@Override
-	public void parseBodyPersistAnchorsInline(Content contentEntity, String contentString) {
+	public void parseBodyPersistAnchorsInline(Content content, int publicationId, String ident) {
 
-		Document document = Jsoup.parse(contentString.replaceAll("&lt;", "<").replaceAll("&gt;", ">")); //jsoup Won't Recognize HTML Anchors If Characters Don't Get Replaced
-				
-		Elements links = document.getElementsByTag("a");
+		Long articleId = Long.valueOf(content.getUri().replaceAll("article", "").replaceAll(".ece", ""));
 		
-		for(Element link : links) {
+		Document document;
+		
+		try {
 			
-			AnchorInline anchorInline = new AnchorInline();
-			anchorInline.setContentApplicationId(contentEntity);
-			anchorInline.setHref(link.attr("href"));
-			anchorInline.setTarget(link.attr("target")); //TODO Null In Database
-			anchorInline.setText(link.text());
-			
-			anchorInlineService.persistAnchorInline(anchorInline);
-		}
-	}		
+			document = Jsoup.connect("http://feeds.24media.gr/feed/article/?publicationId=" + publicationId + "&articleId=" + articleId + "&ident=" + ident).get();
 
+			//Escaping of '<' and '>' Characters In Needed, Otherwise Jsoup Won't Recognize HTML Tags
+			Element body = Jsoup.parse(	document
+					.select("content")
+					.first()
+					.text()
+					.replaceAll("&lt;", "<")
+					.replaceAll("&gt;", ">"));
+
+			Elements links = body.getElementsByTag("a");
+
+			for(Element link : links) {
+			
+				AnchorInline anchorInline = new AnchorInline();
+				anchorInline.setContentApplicationId(content);
+				anchorInline.setHref(link.attr("href"));
+				anchorInline.setTarget(link.attr("target")); //TODO Null In Database
+				anchorInline.setText(link.text());
+				
+				anchorInlineService.persistAnchorInline(anchorInline);
+			}
+		}
+		catch(IOException exception) {
+			
+			exception.printStackTrace();
+		}
+	}	
+	
 	/**
 	 * Given A Publication and Content's ArticleId, Read Content From RSS Feed
 	 * @param publicationId Publication's Id

@@ -16,7 +16,7 @@ public interface AdministratorService {
 	
 	void parseBodyPersistRelationsInline(Content content, String body);
 	
-	void parseBodyPersistAnchorsInline(Content contentEntity, String contentString);
+	void parseBodyPersistAnchorsInline(Content content, int publicationId, String ident);
 	
-	String getContentFromRSSFeed(int publicationId, Long articleId, String ident);
+	String getContentFromRSSFeed(int publicationId, Long articleId, String ident); //TODO Delete Method. Not Used Anymore
 }
