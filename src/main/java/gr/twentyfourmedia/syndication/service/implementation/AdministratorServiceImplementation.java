@@ -7,11 +7,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import gr.twentyfourmedia.syndication.model.Content;
+import gr.twentyfourmedia.syndication.model.ContentProblem;
 import gr.twentyfourmedia.syndication.model.RelationInline;
+import gr.twentyfourmedia.syndication.model.RelationInlineProblem;
 import gr.twentyfourmedia.syndication.service.AdministratorService;
 import gr.twentyfourmedia.syndication.service.ContentService;
 import gr.twentyfourmedia.syndication.service.RelationInlineService;
@@ -22,7 +25,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,10 +39,13 @@ public class AdministratorServiceImplementation implements AdministratorService 
 	@Autowired
 	private RelationInlineService relationInlineService;
 	
+	/**
+	 * Parse Body Field Of All 'news' Contents and Persist Possible Inline Relations
+	 */
 	@Override
 	public void parseInlineRelations() {
 	
-		List<Content> contents = contentService.getFilteredContentsByType("news");
+		List<Content> contents = contentService.getContentsByType("news", "excludeEverything");
 		
 		for(Content c : contents) {
 			
@@ -50,7 +55,7 @@ public class AdministratorServiceImplementation implements AdministratorService 
 			
 				Set<RelationInline> relationsInlineSet = parseBodyPersistRelationsInline(c, body);
 				
-				if(relationsInlineSet.size()>0) {
+				if(relationsInlineSet.size() > 0) {
 					
 					c.setRelationInlineSet(relationsInlineSet);
 					contentService.mergeContent(c, false);
@@ -59,14 +64,73 @@ public class AdministratorServiceImplementation implements AdministratorService 
 		}
 	}
 	
+	@Override
+	public void findMissingRelations() {
+		
+		//TODO Method
+	}
+	
+	@Override
+	public void findMissingInlineRelations() {
+		
+		//TODO Method
+	}
+	
 	/**
-	 * Persist Content's Inline Relations
+	 * If Contents Have Inline Relations Check For Existence Of Duplicates 
+	 */
+	@Override
+	public void findDuplicateInlineRelations() {
+		
+		List<Content> contents = contentService.getContentsWithRelationsInline("excludeAuthors");
+		
+		for(Content c : contents) {
+			
+			boolean duplicatesFound = false;
+			String previousSourceId = null;
+			
+			Iterator<RelationInline> iterator = c.getRelationInlineSet().iterator();
+		    
+			while(iterator.hasNext()) {
+			
+				RelationInline relationInline = iterator.next();
+				String currentSourceId = relationInline.getSourceId();
+				
+				if(currentSourceId != null && currentSourceId.equals(previousSourceId)) { //Duplicate
+					
+					relationInline.setRelationInlineProblem(RelationInlineProblem.RELATION_NEEDS_REPLACEMENT);
+					relationInlineService.mergeRelationInline(relationInline);
+					duplicatesFound = true;
+				}
+					
+				previousSourceId = currentSourceId; //Change Previous Value Before Continuing
+			}
+			
+			if(duplicatesFound) { //Content Entity Needs Change Too
+				
+				c.setContentProblem(ContentProblem.DUPLICATE_INLINE_RELATIONS);
+				contentService.mergeContent(c, false);
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * Parse Content's Body Field and Persist Possible Inline Relations
 	 * @param content Content
-	 * @param body Content's Body Field String
+	 * @param body Content's Body Field
 	 * @return Set<RelationsInline> For Given Content
 	 */
 	@Override
 	public Set<RelationInline> parseBodyPersistRelationsInline(Content content, String body) {
+		
+		//TODO Replace With A jsoup Alternative
 		
 		String input = body;
 		String split = "<relation ";
@@ -95,6 +159,11 @@ public class AdministratorServiceImplementation implements AdministratorService 
 		return relationsInline;
 	}
 
+	
+	
+	
+	
+	
 	@Override
 	public void parseRSSFeedPersistAnchors(String search) {
 

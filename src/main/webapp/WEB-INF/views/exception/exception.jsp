@@ -7,17 +7,19 @@
 <body>
 <h1>Escenic Syndication Converter</h1>
 
- 
-
- 
 	<c:if test="${not empty errorMessage}">
-		<p>${errorMessage}</p>
+		<p>
+			<strong>Exception :</strong> 
+			${errorMessage}
+		</p>
 	</c:if>
 
 	<c:if test="${not empty errorStackTrace}">
-		<p>${errorStackTrace}</p>
+		<p>
+			<strong>Stack Trace :</strong><br /><br />
+			<code>${errorStackTrace}</code>
+		</p>
 	</c:if>
-
-
+	
 </body>
 </html>

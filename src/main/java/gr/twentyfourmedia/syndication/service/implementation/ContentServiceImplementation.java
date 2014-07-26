@@ -75,15 +75,15 @@ public class ContentServiceImplementation implements ContentService {
 	}
 
 	@Override
-	public Content getFilteredContent(Long id) {
+	public Content getContent(Long id, String filterName) {
 		
-		return contentDao.getFiltered(id);
+		return contentDao.get(id, filterName);
 	}
 	
 	@Override
-	public Content getFilteredContent(String sourceId) {
+	public Content getContent(String sourceId, String filterName) {
 		
-		return contentDao.getFilteredBySourceId(sourceId);
+		return contentDao.getBySourceId(sourceId, filterName);
 	}
 	
 	@Override
@@ -154,21 +154,21 @@ public class ContentServiceImplementation implements ContentService {
 	}
 	
 	@Override
-	public List<Content> getFilteredContents() {
+	public List<Content> getContents(String filterName) {
 		
-		return contentDao.getFiltered();
+		return contentDao.get(filterName);
 	}
 	
 	@Override
-	public List<Content> getFilteredContentsByType(String type) {
+	public List<Content> getContentsByType(String type, String filterName) {
 		
-		return contentDao.getFilteredByType(type);
+		return contentDao.getByType(type, filterName);
 	}
 	
 	@Override
-	public List<Content> getFilteredContentsWithRelationsInline() {
+	public List<Content> getContentsWithRelationsInline(String filterName) {
 	
-		return contentDao.getFilteredWithRelationsInline();
+		return contentDao.getWithRelationsInline(filterName);
 	}
 	
 	@Override
@@ -340,6 +340,6 @@ public class ContentServiceImplementation implements ContentService {
 	@Override
 	public boolean contentExists(String sourceId) {
 
-		if(getFilteredContent(sourceId) != null) return true; else return false;
+		if(getContent(sourceId, "excludeEverything") != null) return true; else return false;
 	}
 }

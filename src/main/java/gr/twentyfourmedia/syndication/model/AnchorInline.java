@@ -4,29 +4,21 @@ import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-@NamedQueries({
-	@NamedQuery(
-			name = "deleteAllRelationsInline",
-			query = "DELETE FROM RelationInline"),
-})
 @Entity
-@Table(name = "relationInline")
-public class RelationInline {
+@Table(name = "anchorInline")
+public class AnchorInline {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,15 +29,16 @@ public class RelationInline {
 	@JoinColumn(name = "contentApplicationId", referencedColumnName = "applicationId")
 	private Content contentApplicationId;
 	
-	@Column(name = "source")
-	private String source;
+	@Lob
+	@Column(name = "href")
+	private String href;
 	
-	@Column(name = "sourceId")
-	private String sourceId;
+	@Column(name = "target")
+	private String target;
 	
-	@Enumerated(EnumType.STRING)
-	@Column(name = "problem")
-	private RelationInlineProblem relationInlineProblem;
+	@Lob
+	@Column(name = "text")
+	private String text;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -72,34 +65,34 @@ public class RelationInline {
 		return contentApplicationId;
 	}
 	
-	public void setSource(String source) {
+	public void setHref(String href) {
 		
-		this.source = source;
+		this.href = href;
 	}
 	
-	public String getSource() {
+	public String getHref() {
 		
-		return source;
+		return href;
 	}
 	
-	public void setSourceId(String sourceId) {
+	public void setTarget(String target) {
 		
-		this.sourceId = sourceId;
+		this.target = target;
 	}
 	
-	public String getSourceId() {
+	public String getTarget() {
 		
-		return sourceId;
-	}
-
-	public void setRelationInlineProblem(RelationInlineProblem relationInlineProblem) {
-		
-		this.relationInlineProblem = relationInlineProblem;
+		return target;
 	}
 	
-	public RelationInlineProblem getRelationInlineProblem() {
+	public void setText(String text) {
 		
-		return relationInlineProblem;
+		this.text = text;
+	}
+	
+	public String getText() {
+		
+		return text;
 	}
 	
 	public void setApplicationDateUpdated(Calendar applicationDateUpdated) {

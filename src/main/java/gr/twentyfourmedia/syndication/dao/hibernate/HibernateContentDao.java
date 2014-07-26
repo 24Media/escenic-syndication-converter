@@ -12,33 +12,33 @@ import gr.twentyfourmedia.syndication.model.Content;
 public class HibernateContentDao extends HibernateAbstractDao<Content> implements ContentDao {
 
 	@Override
-	public Content getFiltered(Long id) {
+	public Content get(Long id, String filterName) {
 		
-		getSession().enableFilter("excludeAuthors");
+		if(filterName != null) getSession().enableFilter(filterName);
 		return get(id);
 	}
 	
 	@Override
-	public Content getFilteredBySourceId(String sourceId) {
+	public Content getBySourceId(String sourceId, String filterName) {
 		
-		getSession().enableFilter("excludeAuthors");
+		if(filterName != null) getSession().enableFilter(filterName);
 		Query query = getSession().getNamedQuery("findContentBySourceId");
 		query.setParameter("sourceId", sourceId);
 		return (Content) query.uniqueResult();
 	}
 	
 	@Override
-	public List<Content> getFiltered() {
+	public List<Content> get(String filterName) {
 		
-		getSession().enableFilter("excludeAuthors");
+		if(filterName != null) getSession().enableFilter(filterName);
 		return getAll();
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Content> getFilteredByType(String type) {
+	public List<Content> getByType(String type, String filterName) {
 		
-		getSession().enableFilter("excludeAuthors");
+		if(filterName != null) getSession().enableFilter(filterName);
 		Query query = getSession().getNamedQuery("findContentsByType");
 		query.setParameter("type", type);
 		return (List<Content>) query.list();
@@ -46,9 +46,9 @@ public class HibernateContentDao extends HibernateAbstractDao<Content> implement
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Content> getFilteredWithRelationsInline() {
+	public List<Content> getWithRelationsInline(String filterName) {
 
-		getSession().enableFilter("excludeAuthors");
+		if(filterName != null) getSession().enableFilter(filterName);
 		Query query = getSession().getNamedQuery("findContentsWithRelationsInline");
 		return (List<Content>) query.list();
 	}

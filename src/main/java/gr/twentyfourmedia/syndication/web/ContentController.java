@@ -71,7 +71,7 @@ public class ContentController {
 		
 		if(id != null) { //A Single Content Item
 		
-			contentsList.add(contentService.getFilteredContent(id));
+			contentsList.add(contentService.getContent(id, "excludeEverything"));
 			contents.setContentList(filterOutElementsAndAttributes(contentsList));
 		}
 		else if(type != null && homeSections != null) { //Content Items Of Specified Home Sections
@@ -89,11 +89,11 @@ public class ContentController {
 		}
 		else if(type != null) { //Content Items Of Specified Type
 			
-			contents.setContentList(filterOutElementsAndAttributes(contentService.getFilteredContentsByType(type)));
+			contents.setContentList(filterOutElementsAndAttributes(contentService.getContentsByType(type, "excludeEverything")));
 		}
 		else { //All Content Items
 			
-			contents.setContentList(filterOutElementsAndAttributes(contentService.getFilteredContents()));
+			contents.setContentList(filterOutElementsAndAttributes(contentService.getContents("escludeEverything")));
 		}
 		
 		String path = System.getProperty("filepath.syndicationFiles") + "/write/Contents_Export.xml";
@@ -161,11 +161,11 @@ public class ContentController {
 		}
 		else if(type != null) {
 			
-			contentsList.addAll(contentService.getFilteredContentsByType(type));
+			contentsList.addAll(contentService.getContentsByType(type, "excludeEverything"));
 		}
 		else {
 			
-			contentsList.addAll(contentService.getFilteredContents());
+			contentsList.addAll(contentService.getContents("excludeEverything"));
 		}
 
 		Escenic escenic = new Escenic();
@@ -274,7 +274,8 @@ public class ContentController {
 		List<Content> result = new ArrayList<Content>();
 		
 		for(Content c : contents) {
-							
+			
+			//TODO A Filter or Something
 			c.setCreator(null);
 			//c.setAuthorSet(null);
 			

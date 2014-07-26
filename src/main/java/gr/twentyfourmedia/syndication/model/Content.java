@@ -37,6 +37,7 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDefs;
 import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.Filters;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -79,7 +80,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 			query = "FROM Content c WHERE c.relationInlineSet IS NOT EMPTY")			
 })
 @FilterDefs({
-    @FilterDef(name = "excludeAuthors")
+    @FilterDef(name = "excludeAuthors"),
+    @FilterDef(name = "excludeAdministrativeEntities"),
+    @FilterDef(name = "excludeEverything")
 })
 @Entity
 @Table(name = "content")
@@ -207,17 +210,32 @@ public class Content {
 	@XmlElement(name = "section-ref")
 	private Set<SectionRef> sectionRefSet;
 	
+	@Filter(name = "excludeEverything", condition = "applicationId = -1")
 	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SELECT)
 	@OrderBy(value = "applicationId ASC")
 	@XmlElement(name = "relation")
 	private Set<Relation> relationSet;
 	
+	@Filters({
+		@Filter(name = "excludeAdministrativeEntities", condition = "applicationId = -1"),
+		@Filter(name = "excludeEverything", condition = "applicationId = -1")
+	})
 	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SELECT)
 	@OrderBy(value = "applicationId ASC")
 	@XmlTransient
 	private Set<RelationInline> relationInlineSet;
+	
+	@Filters({
+		@Filter(name = "excludeAdministrativeEntities", condition = "applicationId = -1"),
+		@Filter(name = "excludeEverything", condition = "applicationId = -1")
+	})
+	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SELECT)
+	@OrderBy(value = "applicationId ASC")
+	@XmlTransient
+	private Set<AnchorInline> anchorInlineSet;
 	
 	/**
 	 * Represents one field in a content item or relation. The element's content model appears to allow almost anything, but in practice 
@@ -241,7 +259,10 @@ public class Content {
 	@XmlElement(name = "update")
 	private Update update;
 	
-	@Filter(name = "excludeAuthors", condition="applicationId = -1")
+	@Filters({
+		@Filter(name = "excludeAuthors", condition = "applicationId = -1"),
+		@Filter(name = "excludeEverything", condition = "applicationId = -1")
+	})
 	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SELECT)
 	@OrderBy(value = "applicationId ASC")

@@ -9,6 +9,12 @@ public interface AdministratorService {
 
 	void parseInlineRelations();
 	
+	void findMissingRelations();
+	
+	void findMissingInlineRelations();
+	
+	void findDuplicateInlineRelations();
+	
 	Set<RelationInline> parseBodyPersistRelationsInline(Content content, String body);
 	
 	void parseRSSFeedPersistAnchors(String search);

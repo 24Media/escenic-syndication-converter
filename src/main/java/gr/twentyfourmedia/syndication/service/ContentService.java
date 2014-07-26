@@ -11,9 +11,9 @@ public interface ContentService {
 	
 	void mergeContent(Content content, boolean initialize);
 	
-	Content getFilteredContent(Long id);
+	Content getContent(Long id, String filterName);
 	
-	Content getFilteredContent(String sourceId);
+	Content getContent(String sourceId, String filterName);
 	
 	String getContentHomeSection(Content content);
 	
@@ -23,11 +23,11 @@ public interface ContentService {
 	
 	String getPictureContentBinaryName(Content content);
 	
-	List<Content> getFilteredContents();
+	List<Content> getContents(String filterName);
 	
-	List<Content> getFilteredContentsByType(String type);
+	List<Content> getContentsByType(String type, String filterName);
 	
-	List<Content> getFilteredContentsWithRelationsInline();
+	List<Content> getContentsWithRelationsInline(String filterName);
 	
 	List<Content> getContentsByTypeAndHomeSections(String type, List<String> homeSections);
 	
