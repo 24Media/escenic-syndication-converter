@@ -41,4 +41,8 @@ public interface ContentService {
 	String getFieldHTMLContent(String path, String htmlField, String contentSourceId, String relationSourceId);
 	
 	boolean contentExists(String sourceId);
+	
+	void excludeContentDraftOrDeleted();
+	
+	void updateContentProblem(Content content, ContentProblem contentProblem);
 }

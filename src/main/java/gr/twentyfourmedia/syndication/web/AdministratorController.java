@@ -49,6 +49,12 @@ public class AdministratorController {
 	@RequestMapping(value = "findMissingRelations")
 	public ModelAndView findMissingRelations() {
 		
+		contentService.excludeContentDraftOrDeleted(); //Before Content Relation Looping Exclude 'draft' or 'deleted'
+		
+		
+		administratorService.findMissingInlineRelations();
+		
+		
 		//TODO Controller
 		ModelAndView model = new ModelAndView("/home");
 		return model;

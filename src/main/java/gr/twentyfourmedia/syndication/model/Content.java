@@ -76,11 +76,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 			name = "findContentsByType",
 			query = "FROM Content WHERE type = :type"),
 	@NamedQuery(
+			name = "findContentsWithRelations",
+			query = "FROM Content c WHERE c.relationSet IS NOT EMPTY"),
+	@NamedQuery(
 			name = "findContentsWithRelationsInline",
 			query = "FROM Content c WHERE c.relationInlineSet IS NOT EMPTY"),
 	@NamedQuery(
 			name = "findContentsByContentProblem",
-			query = "FROM Content WHERE contentProblem = :contentProblem")			
+			query = "FROM Content WHERE contentProblem = :contentProblem"),
+	@NamedQuery(
+			name = "excludeDraftOrDeletedContent",
+			query = "UPDATE Content c SET c.contentProblem = :contentProblem WHERE c.state IN ('draft', 'deleted')")
 })
 @FilterDefs({
     @FilterDef(name = "excludeAuthors"),

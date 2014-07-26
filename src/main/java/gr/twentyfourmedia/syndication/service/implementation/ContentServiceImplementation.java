@@ -349,4 +349,54 @@ public class ContentServiceImplementation implements ContentService {
 
 		if(getContent(sourceId, "excludeEverything") != null) return true; else return false;
 	}
+
+	@Override
+	public void excludeContentDraftOrDeleted() {
+	
+		contentDao.excludeDraftOrDeleted();
+	}
+	
+	/**
+	 * Update Content's ContentProblem Value Based On Current Value and Value Given
+	 * @param content Content
+	 * @param contentProblem Current ContentProblem Value
+	 */
+	@Override
+	public void updateContentProblem(Content content, ContentProblem contentProblem) {
+		
+		ContentProblem current = content.getContentProblem();
+
+		/*
+		 * DRAFT_OR_DELETED Wins Everyone
+		 * MISSING_BINARIES Wins Everyone
+		 * MISSING_INLINE_RELATIONS Wins MISSING_RELATIONS, DUPLICATE_INLINE_RELATIONS
+		 * DUPLICATE_INLINE_RELATIONS Wins MISSING_RELATIONS
+		 * MISSING_RELATIONS Always Lose
+		 */
+		switch(contentProblem) {
+			case MISSING_RELATIONS:
+				if(current == null) {
+					content.setContentProblem(contentProblem);
+					mergeContent(content, false);
+				}
+				break;
+			case DUPLICATE_INLINE_RELATIONS:
+				if(current == null || current.equals(ContentProblem.MISSING_RELATIONS)) {
+					content.setContentProblem(contentProblem);
+					mergeContent(content, false);					
+				}
+				break;
+			case MISSING_INLINE_RELATIONS:
+				if(current == null || current.equals(ContentProblem.MISSING_RELATIONS) || current.equals(ContentProblem.DUPLICATE_INLINE_RELATIONS)) {
+					content.setContentProblem(contentProblem);
+					mergeContent(content, false);
+				}
+				break;
+			case DRAFT_OR_DELETED:
+			case MISSING_BINARIES:
+				content.setContentProblem(contentProblem);
+				mergeContent(content, false);
+				break;
+		}
+	}
 }

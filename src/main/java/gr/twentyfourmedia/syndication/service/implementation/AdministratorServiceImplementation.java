@@ -8,6 +8,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import gr.twentyfourmedia.syndication.model.AnchorInline;
 import gr.twentyfourmedia.syndication.model.Content;
@@ -53,7 +54,6 @@ public class AdministratorServiceImplementation implements AdministratorService 
 		for(Content c : contents) {
 			
 			String body = contentService.getContentHomeFieldField(c);
-			
 			if(body != null) parseBodyPersistRelationsInline(c, body);
 		}
 	}
@@ -62,12 +62,35 @@ public class AdministratorServiceImplementation implements AdministratorService 
 	public void findMissingRelations() {
 		
 		//TODO Method
+		//TODO Filter To Exclude Relations (Not Inline, Normal) That Does Not Exist
+		//TODO Exclude DB Column For Relations
 	}
 	
+	/**
+	 * Inline Related Contents Of Contents Must Exist and Not Have A ContentProblem, Otherwise The Parent Content Is Considered Rubbish
+	 */
 	@Override
 	public void findMissingInlineRelations() {
 		
-		//TODO Method
+		List<Content> contents = contentService.getContentsWithRelationsInline("excludeAuthors");
+		
+		for(Content c : contents) {
+			
+			Set<RelationInline> relationsInline = c.getRelationInlineSet();
+		
+			Iterator<RelationInline> iterator = relationsInline.iterator();
+			
+			while(iterator.hasNext()) {
+				
+				Content relatedContent = contentService.getContent(iterator.next().getSourceId(), null); 
+					
+				if(relatedContent == null || relatedContent.getContentProblem() != null) {
+					
+					contentService.updateContentProblem(c, ContentProblem.MISSING_INLINE_RELATIONS);
+					break; //No Reason To Continue, Content With Missing Inline Relations Is Rubbish
+				}
+			}
+		}
 	}
 	
 	/**
@@ -130,7 +153,6 @@ public class AdministratorServiceImplementation implements AdministratorService 
 	@Override
 	public void parseBodyPersistRelationsInline(Content content, String body) {
 		
-		//TODO Replace With A jsoup Alternative
 		String input = body;
 		String split = "<relation ";
 		String source = "source=\"";
@@ -152,7 +174,7 @@ public class AdministratorServiceImplementation implements AdministratorService 
 			relationInlineService.persistRelationInline(relationInline);
 		}
 	}
-
+	
 	/**
 	 * Parse Content's Body Field As Read From RSS Feed and Persist Possible Inline Anchors
 	 * @param content Content
@@ -185,7 +207,7 @@ public class AdministratorServiceImplementation implements AdministratorService 
 				AnchorInline anchorInline = new AnchorInline();
 				anchorInline.setContentApplicationId(content);
 				anchorInline.setHref(link.attr("href"));
-				anchorInline.setTarget(link.attr("target")); //TODO Null In Database
+				if(!link.attr("target").equals("")) anchorInline.setTarget(link.attr("target"));
 				anchorInline.setText(link.text());
 				
 				anchorInlineService.persistAnchorInline(anchorInline);
