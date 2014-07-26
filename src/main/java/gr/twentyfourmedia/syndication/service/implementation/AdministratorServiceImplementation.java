@@ -6,16 +6,16 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
+import gr.twentyfourmedia.syndication.model.AnchorInline;
 import gr.twentyfourmedia.syndication.model.Content;
 import gr.twentyfourmedia.syndication.model.ContentProblem;
 import gr.twentyfourmedia.syndication.model.RelationInline;
 import gr.twentyfourmedia.syndication.model.RelationInlineProblem;
 import gr.twentyfourmedia.syndication.service.AdministratorService;
+import gr.twentyfourmedia.syndication.service.AnchorInlineService;
 import gr.twentyfourmedia.syndication.service.ContentService;
 import gr.twentyfourmedia.syndication.service.RelationInlineService;
 
@@ -39,6 +39,9 @@ public class AdministratorServiceImplementation implements AdministratorService 
 	@Autowired
 	private RelationInlineService relationInlineService;
 	
+	@Autowired
+	private AnchorInlineService anchorInlineService;
+	
 	/**
 	 * Parse Body Field Of All 'news' Contents and Persist Possible Inline Relations
 	 */
@@ -51,16 +54,7 @@ public class AdministratorServiceImplementation implements AdministratorService 
 			
 			String body = contentService.getContentHomeFieldField(c);
 			
-			if(body != null) {
-			
-				Set<RelationInline> relationsInlineSet = parseBodyPersistRelationsInline(c, body);
-				
-				if(relationsInlineSet.size() > 0) {
-					
-					c.setRelationInlineSet(relationsInlineSet);
-					contentService.mergeContent(c, false);
-				}
-			}
+			if(body != null) parseBodyPersistRelationsInline(c, body);
 		}
 	}
 	
@@ -114,30 +108,36 @@ public class AdministratorServiceImplementation implements AdministratorService 
 		}
 	}
 	
-	
-	
-	
-	
-	
-	
+	/**
+	 * If Contents Have Duplicate Inline Relations Read Inline Anchors From RSS Feed
+	 */
+	@Override
+	public void parseInlineAnchors(int publicationId, String ident) {
+		
+		List<Content> contents = contentService.getContentsByContentProblem(ContentProblem.DUPLICATE_INLINE_RELATIONS, "excludeEverything");
+		
+		for(Content c : contents) {
+			
+			Long articleId = Long.valueOf(c.getUri().replaceAll("article", "").replaceAll(".ece", ""));
+			String content = getContentFromRSSFeed(publicationId, articleId, ident);
+			
+			if(content != null) parseBodyPersistAnchorsInline(c, content);
+		}
+	}
 	
 	/**
 	 * Parse Content's Body Field and Persist Possible Inline Relations
 	 * @param content Content
 	 * @param body Content's Body Field
-	 * @return Set<RelationsInline> For Given Content
 	 */
 	@Override
-	public Set<RelationInline> parseBodyPersistRelationsInline(Content content, String body) {
+	public void parseBodyPersistRelationsInline(Content content, String body) {
 		
 		//TODO Replace With A jsoup Alternative
-		
 		String input = body;
 		String split = "<relation ";
 		String source = "source=\"";
 		String sourceId = "sourceid=\"";
-		
-		Set<RelationInline> relationsInline = new HashSet<RelationInline>();
 		
 		while(input.indexOf(split) > -1) { //Body Field Has More Relations
 			
@@ -153,42 +153,42 @@ public class AdministratorServiceImplementation implements AdministratorService 
 			relationInline.setSourceId(temporarySourceId.substring(0, temporarySourceId.indexOf("\"")));
 			
 			relationInlineService.persistRelationInline(relationInline);
-			relationsInline.add(relationInline);
 		}
-		
-		return relationsInline;
 	}
 
-	
-	
-	
-	
-	
+	/**
+	 * Parse Content's Body Field And Persist Possible Inline Anchors
+	 * @param contentEntity Content
+	 * @param contentString Content As Read From RSS Feed
+	 */
 	@Override
-	public void parseRSSFeedPersistAnchors(String search) {
+	public void parseBodyPersistAnchorsInline(Content contentEntity, String contentString) {
 
-		/*
-		 * '<', '>' Escaped Characters Needs Replacement, Otherwise jsoup Won't Recognize HTML Anchors
-		 */
-		Document document = Jsoup.parse(search.replaceAll("&lt;", "<").replaceAll("&gt;", ">"));
+		Document document = Jsoup.parse(contentString.replaceAll("&lt;", "<").replaceAll("&gt;", ">")); //jsoup Won't Recognize HTML Anchors If Characters Don't Get Replaced
 				
 		Elements links = document.getElementsByTag("a");
 		
 		for(Element link : links) {
 			
-			System.out.println(link.text());
+			AnchorInline anchorInline = new AnchorInline();
+			anchorInline.setContentApplicationId(contentEntity);
+			anchorInline.setHref(link.attr("href"));
+			anchorInline.setTarget(link.attr("target")); //TODO Null In Database
+			anchorInline.setText(link.text());
+			
+			anchorInlineService.persistAnchorInline(anchorInline);
 		}
-	}
+	}		
 
 	/**
-	 * 
-	 * @param publicationId
-	 * @param articleId
-	 * @param ident
-	 * @return
+	 * Given A Publication and Content's ArticleId, Read Content From RSS Feed
+	 * @param publicationId Publication's Id
+	 * @param articleId Content's Article Id
+	 * @param ident Publications Ident
+	 * @return RSS Feed's Content As String
 	 */
 	@Override
-	public String getUrlContent(Long publicationId, Long articleId, String ident) {
+	public String getContentFromRSSFeed(int publicationId, Long articleId, String ident) {
 		
 		StringBuilder builder = new StringBuilder();
 		
@@ -200,7 +200,7 @@ public class AdministratorServiceImplementation implements AdministratorService 
 			
 			String line;
 			
-			while ((line = reader.readLine()) != null) {
+			while((line = reader.readLine()) != null) {
 				
 				builder.append(line.trim());
 			}

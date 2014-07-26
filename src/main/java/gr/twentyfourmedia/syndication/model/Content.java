@@ -77,7 +77,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 			query = "FROM Content WHERE type = :type"),
 	@NamedQuery(
 			name = "findContentsWithRelationsInline",
-			query = "FROM Content c WHERE c.relationInlineSet IS NOT EMPTY")			
+			query = "FROM Content c WHERE c.relationInlineSet IS NOT EMPTY"),
+	@NamedQuery(
+			name = "findContentsByContentProblem",
+			query = "FROM Content WHERE contentProblem = :contentProblem")			
 })
 @FilterDefs({
     @FilterDef(name = "excludeAuthors"),
@@ -217,6 +220,7 @@ public class Content {
 	@XmlElement(name = "relation")
 	private Set<Relation> relationSet;
 	
+	//TODO Check Ordering
 	@Filters({
 		@Filter(name = "excludeAdministrativeEntities", condition = "applicationId = -1"),
 		@Filter(name = "excludeEverything", condition = "applicationId = -1")
@@ -227,6 +231,7 @@ public class Content {
 	@XmlTransient
 	private Set<RelationInline> relationInlineSet;
 	
+	//TODO Check Ordering
 	@Filters({
 		@Filter(name = "excludeAdministrativeEntities", condition = "applicationId = -1"),
 		@Filter(name = "excludeEverything", condition = "applicationId = -1")
@@ -465,7 +470,17 @@ public class Content {
 		
 		return relationInlineSet;
 	}
-
+	
+	public void setAnchorInlineSet(Set<AnchorInline> anchorInlineSet) {
+		
+		this.anchorInlineSet = anchorInlineSet;
+	}
+	
+	public Set<AnchorInline> getAnchorInlineSet() {
+		
+		return anchorInlineSet;
+	}	
+	
 	public void setFieldList(List<Field> fieldList) {
 		
 		this.fieldList = fieldList;

@@ -3,6 +3,7 @@ package gr.twentyfourmedia.syndication.dao;
 import java.util.List;
 
 import gr.twentyfourmedia.syndication.model.Content;
+import gr.twentyfourmedia.syndication.model.ContentProblem;
 
 public interface ContentDao extends AbstractDao<Content> {
 
@@ -15,4 +16,6 @@ public interface ContentDao extends AbstractDao<Content> {
 	List<Content> getByType(String type, String filterName);
 	
 	List<Content> getWithRelationsInline(String filterName);
+	
+	List<Content> getByContentProblem(ContentProblem contentProblem, String filterName);
 }

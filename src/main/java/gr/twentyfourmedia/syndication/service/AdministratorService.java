@@ -1,9 +1,6 @@
 package gr.twentyfourmedia.syndication.service;
 
 import gr.twentyfourmedia.syndication.model.Content;
-import gr.twentyfourmedia.syndication.model.RelationInline;
-
-import java.util.Set;
 
 public interface AdministratorService {
 
@@ -15,9 +12,11 @@ public interface AdministratorService {
 	
 	void findDuplicateInlineRelations();
 	
-	Set<RelationInline> parseBodyPersistRelationsInline(Content content, String body);
+	void parseInlineAnchors(int publicationId, String ident);
 	
-	void parseRSSFeedPersistAnchors(String search);
+	void parseBodyPersistRelationsInline(Content content, String body);
 	
-	String getUrlContent(Long publicationId, Long articleId, String ident);
+	void parseBodyPersistAnchorsInline(Content contentEntity, String contentString);
+	
+	String getContentFromRSSFeed(int publicationId, Long articleId, String ident);
 }

@@ -10,6 +10,7 @@ import gr.twentyfourmedia.syndication.dao.FieldDao;
 import gr.twentyfourmedia.syndication.dao.RelationDao;
 import gr.twentyfourmedia.syndication.dao.SectionRefDao;
 import gr.twentyfourmedia.syndication.model.Content;
+import gr.twentyfourmedia.syndication.model.ContentProblem;
 import gr.twentyfourmedia.syndication.model.Field;
 import gr.twentyfourmedia.syndication.model.Relation;
 import gr.twentyfourmedia.syndication.model.SectionRef;
@@ -169,6 +170,12 @@ public class ContentServiceImplementation implements ContentService {
 	public List<Content> getContentsWithRelationsInline(String filterName) {
 	
 		return contentDao.getWithRelationsInline(filterName);
+	}
+	
+	@Override
+	public List<Content> getContentsByContentProblem(ContentProblem contentProblem, String filterName) {
+		
+		return contentDao.getByContentProblem(contentProblem, filterName);
 	}
 	
 	@Override

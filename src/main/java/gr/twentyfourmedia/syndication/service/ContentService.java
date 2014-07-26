@@ -1,6 +1,7 @@
 package gr.twentyfourmedia.syndication.service;
 
 import gr.twentyfourmedia.syndication.model.Content;
+import gr.twentyfourmedia.syndication.model.ContentProblem;
 import gr.twentyfourmedia.syndication.model.Field;
 
 import java.util.List;
@@ -28,6 +29,8 @@ public interface ContentService {
 	List<Content> getContentsByType(String type, String filterName);
 	
 	List<Content> getContentsWithRelationsInline(String filterName);
+	
+	List<Content> getContentsByContentProblem(ContentProblem contentProblem, String filterName);
 	
 	List<Content> getContentsByTypeAndHomeSections(String type, List<String> homeSections);
 	

@@ -10,12 +10,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+@NamedQueries({
+	@NamedQuery(
+			name = "deleteAllAnchorsInline",
+			query = "DELETE FROM AnchorInline"),
+})
 @Entity
 @Table(name = "anchorInline")
 public class AnchorInline {

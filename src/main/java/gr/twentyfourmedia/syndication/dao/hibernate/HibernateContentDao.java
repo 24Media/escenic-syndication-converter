@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import gr.twentyfourmedia.syndication.dao.ContentDao;
 import gr.twentyfourmedia.syndication.model.Content;
+import gr.twentyfourmedia.syndication.model.ContentProblem;
 
 @Repository
 public class HibernateContentDao extends HibernateAbstractDao<Content> implements ContentDao {
@@ -50,6 +51,16 @@ public class HibernateContentDao extends HibernateAbstractDao<Content> implement
 
 		if(filterName != null) getSession().enableFilter(filterName);
 		Query query = getSession().getNamedQuery("findContentsWithRelationsInline");
+		return (List<Content>) query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Content> getByContentProblem(ContentProblem contentProblem, String filterName) {
+		
+		if(filterName != null) getSession().enableFilter(filterName);
+		Query query = getSession().getNamedQuery("findContentsByContentProblem");
+		query.setParameter("contentProblem", contentProblem);
 		return (List<Content>) query.list();
 	}
 }
