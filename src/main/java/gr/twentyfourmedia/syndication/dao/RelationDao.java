@@ -8,4 +8,6 @@ public interface RelationDao extends AbstractDao<Relation> {
 	void persistContentRelations(Content content);
 	
 	void mergeContentRelations(Content content);
+	
+	void clearProblems();
 }

@@ -85,11 +85,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 			name = "findContentsByContentProblem",
 			query = "FROM Content WHERE contentProblem = :contentProblem"),
 	@NamedQuery(
+			name = "clearContentProblems",
+			query = "UPDATE Content c SET c.contentProblem = null"),
+	@NamedQuery(
 			name = "excludeDraftOrDeletedContent",
 			query = "UPDATE Content c SET c.contentProblem = :contentProblem WHERE c.state IN ('draft', 'deleted')")
 })
 @FilterDefs({
     @FilterDef(name = "excludeAuthors"),
+    @FilterDef(name = "excludeMissingRelations"),
     @FilterDef(name = "excludeAdministrativeEntities"),
     @FilterDef(name = "excludeEverything")
 })
@@ -219,7 +223,10 @@ public class Content {
 	@XmlElement(name = "section-ref")
 	private Set<SectionRef> sectionRefSet;
 	
-	@Filter(name = "excludeEverything", condition = "applicationId = -1")
+	@Filters({
+		@Filter(name = "excludeMissingRelations", condition = "problem != 'MISSING_RELATION'"),
+		@Filter(name = "excludeEverything", condition = "applicationId = -1")
+	})
 	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SELECT)
 	@OrderBy(value = "applicationId ASC")

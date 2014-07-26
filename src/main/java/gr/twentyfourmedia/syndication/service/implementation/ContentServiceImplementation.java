@@ -173,6 +173,12 @@ public class ContentServiceImplementation implements ContentService {
 	}
 	
 	@Override
+	public List<Content> getContentsWithRelations(String filterName) {
+	
+		return contentDao.getWithRelations(filterName);
+	}
+		
+	@Override
 	public List<Content> getContentsByContentProblem(ContentProblem contentProblem, String filterName) {
 		
 		return contentDao.getByContentProblem(contentProblem, filterName);
@@ -354,6 +360,12 @@ public class ContentServiceImplementation implements ContentService {
 	public void excludeContentDraftOrDeleted() {
 	
 		contentDao.excludeDraftOrDeleted();
+	}
+	
+	@Override
+	public void clearContentProblems() {
+		
+		contentDao.clearProblems();
 	}
 	
 	/**

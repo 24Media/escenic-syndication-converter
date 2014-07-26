@@ -5,12 +5,16 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -35,6 +39,11 @@ import org.springframework.format.annotation.DateTimeFormat;
  * 		<field>...</field>*
  * </relation>
  */
+@NamedQueries({
+	@NamedQuery(
+			name = "clearRelationProblems",
+			query = "UPDATE Relation r SET r.relationProblem = null")
+})
 @Entity
 @Table(name = "relation")
 @XmlRootElement(name = "relation")
@@ -110,6 +119,11 @@ public class Relation {
 	@OneToMany(mappedBy = "relationApplicationId", fetch = FetchType.EAGER)
 	@XmlElement(name = "field")
 	private List<Field> fieldList;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "problem")
+	@XmlTransient
+	private RelationProblem relationProblem;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -205,6 +219,16 @@ public class Relation {
 	public List<Field> getFieldList() {
 		
 		return fieldList;
+	}
+	
+	public void setRelationProblem(RelationProblem relationProblem) {
+		
+		this.relationProblem = relationProblem;
+	}
+	
+	public RelationProblem getRelationProblem() {
+		
+		return relationProblem;
 	}
 	
 	public void setApplicationDateUpdated(Calendar applicationDateUpdated) {

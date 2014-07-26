@@ -30,6 +30,8 @@ public interface ContentService {
 	
 	List<Content> getContentsWithRelationsInline(String filterName);
 	
+	List<Content> getContentsWithRelations(String filterName);
+	
 	List<Content> getContentsByContentProblem(ContentProblem contentProblem, String filterName);
 	
 	List<Content> getContentsByTypeAndHomeSections(String type, List<String> homeSections);
@@ -43,6 +45,8 @@ public interface ContentService {
 	boolean contentExists(String sourceId);
 	
 	void excludeContentDraftOrDeleted();
+	
+	void clearContentProblems();
 	
 	void updateContentProblem(Content content, ContentProblem contentProblem);
 }

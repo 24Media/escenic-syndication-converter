@@ -17,7 +17,11 @@ public interface ContentDao extends AbstractDao<Content> {
 	
 	List<Content> getWithRelationsInline(String filterName);
 	
+	List<Content> getWithRelations(String filterName);
+	
 	List<Content> getByContentProblem(ContentProblem contentProblem, String filterName);
 	
 	void excludeDraftOrDeleted();
+	
+	void clearProblems();
 }

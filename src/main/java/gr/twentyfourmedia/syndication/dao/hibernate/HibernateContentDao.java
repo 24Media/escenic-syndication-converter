@@ -53,6 +53,15 @@ public class HibernateContentDao extends HibernateAbstractDao<Content> implement
 		Query query = getSession().getNamedQuery("findContentsWithRelationsInline");
 		return (List<Content>) query.list();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Content> getWithRelations(String filterName) {
+
+		if(filterName != null) getSession().enableFilter(filterName);
+		Query query = getSession().getNamedQuery("findContentsWithRelations");
+		return (List<Content>) query.list();
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -69,6 +78,13 @@ public class HibernateContentDao extends HibernateAbstractDao<Content> implement
 		
 		Query query = getSession().getNamedQuery("excludeDraftOrDeletedContent");
 		query.setParameter("contentProblem", ContentProblem.DRAFT_OR_DELETED);
+		query.executeUpdate();
+	}
+
+	@Override
+	public void clearProblems() {
+		
+		Query query = getSession().getNamedQuery("clearContentProblems");
 		query.executeUpdate();
 	}
 }

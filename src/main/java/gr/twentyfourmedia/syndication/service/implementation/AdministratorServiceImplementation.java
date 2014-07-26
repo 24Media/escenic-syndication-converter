@@ -13,12 +13,15 @@ import java.util.Set;
 import gr.twentyfourmedia.syndication.model.AnchorInline;
 import gr.twentyfourmedia.syndication.model.Content;
 import gr.twentyfourmedia.syndication.model.ContentProblem;
+import gr.twentyfourmedia.syndication.model.Relation;
 import gr.twentyfourmedia.syndication.model.RelationInline;
 import gr.twentyfourmedia.syndication.model.RelationInlineProblem;
+import gr.twentyfourmedia.syndication.model.RelationProblem;
 import gr.twentyfourmedia.syndication.service.AdministratorService;
 import gr.twentyfourmedia.syndication.service.AnchorInlineService;
 import gr.twentyfourmedia.syndication.service.ContentService;
 import gr.twentyfourmedia.syndication.service.RelationInlineService;
+import gr.twentyfourmedia.syndication.service.RelationService;
 
 import javax.transaction.Transactional;
 
@@ -36,6 +39,9 @@ public class AdministratorServiceImplementation implements AdministratorService 
 
 	@Autowired
 	private ContentService contentService;
+	
+	@Autowired
+	private RelationService relationService;
 	
 	@Autowired
 	private RelationInlineService relationInlineService;
@@ -58,12 +64,41 @@ public class AdministratorServiceImplementation implements AdministratorService 
 		}
 	}
 	
+	/**
+	 * Inline Related Contents Of Contents Must Exist and Not Have A ContentProblem
+	 */
 	@Override
 	public void findMissingRelations() {
 		
-		//TODO Method
 		//TODO Filter To Exclude Relations (Not Inline, Normal) That Does Not Exist
-		//TODO Exclude DB Column For Relations
+		
+		List<Content> contents = contentService.getContentsWithRelations("excludeAuthors");
+		
+		for(Content c : contents) {
+			
+			Set<Relation> relations = c.getRelationSet();
+			Iterator<Relation> iterator = relations.iterator();
+			
+			boolean missingFound = false;
+			
+			while(iterator.hasNext()) {
+				
+				Relation relation = iterator.next();
+				Content relatedContent = contentService.getContent(relation.getSourceId(), null);
+				
+				if(relatedContent == null || relatedContent.getContentProblem() != null) {
+					
+					relation.setRelationProblem(RelationProblem.MISSING_RELATION);
+					relationService.mergeRelation(relation);
+					missingFound = true;
+				}
+			}
+			
+			if(missingFound) { //Content Entity Needs Change Too
+				
+				contentService.updateContentProblem(c, ContentProblem.MISSING_RELATIONS);
+			}
+		}
 	}
 	
 	/**
@@ -77,7 +112,6 @@ public class AdministratorServiceImplementation implements AdministratorService 
 		for(Content c : contents) {
 			
 			Set<RelationInline> relationsInline = c.getRelationInlineSet();
-		
 			Iterator<RelationInline> iterator = relationsInline.iterator();
 			
 			while(iterator.hasNext()) {
@@ -124,9 +158,8 @@ public class AdministratorServiceImplementation implements AdministratorService 
 			}
 			
 			if(duplicatesFound) { //Content Entity Needs Change Too
-				
-				c.setContentProblem(ContentProblem.DUPLICATE_INLINE_RELATIONS);
-				contentService.mergeContent(c, false);
+
+				contentService.updateContentProblem(c, ContentProblem.DUPLICATE_INLINE_RELATIONS);
 			}
 		}
 	}

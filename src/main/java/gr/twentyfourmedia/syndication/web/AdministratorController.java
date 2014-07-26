@@ -4,6 +4,7 @@ import gr.twentyfourmedia.syndication.service.AdministratorService;
 import gr.twentyfourmedia.syndication.service.AnchorInlineService;
 import gr.twentyfourmedia.syndication.service.ContentService;
 import gr.twentyfourmedia.syndication.service.RelationInlineService;
+import gr.twentyfourmedia.syndication.service.RelationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,9 @@ public class AdministratorController {
 	private ContentService contentService;
 	
 	@Autowired
+	private RelationService relationService;
+	
+	@Autowired
 	private RelationInlineService relationInlineService;
 	
 	@Autowired
@@ -25,45 +29,35 @@ public class AdministratorController {
 	
 	@Autowired
 	private AdministratorService administratorService;
-	
-	@RequestMapping(value = "parseInlineRelations")
-	public ModelAndView parseInlineRelations() {
+
+	@RequestMapping(value = "relations")
+	public ModelAndView relations() {
+
+		/*
+		 * Clear Existing Values To Examine Contents Again
+		 */
+		contentService.clearContentProblems();
+		relationService.clearRelationProblems();
+		relationInlineService.deleteAllRelationsInline();
 		
-		relationInlineService.deleteAllRelationsInline(); //Duplicates Are Possible So Existing Database Entries Must Be Deleted
+		/*
+		 * Order Of Actions Does Matter
+		 */
+		contentService.excludeContentDraftOrDeleted();
+		administratorService.findMissingRelations();
 		administratorService.parseInlineRelations();
-		
+		administratorService.findDuplicateInlineRelations();
+		administratorService.findMissingInlineRelations();
+
 		ModelAndView model = new ModelAndView("/home");
 		return model;
 	}
-	
+
 	@RequestMapping(value = "parseInlineAnchors")
 	public ModelAndView parseInlineAnchors() {
 		
 		anchorInlineService.deleteAllAnchorsInline(); //No Way To Check For Duplicates So Existing Database Entries Must Be Deleted
 		administratorService.parseInlineAnchors(5, "cosmo");
-		
-		ModelAndView model = new ModelAndView("/home");
-		return model;
-	}	
-	
-	@RequestMapping(value = "findMissingRelations")
-	public ModelAndView findMissingRelations() {
-		
-		contentService.excludeContentDraftOrDeleted(); //Before Content Relation Looping Exclude 'draft' or 'deleted'
-		
-		
-		administratorService.findMissingInlineRelations();
-		
-		
-		//TODO Controller
-		ModelAndView model = new ModelAndView("/home");
-		return model;
-	}
-
-	@RequestMapping(value = "findDuplicateInlineRelations")
-	public ModelAndView findDuplicateInlineRelations() {
-		
-		administratorService.findDuplicateInlineRelations();
 		
 		ModelAndView model = new ModelAndView("/home");
 		return model;

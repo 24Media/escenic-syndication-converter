@@ -1,5 +1,6 @@
 package gr.twentyfourmedia.syndication.dao.hibernate;
 
+import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -45,5 +46,12 @@ public class HibernateRelationDao extends HibernateAbstractDao<Relation> impleme
 				fieldDao.merge(f);
 			}
 		}
+	}
+
+	@Override
+	public void clearProblems() {
+		
+		Query query = getSession().getNamedQuery("clearRelationProblems");
+		query.executeUpdate();
 	}
 }

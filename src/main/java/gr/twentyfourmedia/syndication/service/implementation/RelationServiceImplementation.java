@@ -19,8 +19,26 @@ public class RelationServiceImplementation implements RelationService {
 	private RelationDao relationDao;
 	
 	@Override
+	public void persistRelation(Relation relation) {
+	
+		relationDao.persist(relation);
+	}
+
+	@Override
+	public void mergeRelation(Relation relation) {
+
+		relationDao.merge(relation);
+	}
+	
+	@Override
 	public List<Relation> getRelations() {
 
 		return relationDao.getAll();
+	}
+
+	@Override
+	public void clearRelationProblems() {
+
+		relationDao.clearProblems();
 	}
 }
