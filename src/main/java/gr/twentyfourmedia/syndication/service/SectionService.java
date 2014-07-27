@@ -10,6 +10,8 @@ public interface SectionService {
 	
 	void mergeSection(Section section);
 	
+	Section getSectionByApplicationId(Long applicationId);
+	
 	Section getSectionBySourceId(String sourceId);
 	
 	Section getSectionByUniqueNameElement(String uniqueNameElement);
@@ -19,4 +21,6 @@ public interface SectionService {
 	boolean sectionExistsBySourceId(String sourceId);
 	
 	boolean sectionExistsByUniqueNameElement(String uniqueNameElement);
+	
+	void deleteSection(Long applicationId);
 }

@@ -26,6 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/section")
@@ -110,6 +112,33 @@ public class SectionController {
 		return "/home";
 	}
 	
+	//TODO Create View For Delete Action
+	@RequestMapping(value = "delete")
+	public ModelAndView delete(	@RequestParam(value = "applicationId", required = false) Long applicationId,
+								@RequestParam(value = "sourceId", required = false) String sourceId,
+								@RequestParam(value = "uniqueNameElement", required = false) String uniqueNameElement) {
+		
+		Section section = null;
+		
+		if(applicationId != null) section = sectionService.getSectionByApplicationId(applicationId);
+			else if(sourceId != null) section = sectionService.getSectionBySourceId(sourceId);
+				else if(uniqueNameElement != null) section = sectionService.getSectionByUniqueNameElement(uniqueNameElement);
+					else throw new CustomException("Define Section's applicationId, sourceId or uniqueNameElement.");
+		
+		if(section != null) {
+			
+			sectionService.deleteSection(section.getApplicationId());
+		}
+		else {
+			
+			throw new CustomException("Section Does Not Exist.");
+		}
+		
+		ModelAndView model = new ModelAndView("/home");
+		return model;
+	}
+	
+	//TODO Add Some Filters Here
 	private List<Section> sectionsFiltering(List<Section> sections) {
 		
 		List<Section> result = new ArrayList<Section>();
