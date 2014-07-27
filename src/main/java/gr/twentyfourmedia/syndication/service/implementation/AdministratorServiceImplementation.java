@@ -50,9 +50,6 @@ public class AdministratorServiceImplementation implements AdministratorService 
 	@Autowired
 	private AnchorInlineService anchorInlineService;
 
-//TODO Exclude By Home Section Characterization
-//TODO Author and Creator In Same Table, Excluding By Same Filter
-		
 	/**
 	 * Parse Body Field Of All 'news' Contents and Persist Possible Inline Relations
 	 */

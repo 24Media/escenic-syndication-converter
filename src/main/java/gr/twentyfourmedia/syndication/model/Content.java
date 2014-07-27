@@ -286,6 +286,7 @@ public class Content {
 	@XmlElement(name = "update")
 	private Update update;
 	
+	//TODO Author and Creator In Same Table, Excluding By Same Filter
 	@Filters({
 		@Filter(name = "excludeAuthors", condition = "applicationId = -1"),
 		@Filter(name = "excludeEverything", condition = "applicationId = -1")

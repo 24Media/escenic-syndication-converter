@@ -54,13 +54,12 @@ public class AdministratorController {
 		return model;
 	}
 
+	//TODO Method. ContentWithAnchorsInline Is Created
 	@RequestMapping(value = "parseInlineAnchors")
 	public ModelAndView parseInlineAnchors() {
 		
 		anchorInlineService.deleteAllAnchorsInline(); //No Way To Check For Duplicates So Existing Database Entries Must Be Deleted
 		administratorService.parseInlineAnchors(5, "cosmo");
-		
-		//get content with anchorsInline is in place
 		
 		ModelAndView model = new ModelAndView("/home");
 		return model;

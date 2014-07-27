@@ -223,6 +223,8 @@ public class ContentController {
 		return "/home";
 	}
 	
+	//TODO A Filter For Creator, or something
+	//TODO Check That No Authors or Creators Gets Exported
 	/**
 	 * Given a List of Contents Filter Out Elements or Attributes That Are Not Needed In The Exported File 
 	 * @param contents List Of Input Contents
@@ -234,7 +236,6 @@ public class ContentController {
 		
 		for(Content c : contents) {
 			
-			//TODO A Filter or Something
 			c.setCreator(null);
 			//c.setAuthorSet(null);
 			
