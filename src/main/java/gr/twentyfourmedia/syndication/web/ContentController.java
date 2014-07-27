@@ -40,17 +40,6 @@ public class ContentController {
 	@Autowired
 	private FieldService fieldService;
 	
-	public static final List<String> KAIROS_SECTIONS;
-	static {
-		List<String> temporary = new ArrayList<String>();
-		temporary.add("kairos");
-		temporary.add("kairos-eidiseis");
-		temporary.add("kairos-environment");
-		temporary.add("kairos-lifestyle");
-		temporary.add("kairos-taksidi");
-		KAIROS_SECTIONS = temporary;
-	}
-	
 	/**
 	 * Marshall Contents Read From Database, Given an Id, Content's Type et al.
 	 * @param id Application Id Of A Specific Content
@@ -61,8 +50,6 @@ public class ContentController {
 	@RequestMapping(value = "marshall")
 	public String marshallToOneFile(@RequestParam(value = "id", required = false) Long id,
 									@RequestParam(value = "type", required = false) String type, 
-									@RequestParam(value = "homeSections", required = false) String homeSections,
-									@RequestParam(value = "homeSectionsExcluded", required = false) String homeSectionsExcluded,
 									Model model) {
 
 		Escenic contents = new Escenic();
@@ -73,19 +60,6 @@ public class ContentController {
 		
 			contentsList.add(contentService.getContent(id, "excludeEverything"));
 			contents.setContentList(filterOutElementsAndAttributes(contentsList));
-		}
-		else if(type != null && homeSections != null) { //Content Items Of Specified Home Sections
-
-			if(homeSectionsExcluded != null) { //Excluded
-
-				//TODO Filter Content Items
-				contents.setContentList(filterOutElementsAndAttributes(contentService.getContentsByTypeExcludingHomeSections(type, homeSectionsListFromString(homeSections))));
-			}
-			else { //Included
-			
-				//TODO Filter Content Items
-				contents.setContentList(filterOutElementsAndAttributes(contentService.getContentsByTypeAndHomeSections(type, homeSectionsListFromString(homeSections))));
-			}
 		}
 		else if(type != null) { //Content Items Of Specified Type
 			
@@ -139,27 +113,12 @@ public class ContentController {
 	 */
 	@RequestMapping(value = "marshallToMultipleFiles")
 	public String marshallToMultipleFiles(@RequestParam(value = "type", required = false) String type,
-										  @RequestParam(value = "homeSections", required = false) String homeSections,
-										  @RequestParam(value = "homeSectionsExcluded", required = false) String homeSectionsExcluded,
 										  @RequestParam(value = "itemsPerFile") int itemsPerFile,
 										  Model model) {
 
 		List<Content> contentsList = new ArrayList<Content>();
 		
-		if(type != null && homeSections != null) { //Content Items Of Specified Home Sections
-
-			if(homeSectionsExcluded != null) { //Excluded
-
-				//TODO Filter Content Items
-				contentsList.addAll(contentService.getContentsByTypeExcludingHomeSections(type, homeSectionsListFromString(homeSections)));
-			}
-			else { //Included
-			
-				//TODO Filter Content Items
-				contentsList.addAll(contentService.getContentsByTypeAndHomeSections(type, homeSectionsListFromString(homeSections)));
-			}
-		}
-		else if(type != null) {
+		if(type != null) {
 			
 			contentsList.addAll(contentService.getContentsByType(type, "excludeEverything"));
 		}
@@ -280,23 +239,6 @@ public class ContentController {
 			//c.setAuthorSet(null);
 			
 			result.add(c);
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * Given a General Description For Home Sections Build A List of All Actual Home Sections Related To That Description 
-	 * @param homeSections General Description
-	 * @return List of Home Sections
-	 */
-	private List<String> homeSectionsListFromString(String homeSections) {
-		
-		List<String> result = new ArrayList<String>();
-		
-		if(homeSections.equals("kairos")) {
-			
-			result = KAIROS_SECTIONS;
 		}
 		
 		return result;

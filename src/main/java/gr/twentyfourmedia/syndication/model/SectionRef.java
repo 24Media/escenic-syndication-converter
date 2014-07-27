@@ -45,7 +45,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @XmlRootElement(name = "section-ref")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SectionRef {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "applicationId")

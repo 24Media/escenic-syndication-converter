@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -48,7 +49,10 @@ public class AdministratorServiceImplementation implements AdministratorService 
 	
 	@Autowired
 	private AnchorInlineService anchorInlineService;
-	
+
+//TODO Exclude By Home Section Characterization
+//TODO Author and Creator In Same Table, Excluding By Same Filter
+		
 	/**
 	 * Parse Body Field Of All 'news' Contents and Persist Possible Inline Relations
 	 */
@@ -59,18 +63,16 @@ public class AdministratorServiceImplementation implements AdministratorService 
 		
 		for(Content c : contents) {
 			
-			String body = contentService.getContentHomeFieldField(c);
+			String body = contentService.getContentBodyFieldField(c);
 			if(body != null) parseBodyPersistRelationsInline(c, body);
 		}
 	}
 	
 	/**
-	 * Inline Related Contents Of Contents Must Exist and Not Have A ContentProblem
+	 * Related Contents Of Contents Must Exist and Not Have A ContentProblem
 	 */
 	@Override
 	public void findMissingRelations() {
-		
-		//TODO Filter To Exclude Relations (Not Inline, Normal) That Does Not Exist
 		
 		List<Content> contents = contentService.getContentsWithRelations("excludeAuthors");
 		
@@ -78,7 +80,6 @@ public class AdministratorServiceImplementation implements AdministratorService 
 			
 			Set<Relation> relations = c.getRelationSet();
 			Iterator<Relation> iterator = relations.iterator();
-			
 			boolean missingFound = false;
 			
 			while(iterator.hasNext()) {
@@ -139,7 +140,6 @@ public class AdministratorServiceImplementation implements AdministratorService 
 			
 			boolean duplicatesFound = false;
 			String previousSourceId = null;
-			
 			Iterator<RelationInline> iterator = c.getRelationInlineSet().iterator();
 		    
 			while(iterator.hasNext()) {
@@ -149,7 +149,7 @@ public class AdministratorServiceImplementation implements AdministratorService 
 				
 				if(currentSourceId != null && currentSourceId.equals(previousSourceId)) { //Duplicate
 					
-					relationInline.setRelationInlineProblem(RelationInlineProblem.RELATION_NEEDS_REPLACEMENT);
+					relationInline.setRelationInlineProblem(RelationInlineProblem.RELATIONS_NEEDS_REPLACEMENT);
 					relationInlineService.mergeRelationInline(relationInline);
 					duplicatesFound = true;
 				}
@@ -159,7 +159,8 @@ public class AdministratorServiceImplementation implements AdministratorService 
 			
 			if(duplicatesFound) { //Content Entity Needs Change Too
 
-				contentService.updateContentProblem(c, ContentProblem.DUPLICATE_INLINE_RELATIONS);
+				c.setRelationInlineProblem(RelationInlineProblem.RELATIONS_NEEDS_REPLACEMENT);
+				contentService.mergeContent(c, false);
 			}
 		}
 	}
@@ -170,7 +171,14 @@ public class AdministratorServiceImplementation implements AdministratorService 
 	@Override
 	public void parseInlineAnchors(int publicationId, String ident) {
 		
-		List<Content> contents = contentService.getContentsByContentProblem(ContentProblem.DUPLICATE_INLINE_RELATIONS, "excludeEverything");
+		//Contents With One Of The Following contentProblem Are Excluded From Any Further Processing
+		List<ContentProblem> contentProblems = new ArrayList<ContentProblem>();
+		contentProblems.add(ContentProblem.MISSING_BINARIES);
+		contentProblems.add(ContentProblem.EXCLUDED_BY_SECTION);
+		contentProblems.add(ContentProblem.DRAFT_OR_DELETED);
+		contentProblems.add(ContentProblem.MISSING_INLINE_RELATIONS);
+		
+		List<Content> contents = contentService.getContentsExcludingContentProblemsIncludingRelationInlineProblem(contentProblems, RelationInlineProblem.RELATIONS_NEEDS_REPLACEMENT, "excludeEverything");
 		
 		for(Content c : contents) {
 			

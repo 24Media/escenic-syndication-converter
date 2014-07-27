@@ -82,8 +82,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 			name = "findContentsWithRelationsInline",
 			query = "FROM Content c WHERE c.relationInlineSet IS NOT EMPTY"),
 	@NamedQuery(
+			name = "findContentsWithAnchorsInline",
+			query = "FROM Content c WHERE c.anchorInlineSet IS NOT EMPTY"),
+	@NamedQuery(
 			name = "findContentsByContentProblem",
 			query = "FROM Content WHERE contentProblem = :contentProblem"),
+	@NamedQuery(
+			name = "findContentsByRelationInlineProblem",
+			query = "FROM Content WHERE relationInlineProblem = :relationInlineProblem"),
+	@NamedQuery(
+			name = "findContentsExcludingContentProblemsIncludingRelationInlineProblem",
+			query = "FROM Content WHERE contentProblem NOT IN (:contentProblem) AND relationInlineProblem = :relationInlineProblem"),
 	@NamedQuery(
 			name = "clearContentProblems",
 			query = "UPDATE Content c SET c.contentProblem = null"),
@@ -317,6 +326,11 @@ public class Content {
 	@Column(name = "problem")
 	@XmlTransient
 	private ContentProblem contentProblem;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "duplicates")
+	@XmlTransient
+	private RelationInlineProblem relationInlineProblem;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -564,6 +578,16 @@ public class Content {
 		return contentProblem;
 	}
 	
+	public void setRelationInlineProblem(RelationInlineProblem relationInlineProblem) {
+		
+		this.relationInlineProblem = relationInlineProblem;
+	}
+	
+	public RelationInlineProblem getRelationInlineProblem() {
+		
+		return relationInlineProblem;
+	}
+
 	public void setApplicationDateUpdated(Calendar applicationDateUpdated) {
 		
 		this.applicationDateUpdated = applicationDateUpdated;

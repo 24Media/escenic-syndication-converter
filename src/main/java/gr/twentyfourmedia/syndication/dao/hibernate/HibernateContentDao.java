@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import gr.twentyfourmedia.syndication.dao.ContentDao;
 import gr.twentyfourmedia.syndication.model.Content;
 import gr.twentyfourmedia.syndication.model.ContentProblem;
+import gr.twentyfourmedia.syndication.model.RelationInlineProblem;
 
 @Repository
 public class HibernateContentDao extends HibernateAbstractDao<Content> implements ContentDao {
@@ -47,19 +48,28 @@ public class HibernateContentDao extends HibernateAbstractDao<Content> implement
 
 	@SuppressWarnings("unchecked")
 	@Override
+	public List<Content> getWithRelations(String filterName) {
+
+		if(filterName != null) getSession().enableFilter(filterName);
+		Query query = getSession().getNamedQuery("findContentsWithRelations");
+		return (List<Content>) query.list();
+	}	
+
+	@SuppressWarnings("unchecked")
+	@Override
 	public List<Content> getWithRelationsInline(String filterName) {
 
 		if(filterName != null) getSession().enableFilter(filterName);
 		Query query = getSession().getNamedQuery("findContentsWithRelationsInline");
 		return (List<Content>) query.list();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Content> getWithRelations(String filterName) {
+	public List<Content> getWithAnchorsInline(String filterName) {
 
 		if(filterName != null) getSession().enableFilter(filterName);
-		Query query = getSession().getNamedQuery("findContentsWithRelations");
+		Query query = getSession().getNamedQuery("findContentsWithAnchorsInline");
 		return (List<Content>) query.list();
 	}
 
@@ -73,8 +83,29 @@ public class HibernateContentDao extends HibernateAbstractDao<Content> implement
 		return (List<Content>) query.list();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public void excludeDraftOrDeleted() {
+	public List<Content> getByRelationInlineProblem(RelationInlineProblem relationInlineProblem, String filterName) {
+		
+		if(filterName != null) getSession().enableFilter(filterName);
+		Query query = getSession().getNamedQuery("findContentsByRelationInlineProblem");
+		query.setParameter("relationInlineProblem", relationInlineProblem);
+		return (List<Content>) query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Content> getExcludingContentProblemsIncludingRelationInlineProblem(List<ContentProblem> contentProblems, RelationInlineProblem relationInlineProblem, String filterName) {
+	
+		if(filterName != null) getSession().enableFilter(filterName);
+		Query query = getSession().getNamedQuery("findContentsExcludingContentProblemsIncludingRelationInlineProblem");
+		query.setParameterList("contentProblem", contentProblems);
+		query.setParameter("relationInlineProblem", relationInlineProblem);
+		return (List<Content>) query.list();
+	}
+	
+	@Override
+	public void excludeByStateDraftOrDeleted() {
 		
 		Query query = getSession().getNamedQuery("excludeDraftOrDeletedContent");
 		query.setParameter("contentProblem", ContentProblem.DRAFT_OR_DELETED);

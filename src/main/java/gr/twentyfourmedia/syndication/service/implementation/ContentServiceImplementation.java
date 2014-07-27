@@ -13,6 +13,7 @@ import gr.twentyfourmedia.syndication.model.Content;
 import gr.twentyfourmedia.syndication.model.ContentProblem;
 import gr.twentyfourmedia.syndication.model.Field;
 import gr.twentyfourmedia.syndication.model.Relation;
+import gr.twentyfourmedia.syndication.model.RelationInlineProblem;
 import gr.twentyfourmedia.syndication.model.SectionRef;
 import gr.twentyfourmedia.syndication.service.ContentService;
 
@@ -104,7 +105,7 @@ public class ContentServiceImplementation implements ContentService {
 	}
 	
 	@Override
-	public Field getContentHomeField(Content content) {
+	public Field getContentBodyField(Content content) {
 		
 		Field body = null;
 		
@@ -121,9 +122,9 @@ public class ContentServiceImplementation implements ContentService {
 	}
 	
 	@Override
-	public String getContentHomeFieldField(Content content) {
+	public String getContentBodyFieldField(Content content) {
 
-		Field field = getContentHomeField(content); 
+		Field field = getContentBodyField(content); 
 		
 		if(field != null) {
 			
@@ -133,25 +134,6 @@ public class ContentServiceImplementation implements ContentService {
 		
 			return null;
 		}
-	}
-	
-	@Override
-	public String getPictureContentBinaryName(Content content) {
-		
-		String result = null;
-		
-		if(content!=null && content.getType().equals("picture")) {
-			
-			for(Field f : content.getFieldList()) {
-				
-				if(f.getName()!=null && f.getName().equals("binary")) {
-					
-					result = f.getField();
-				}
-			}
-		}
-		
-		return result;
 	}
 	
 	@Override
@@ -165,7 +147,13 @@ public class ContentServiceImplementation implements ContentService {
 		
 		return contentDao.getByType(type, filterName);
 	}
+
+	@Override
+	public List<Content> getContentsWithRelations(String filterName) {
 	
+		return contentDao.getWithRelations(filterName);
+	}
+
 	@Override
 	public List<Content> getContentsWithRelationsInline(String filterName) {
 	
@@ -173,11 +161,11 @@ public class ContentServiceImplementation implements ContentService {
 	}
 	
 	@Override
-	public List<Content> getContentsWithRelations(String filterName) {
+	public List<Content> getContentsWithAnchorsInline(String filterName) {
 	
-		return contentDao.getWithRelations(filterName);
-	}
-		
+		return contentDao.getWithAnchorsInline(filterName);
+	}	
+
 	@Override
 	public List<Content> getContentsByContentProblem(ContentProblem contentProblem, String filterName) {
 		
@@ -185,39 +173,17 @@ public class ContentServiceImplementation implements ContentService {
 	}
 	
 	@Override
-	public List<Content> getContentsByTypeAndHomeSections(String type, List<String> homeSections) {
+	public List<Content> getContentsByRelationInlineProblem(RelationInlineProblem relationInlineProblem, String filterName) {
 		
-		List<Content> contentList = new ArrayList<Content>();
-		List<SectionRef> sectionRefList = sectionRefDao.getByHomeSections(homeSections);
-		
-		for(SectionRef r : sectionRefList) {
-		
-			if(r.getContentApplicationId().getType().equals(type)) {
-				
-				contentList.add(r.getContentApplicationId());
-			}
-		}
-		
-		return contentList;
+		return contentDao.getByRelationInlineProblem(relationInlineProblem, filterName);
 	}
 	
 	@Override
-	public List<Content> getContentsByTypeExcludingHomeSections(String type, List<String> homeSections) {
+	public List<Content> getContentsExcludingContentProblemsIncludingRelationInlineProblem(List<ContentProblem> contentProblems, RelationInlineProblem relationInlineProblem, String filterName) {
 		
-		List<Content> contentList = new ArrayList<Content>();
-		List<SectionRef> sectionRefList = sectionRefDao.getExcludingHomeSections(homeSections);
-		
-		for(SectionRef r : sectionRefList) {
-		
-			if(r.getContentApplicationId().getType().equals(type)) {
-				
-				contentList.add(r.getContentApplicationId());
-			}
-		}
-		
-		return contentList;
+		return contentDao.getExcludingContentProblemsIncludingRelationInlineProblem(contentProblems, relationInlineProblem, filterName);
 	}
-	
+
 	/**
 	 * If <![CDATA[...]]> Element Created, Set Corresponding Object Attributes To Ensure That Merging Of Content Will Merge These Attributes Too 
 	 * @param content Content Object
@@ -357,9 +323,25 @@ public class ContentServiceImplementation implements ContentService {
 	}
 
 	@Override
-	public void excludeContentDraftOrDeleted() {
+	public void excludeContentByTypeAndHomeSections(String type, String description) {
+		
+		List<SectionRef> sectionRefList = sectionRefDao.getByHomeSections(homeSectionsListFromString(description));
+		
+		for(SectionRef r : sectionRefList) {
+		
+			if(r.getContentApplicationId().getType().equals(type)) {
+				
+				Content c = r.getContentApplicationId();
+				c.setContentProblem(ContentProblem.EXCLUDED_BY_SECTION);
+				mergeContent(c, false);	
+			}
+		}		
+	}	
 	
-		contentDao.excludeDraftOrDeleted();
+	@Override
+	public void excludeContentByStateDraftOrDeleted() {
+	
+		contentDao.excludeByStateDraftOrDeleted();
 	}
 	
 	@Override
@@ -379,36 +361,58 @@ public class ContentServiceImplementation implements ContentService {
 		ContentProblem current = content.getContentProblem();
 
 		/*
-		 * DRAFT_OR_DELETED Wins Everyone
-		 * MISSING_BINARIES Wins Everyone
-		 * MISSING_INLINE_RELATIONS Wins MISSING_RELATIONS, DUPLICATE_INLINE_RELATIONS
-		 * DUPLICATE_INLINE_RELATIONS Wins MISSING_RELATIONS
-		 * MISSING_RELATIONS Always Lose
+		 * Order Of Problems Does Matter. MISSING_BINARIES Wins Everyone, DRAFT_OR_DELETED Wins MISSING_INLINE_RELATIONS and MISSING_RELATIONS etc.
 		 */
 		switch(contentProblem) {
-			case MISSING_RELATIONS:
-				if(current == null) {
-					content.setContentProblem(contentProblem);
-					mergeContent(content, false);
-				}
+			case MISSING_BINARIES:
+				content.setContentProblem(contentProblem);
+				mergeContent(content, false);
 				break;
-			case DUPLICATE_INLINE_RELATIONS:
-				if(current == null || current.equals(ContentProblem.MISSING_RELATIONS)) {
-					content.setContentProblem(contentProblem);
-					mergeContent(content, false);					
-				}
-				break;
-			case MISSING_INLINE_RELATIONS:
-				if(current == null || current.equals(ContentProblem.MISSING_RELATIONS) || current.equals(ContentProblem.DUPLICATE_INLINE_RELATIONS)) {
+			case EXCLUDED_BY_SECTION:
+				if(current == null || current.equals(ContentProblem.DRAFT_OR_DELETED) || current.equals(ContentProblem.MISSING_INLINE_RELATIONS) || current.equals(ContentProblem.MISSING_RELATIONS)) {
 					content.setContentProblem(contentProblem);
 					mergeContent(content, false);
 				}
 				break;
 			case DRAFT_OR_DELETED:
-			case MISSING_BINARIES:
-				content.setContentProblem(contentProblem);
-				mergeContent(content, false);
+				if(current == null || current.equals(ContentProblem.MISSING_INLINE_RELATIONS) || current.equals(ContentProblem.MISSING_RELATIONS)) {
+					content.setContentProblem(contentProblem);
+					mergeContent(content, false);
+				}
 				break;
+			case MISSING_INLINE_RELATIONS:
+				if(current == null || current.equals(ContentProblem.MISSING_RELATIONS)) {
+					content.setContentProblem(contentProblem);
+					mergeContent(content, false);
+				}
+				break;				
+			case MISSING_RELATIONS:
+				if(current == null) {
+					content.setContentProblem(contentProblem);
+					mergeContent(content, false);
+				}
+				break;				
 		}
 	}
+
+	/**
+	 * Given a General Description For Home Sections Get A List of All Actual Home Sections Related To That Description 
+	 * @param homeSections General Description
+	 * @return List of Home Sections
+	 */
+	private List<String> homeSectionsListFromString(String description) {
+
+		List<String> result = new ArrayList<String>();
+		
+		if(description.equals("kairos")) {
+			
+			result.add("kairos");
+			result.add("kairos-eidiseis");
+			result.add("kairos-environment");
+			result.add("kairos-lifestyle");
+			result.add("kairos-taksidi");			
+		}
+		
+		return result;
+	}	
 }

@@ -3,6 +3,7 @@ package gr.twentyfourmedia.syndication.service;
 import gr.twentyfourmedia.syndication.model.Content;
 import gr.twentyfourmedia.syndication.model.ContentProblem;
 import gr.twentyfourmedia.syndication.model.Field;
+import gr.twentyfourmedia.syndication.model.RelationInlineProblem;
 
 import java.util.List;
 
@@ -18,25 +19,25 @@ public interface ContentService {
 	
 	String getContentHomeSection(Content content);
 	
-	Field getContentHomeField(Content content);
+	Field getContentBodyField(Content content);
 	
-	String getContentHomeFieldField(Content content);
-	
-	String getPictureContentBinaryName(Content content);
+	String getContentBodyFieldField(Content content);
 	
 	List<Content> getContents(String filterName);
 	
 	List<Content> getContentsByType(String type, String filterName);
-	
-	List<Content> getContentsWithRelationsInline(String filterName);
-	
+
 	List<Content> getContentsWithRelations(String filterName);
+
+	List<Content> getContentsWithRelationsInline(String filterName);
+
+	List<Content> getContentsWithAnchorsInline(String filterName);	
 	
 	List<Content> getContentsByContentProblem(ContentProblem contentProblem, String filterName);
 	
-	List<Content> getContentsByTypeAndHomeSections(String type, List<String> homeSections);
+	List<Content> getContentsByRelationInlineProblem(RelationInlineProblem relationInlineProblem, String filterName);
 	
-	List<Content> getContentsByTypeExcludingHomeSections(String type, List<String> homeSections);
+	List<Content> getContentsExcludingContentProblemsIncludingRelationInlineProblem(List<ContentProblem> contentProblems, RelationInlineProblem relationInlineProblem, String filterName);
 	
 	void handleContentHTMLFields(Content content, String path);
 	
@@ -44,7 +45,9 @@ public interface ContentService {
 	
 	boolean contentExists(String sourceId);
 	
-	void excludeContentDraftOrDeleted();
+	void excludeContentByTypeAndHomeSections(String type, String description);
+	
+	void excludeContentByStateDraftOrDeleted();
 	
 	void clearContentProblems();
 	

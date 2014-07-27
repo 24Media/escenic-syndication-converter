@@ -43,12 +43,13 @@ public class AdministratorController {
 		/*
 		 * Order Of Actions Does Matter
 		 */
-		contentService.excludeContentDraftOrDeleted();
+		contentService.excludeContentByTypeAndHomeSections("news", "kairos");
+		contentService.excludeContentByStateDraftOrDeleted();
 		administratorService.findMissingRelations();
 		administratorService.parseInlineRelations();
-		administratorService.findDuplicateInlineRelations();
 		administratorService.findMissingInlineRelations();
-
+		administratorService.findDuplicateInlineRelations();
+		
 		ModelAndView model = new ModelAndView("/home");
 		return model;
 	}
@@ -58,6 +59,8 @@ public class AdministratorController {
 		
 		anchorInlineService.deleteAllAnchorsInline(); //No Way To Check For Duplicates So Existing Database Entries Must Be Deleted
 		administratorService.parseInlineAnchors(5, "cosmo");
+		
+		//get content with anchorsInline is in place
 		
 		ModelAndView model = new ModelAndView("/home");
 		return model;
