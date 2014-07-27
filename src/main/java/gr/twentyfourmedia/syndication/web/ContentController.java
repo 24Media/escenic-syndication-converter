@@ -29,6 +29,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/content")
@@ -222,6 +223,31 @@ public class ContentController {
 		
 		return "/home";
 	}
+	
+	//TODO Create View For Delete Action
+	@RequestMapping(value = "delete")
+	public ModelAndView delete(	@RequestParam(value = "applicationId", required = false) Long applicationId,
+								@RequestParam(value = "sourceId", required = false) String sourceId) {
+		
+		Content content = null;
+		
+		if(applicationId != null) content = contentService.getContent(applicationId, null);
+			else if(sourceId != null) content = contentService.getContent(sourceId, null);
+				else throw new CustomException("Define Content's applicationId or sourceId.");
+		
+		if(content != null) {
+			
+			contentService.deleteContent(content.getApplicationId());
+		}
+		else {
+		
+			throw new CustomException("Content Does Not Exist.");
+		}
+		
+		ModelAndView model = new ModelAndView("/home");
+		return model;
+	}
+	
 	
 	//TODO A Filter For Creator, or something
 	//TODO Check That No Authors or Creators Gets Exported

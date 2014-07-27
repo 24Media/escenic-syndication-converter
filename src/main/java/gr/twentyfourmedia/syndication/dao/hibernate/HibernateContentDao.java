@@ -14,10 +14,10 @@ import gr.twentyfourmedia.syndication.model.RelationInlineProblem;
 public class HibernateContentDao extends HibernateAbstractDao<Content> implements ContentDao {
 
 	@Override
-	public Content get(Long id, String filterName) {
+	public Content get(Long applicationId, String filterName) {
 		
 		if(filterName != null) getSession().enableFilter(filterName);
-		return get(id);
+		return get(applicationId);
 	}
 	
 	@Override

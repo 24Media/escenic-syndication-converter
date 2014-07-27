@@ -13,7 +13,7 @@ public interface ContentService {
 	
 	void mergeContent(Content content, boolean initialize);
 	
-	Content getContent(Long id, String filterName);
+	Content getContent(Long application, String filterName);
 	
 	Content getContent(String sourceId, String filterName);
 	
@@ -52,4 +52,6 @@ public interface ContentService {
 	void clearContentProblems();
 	
 	void updateContentProblem(Content content, ContentProblem contentProblem);
+	
+	void deleteContent(Long applicationId);
 }

@@ -226,7 +226,7 @@ public class Content {
 	@XmlAttribute(name = "creationdate")
 	private String creationDate;
 	
-	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@Fetch(FetchMode.SELECT) 
 	@OrderBy(value = "applicationId ASC")
 	@XmlElement(name = "section-ref")
@@ -236,7 +236,7 @@ public class Content {
 		@Filter(name = "excludeMissingRelations", condition = "problem != 'MISSING_RELATION'"),
 		@Filter(name = "excludeEverything", condition = "applicationId = -1")
 	})
-	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@Fetch(FetchMode.SELECT)
 	@OrderBy(value = "applicationId ASC")
 	@XmlElement(name = "relation")
@@ -247,7 +247,7 @@ public class Content {
 		@Filter(name = "excludeAdministrativeEntities", condition = "applicationId = -1"),
 		@Filter(name = "excludeEverything", condition = "applicationId = -1")
 	})
-	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@Fetch(FetchMode.SELECT)
 	@OrderBy(value = "applicationId ASC")
 	@XmlTransient
@@ -258,7 +258,7 @@ public class Content {
 		@Filter(name = "excludeAdministrativeEntities", condition = "applicationId = -1"),
 		@Filter(name = "excludeEverything", condition = "applicationId = -1")
 	})
-	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@Fetch(FetchMode.SELECT)
 	@OrderBy(value = "applicationId ASC")
 	@XmlTransient
@@ -269,7 +269,7 @@ public class Content {
 	 * this is not the case. When importing, the field element content is expected to conform to a field definition identified by the 
 	 * name attribute, and will fail to be imported if this is not the case.
 	 */
-	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@Fetch(FetchMode.SELECT)
 	@XmlElement(name = "field", nillable = true)
 	private List<Field> fieldList;
@@ -291,7 +291,7 @@ public class Content {
 		@Filter(name = "excludeAuthors", condition = "applicationId = -1"),
 		@Filter(name = "excludeEverything", condition = "applicationId = -1")
 	})
-	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@Fetch(FetchMode.SELECT)
 	@OrderBy(value = "applicationId ASC")
 	@XmlElement(name = "author")

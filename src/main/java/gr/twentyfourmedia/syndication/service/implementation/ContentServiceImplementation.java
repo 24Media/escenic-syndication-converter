@@ -77,9 +77,9 @@ public class ContentServiceImplementation implements ContentService {
 	}
 
 	@Override
-	public Content getContent(Long id, String filterName) {
+	public Content getContent(Long applicationId, String filterName) {
 		
-		return contentDao.get(id, filterName);
+		return contentDao.get(applicationId, filterName);
 	}
 	
 	@Override
@@ -414,5 +414,11 @@ public class ContentServiceImplementation implements ContentService {
 		}
 		
 		return result;
+	}
+
+	@Override
+	public void deleteContent(Long applicationId) {
+		
+		contentDao.deleteById(applicationId);
 	}	
 }

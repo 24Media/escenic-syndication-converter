@@ -8,7 +8,7 @@ import gr.twentyfourmedia.syndication.model.RelationInlineProblem;
 
 public interface ContentDao extends AbstractDao<Content> {
 
-	Content get(Long id, String filterName);
+	Content get(Long applicationId, String filterName);
 	
 	Content getBySourceId(String sourceId, String filterName);
 	
@@ -27,7 +27,7 @@ public interface ContentDao extends AbstractDao<Content> {
 	List<Content> getByRelationInlineProblem(RelationInlineProblem relationInlineProblem, String filterName);
 	
 	List<Content> getExcludingContentProblemsIncludingRelationInlineProblem(List<ContentProblem> contentProblems, RelationInlineProblem relationInlineProblem, String filterName);
-	
+
 	void excludeByStateDraftOrDeleted();
 	
 	void clearProblems();
