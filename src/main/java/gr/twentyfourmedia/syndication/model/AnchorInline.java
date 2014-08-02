@@ -37,16 +37,9 @@ public class AnchorInline {
 	private Content contentApplicationId;
 	
 	@Lob
-	@Column(name = "href")
-	private String href;
-	
-	@Column(name = "target")
-	private String target;
-	
-	@Lob
-	@Column(name = "text")
-	private String text;
-	
+	@Column(name = "anchor")
+	private String anchor;
+		
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "applicationDateUpdated")
@@ -72,36 +65,16 @@ public class AnchorInline {
 		return contentApplicationId;
 	}
 	
-	public void setHref(String href) {
+	public void setAnchor(String anchor) {
 		
-		this.href = href;
+		this.anchor = anchor;
 	}
 	
-	public String getHref() {
+	public String getAnchor() {
 		
-		return href;
+		return anchor;
 	}
-	
-	public void setTarget(String target) {
-		
-		this.target = target;
-	}
-	
-	public String getTarget() {
-		
-		return target;
-	}
-	
-	public void setText(String text) {
-		
-		this.text = text;
-	}
-	
-	public String getText() {
-		
-		return text;
-	}
-	
+
 	public void setApplicationDateUpdated(Calendar applicationDateUpdated) {
 		
 		this.applicationDateUpdated = applicationDateUpdated;

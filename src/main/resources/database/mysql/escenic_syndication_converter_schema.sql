@@ -27,12 +27,10 @@ DROP TABLE IF EXISTS `anchorInline`;
 CREATE TABLE `anchorInline` (
   `applicationId` int(11) NOT NULL AUTO_INCREMENT,
   `contentApplicationId` int(11) NOT NULL,
-  `href` text,
-  `target` varchar(45) DEFAULT NULL,
-  `text` text,
+  `anchor` text,
   `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=168 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=182 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -212,7 +210,7 @@ CREATE TABLE `relationInline` (
   `problem` varchar(45) DEFAULT NULL,
   `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=413 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=509 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -266,7 +264,7 @@ CREATE TABLE `sectionRef` (
   `homeSection` varchar(5) DEFAULT NULL,
   `applicationDateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=677 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -278,4 +276,4 @@ CREATE TABLE `sectionRef` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-07-27 18:14:55
+-- Dump completed on 2014-08-02 15:49:29

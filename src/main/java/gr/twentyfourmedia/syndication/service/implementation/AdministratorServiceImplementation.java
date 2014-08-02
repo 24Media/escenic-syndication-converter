@@ -261,9 +261,7 @@ public class AdministratorServiceImplementation implements AdministratorService 
 			
 				AnchorInline anchorInline = new AnchorInline();
 				anchorInline.setContentApplicationId(content);
-				anchorInline.setHref(link.attr("href"));
-				if(!link.attr("target").equals("")) anchorInline.setTarget(link.attr("target"));
-				anchorInline.setText(link.text());
+				anchorInline.setAnchor(link.outerHtml());
 				
 				anchorInlineService.persistAnchorInline(anchorInline);
 			}
