@@ -14,9 +14,13 @@ public interface AdministratorService {
 	
 	void parseInlineAnchors(int publicationId, String ident);
 	
+	void characterizeContentAndRelationsInline();
+
 	void parseBodyPersistRelationsInline(Content content, String body);
 	
 	void parseBodyPersistAnchorsInline(Content content, int publicationId, String ident);
+	
+	void replaceRelationsInlineWithAnchors(); //TODO Use It Or Delete It
 	
 	String getContentFromRSSFeed(int publicationId, Long articleId, String ident); //TODO Delete Method. Not Used Anymore
 }

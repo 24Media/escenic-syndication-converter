@@ -19,9 +19,9 @@ public interface ContentService {
 	
 	String getContentHomeSection(Content content);
 	
-	Field getContentBodyField(Content content);
+	Field getContentField(Content content, String fieldName);
 	
-	String getContentBodyFieldField(Content content);
+	String getContentFieldField(Content content, String fieldName);
 	
 	List<Content> getContents(String filterName);
 	

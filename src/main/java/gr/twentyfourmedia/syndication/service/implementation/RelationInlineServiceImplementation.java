@@ -1,7 +1,11 @@
 package gr.twentyfourmedia.syndication.service.implementation;
 
+import java.util.Set;
+
 import gr.twentyfourmedia.syndication.dao.RelationInlineDao;
+import gr.twentyfourmedia.syndication.model.Content;
 import gr.twentyfourmedia.syndication.model.RelationInline;
+import gr.twentyfourmedia.syndication.model.RelationInlineProblem;
 import gr.twentyfourmedia.syndication.service.RelationInlineService;
 
 import javax.transaction.Transactional;
@@ -32,5 +36,21 @@ public class RelationInlineServiceImplementation implements RelationInlineServic
 	public void deleteAllRelationsInline() {
 
 		relationInlineDao.deleteAll();
+	}
+
+	@Override
+	public RelationInline getFirstRelationInlineHavingProblem(Content content, RelationInlineProblem relationInlineProblem) {
+		
+		Set<RelationInline> relationsInline = content.getRelationInlineSet();
+		
+		for(RelationInline r : relationsInline) {
+			
+			if(r.getRelationInlineProblem()!=null && r.getRelationInlineProblem().equals(relationInlineProblem)) {
+				
+				return r;
+			}
+		}
+		
+		return null; //If No RelationInline With The Given Problem Exists
 	}
 }

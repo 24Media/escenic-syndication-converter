@@ -105,13 +105,13 @@ public class ContentServiceImplementation implements ContentService {
 	}
 	
 	@Override
-	public Field getContentBodyField(Content content) {
+	public Field getContentField(Content content, String fieldName) {
 		
 		Field body = null;
 		
 		for(Field f : content.getFieldList()) {
 			
-			if(f.getName().equals("body")) {
+			if(f.getName().equals(fieldName)) {
 				
 				body = f;
 				break;
@@ -122,9 +122,9 @@ public class ContentServiceImplementation implements ContentService {
 	}
 	
 	@Override
-	public String getContentBodyFieldField(Content content) {
+	public String getContentFieldField(Content content, String fieldName) {
 
-		Field field = getContentBodyField(content); 
+		Field field = getContentField(content, fieldName); 
 		
 		if(field != null) {
 			

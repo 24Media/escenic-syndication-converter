@@ -60,7 +60,7 @@ public class AdministratorServiceImplementation implements AdministratorService 
 		
 		for(Content c : contents) {
 			
-			String body = contentService.getContentBodyFieldField(c);
+			String body = contentService.getContentFieldField(c, "body");
 			if(body != null) parseBodyPersistRelationsInline(c, body);
 		}
 	}
@@ -183,6 +183,104 @@ public class AdministratorServiceImplementation implements AdministratorService 
 		}
 	}
 	
+	/**
+	 * If Duplicate RelationsInline That Need Replacement Equals AnchorsInline That Does Not Exist In Body Read By RSS Feed, Content Item Can Be Fixed
+	 */
+	@Override
+	public void characterizeContentAndRelationsInline() {
+		
+		List<Content> contents = contentService.getContentsWithAnchorsInline(null);
+		
+		for(Content c : contents) {
+			
+			int notExistingAnchors = 0;
+			int duplicateRelations = 0;
+			
+			String prologue = contentService.getContentFieldField(c, "prologue");
+			String body = contentService.getContentFieldField(c, "body");
+			Set<AnchorInline> anchors = c.getAnchorInlineSet();
+			Set<RelationInline> relations = c.getRelationInlineSet();
+			
+			for(AnchorInline a : anchors) { //Count Not Existing Anchors
+		
+				if((prologue+body).indexOf(a.getAnchor()) == -1) notExistingAnchors++; //RSS Feed Returns prologue + body As Content
+			}
+			
+			for(RelationInline r : relations) { //Count Duplicate Inline Relations
+				
+				if(r.getRelationInlineProblem()!= null && r.getRelationInlineProblem().equals(RelationInlineProblem.RELATIONS_NEEDS_REPLACEMENT)) duplicateRelations++;
+			}
+			
+			/*
+			 * Characterize Content And Inline Relations
+			 */
+			RelationInlineProblem problem = (notExistingAnchors == duplicateRelations) ? RelationInlineProblem.RELATIONS_CAN_BE_REPLACED : RelationInlineProblem.RELATIONS_CANNOT_BE_REPLACED;
+			
+			c.setRelationInlineProblem(problem);
+			contentService.mergeContent(c, false);
+
+			for(RelationInline r : relations) {
+				
+				if(r.getRelationInlineProblem()!=null && r.getRelationInlineProblem().equals(RelationInlineProblem.RELATIONS_NEEDS_REPLACEMENT)) {
+				
+					r.setRelationInlineProblem(problem);
+					relationInlineService.mergeRelationInline(r);
+				}
+			}	
+		}
+	}
+	
+	//TODO Logic Can Be Used For Replacement
+	@Override
+	public void replaceRelationsInlineWithAnchors() {
+		
+		/*
+		List<Content> contents = contentService.getContentsWithAnchorsInline(null);
+		
+		for(Content c : contents) {
+			
+			String body = contentService.getContentBodyFieldField(c);
+			Set<AnchorInline> anchors = c.getAnchorInlineSet();
+			
+			for(AnchorInline a : anchors) {
+		
+				if(body.indexOf(a.getAnchor()) == -1) { //If Anchor Does Not Exist Check If It Can Replace A Duplicate
+				
+					RelationInline relationInline = relationInlineService.getFirstRelationInlineHavingProblem(c, RelationInlineProblem.RELATIONS_NEEDS_REPLACEMENT);
+					
+					if(relationInline != null) { //Replacement Possible
+						
+						relationInline.setRelationInlineProblem(RelationInlineProblem.RELATIONS_CAN_BE_REPLACED);
+						relationInlineService.mergeRelationInline(relationInline);
+					}
+					else { //Not Possible
+						
+						c.setRelationInlineProblem(RelationInlineProblem.RELATIONS_CANNOT_BE_REPLACED);
+						contentService.mergeContent(c, false);
+						break; //Anchor Does Not Exist In Body And Replacement Not Possible: Content Is Rubbish
+					}
+				}
+			}
+			
+			//Handle The Case Of Remaining RelationInlineProblems And Give A Final Characterization To Content
+			RelationInline remaining = relationInlineService.getFirstRelationInlineHavingProblem(c, RelationInlineProblem.RELATIONS_NEEDS_REPLACEMENT);
+			
+			if(remaining != null) {
+				
+				remaining.setRelationInlineProblem(RelationInlineProblem.RELATIONS_CANNOT_BE_REPLACED);
+				relationInlineService.mergeRelationInline(remaining);
+				c.setRelationInlineProblem(RelationInlineProblem.RELATIONS_CANNOT_BE_REPLACED);
+				contentService.mergeContent(c, false);
+			}
+			else {
+				
+				c.setRelationInlineProblem(RelationInlineProblem.RELATIONS_CAN_BE_REPLACED);
+				contentService.mergeContent(c, false);
+			}
+		}
+		*/
+	}
+
 	//TODO Delete Old Implementation If It's Not Needed
 	/**
 	 * Parse Content's Body Field and Persist Possible Inline Relations
