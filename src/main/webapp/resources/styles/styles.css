@@ -1,42 +1,44 @@
 body {
-	background:#E9E9EA;	
+	font-size:12px;
+	font-family:courier;
+	word-spacing:-3px;
 }
 h1 {
 	background-color:#595D60;
 	color:white;
-	height:80px;
-	line-height:80px;
+	height:60px;
+	line-height:60px;
 	text-align:center;
 	margin:0;
 }
 h3 {
-	background-color:#3366CC;
+	clear:both;
+	background-color:#001F7A;
 	color:white;
-	height:40px;
-	line-height:40px;
-	text-align:center;
-	margin:0;
-}
-h4 {
-	background-color:#99FF99;
 	height:30px;
 	line-height:30px;
 	text-align:center;
 	margin:0;
 }
-h4.title {
-	background-color:#B2B2B2!important;
-}
-h5 {
-	clear:both;
-	background-color:#FF9933;
+h4 {
+	background-color:#6666FF;
+	height:20px;
+	line-height:20px;
 	text-align:center;
-	font-weight:normal;
-	font-style:italic;
-	padding:5px 0 5px 0;
-	border-top:1px solid black;
-	border-bottom:1px solid black;
 	margin:0;
+}
+h4.title {
+	background-color:#8B8E90!important;
+	color:white;
+}
+div.menu {
+	text-align:center;
+	background-color:#8B8E90;
+}
+div.menu a:link, div.menu a:visited, div.menu a:hover, div.menu a:active {
+	color:white;
+	text-decoration:none;
+	font-size:1em;
 }
 div.leftColumn {
 	box-sizing:border-box;
@@ -49,44 +51,22 @@ div.rightColumn {
 	float:left;
 	width:50%;
 }
-a {
-	display:inline-block;
-	color:#595D60;
-	font-weight:bold;
-	padding:15px 0 15px 15px;
+div.footer {
+	clear:both;
+	background-color:#8B8E90;
+	color:white;
+	font-size:0.8em;
 	text-align:center;
+}
+a:link, a:visited, a:active {
+	display:inline-block;
+	font-weight:bold;
+	color:black;
+	padding:1em 0 1em 1.4em;
+}
+a:hover {
+	color:#6666FF;
 }
 code {
-	font-size:10px;
-}
-/*
-* TABLES
-*/
-table {
-  	border-collapse:collapse;
-	width:100%;
-	font-size:13px;
-}
-th, td {
-	border:1px solid #666666;
-	text-align:center;
-	height:40px;
-	padding:4px;
-}
-th {
-  	background-color:#99FF99;
-}
-
-th:first-child, td:first-child { /*Id*/
-	width:80px;
-}
-th:last-child, td:last-child { /*Picture Exists*/
-	width:80px;
-}
-td.error {
-	background-color:#FF9999;
-	color:white;
-}
-td.warning {
-	background-color:#FFFFB2;
+	font-size:0.9em;
 }

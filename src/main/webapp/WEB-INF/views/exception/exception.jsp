@@ -5,21 +5,23 @@
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/styles/styles.css" />" />
 </head>
 <body>
-<h1>Escenic Syndication Converter</h1>
-
+	<h1>Escenic Syndication Converter</h1>
+	<div class="menu">
+		<a href="<c:url value='/' />">Home Section</a>
+		<a href="#">Exclude Content</a>
+		<a href="#">Delete Section</a>
+		<a href="#">Delete Content</a>
+	</div>
+	
 	<c:if test="${not empty errorMessage}">
-		<p>
-			<strong>Exception :</strong> 
-			${errorMessage}
-		</p>
+		<h4>Exception</h4>
+		<p>${errorMessage}</p>
 	</c:if>
-
 	<c:if test="${not empty errorStackTrace}">
-		<p>
-			<strong>Stack Trace :</strong><br /><br />
-			<code>${errorStackTrace}</code>
-		</p>
+		<h4>Stack Trace</h4>
+		<p><code>${errorStackTrace}</code></p>
 	</c:if>
 	
+	<div class="footer">Copyright © 2014 24MEDIA</div>
 </body>
 </html>

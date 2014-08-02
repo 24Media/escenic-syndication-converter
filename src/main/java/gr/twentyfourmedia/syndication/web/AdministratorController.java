@@ -57,7 +57,11 @@ public class AdministratorController {
 	@RequestMapping(value = "anchors")
 	public ModelAndView anchors() {
 		
-		anchorInlineService.deleteAllAnchorsInline(); //No Way To Check For Duplicates So Existing Database Entries Must Be Deleted
+		/*
+		 * Clear Existing Values To Examine Contents Again
+		 */
+		anchorInlineService.deleteAllAnchorsInline();
+		
 		administratorService.parseInlineAnchors(5, "cosmo");
 		administratorService.characterizeContentAndRelationsInline();
 			
