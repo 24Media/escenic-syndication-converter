@@ -38,7 +38,7 @@
 			<a href="<c:url value='/content/marshall?type=photostory' />">All 'photostory'</a><br />
 	</div>
 	<div class="rightColumn">
-		<h4 class="title">Marshall To Multiple Files (*1)</h4>
+		<h4 class="title">Marshall To Multiple Files</h4>
 		<h4>Content</h4>
 			<!-- Type -->
 			<a href="<c:url value='/content/marshallToMultipleFiles?itemsPerFile=10' />">All 'content'</a><br />

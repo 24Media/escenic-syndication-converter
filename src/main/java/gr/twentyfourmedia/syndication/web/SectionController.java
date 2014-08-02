@@ -24,7 +24,6 @@ import gr.twentyfourmedia.syndication.utilities.CustomException;
 import org.eclipse.persistence.oxm.CharacterEscapeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -37,7 +36,7 @@ public class SectionController {
 	private SectionService sectionService;	
 	
 	@RequestMapping(value = "marshall")
-	public String marshall(Model model) {
+	public ModelAndView marshall() {
 
 		Escenic sections = new Escenic();
 		sections.setVersion("2.0");
@@ -76,11 +75,12 @@ public class SectionController {
 			exception.printStackTrace();
 		}
 		
-		return "/home";
+		ModelAndView model = new ModelAndView("redirect:/");
+		return model;
 	}
 	
 	@RequestMapping(value = "unmarshall")
-	public String unmarshall(Model model) throws Exception {
+	public ModelAndView unmarshall() throws Exception {
 		
 		String path = System.getProperty("filepath.syndicationFiles") + "/read/Sections_Import.xml";
 		
@@ -109,7 +109,8 @@ public class SectionController {
 			throw new CustomException("${syndicationFiles}/read/Sections_Import.xml File Does Not Exist");
 		}
 		
-		return "/home";
+		ModelAndView model = new ModelAndView("redirect:/");
+		return model;
 	}
 	
 	//TODO Create View For Delete Action
@@ -134,7 +135,7 @@ public class SectionController {
 			throw new CustomException("Section Does Not Exist.");
 		}
 		
-		ModelAndView model = new ModelAndView("/home");
+		ModelAndView model = new ModelAndView("redirect:/");
 		return model;
 	}
 	

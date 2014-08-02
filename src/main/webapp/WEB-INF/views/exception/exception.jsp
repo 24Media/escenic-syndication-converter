@@ -14,11 +14,11 @@
 	</div>
 	
 	<c:if test="${not empty errorMessage}">
-		<h4>Exception</h4>
+		<h4>Exception Error Message</h4>
 		<p>${errorMessage}</p>
 	</c:if>
 	<c:if test="${not empty errorStackTrace}">
-		<h4>Stack Trace</h4>
+		<h4>Exception Stack Trace</h4>
 		<p><code>${errorStackTrace}</code></p>
 	</c:if>
 	

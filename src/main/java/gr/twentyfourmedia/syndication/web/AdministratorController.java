@@ -50,7 +50,7 @@ public class AdministratorController {
 		administratorService.findMissingInlineRelations();
 		administratorService.findDuplicateInlineRelations();
 		
-		ModelAndView model = new ModelAndView("/home");
+		ModelAndView model = new ModelAndView("redirect:/");
 		return model;
 	}
 
@@ -65,7 +65,7 @@ public class AdministratorController {
 		administratorService.parseInlineAnchors(5, "cosmo");
 		administratorService.characterizeContentAndRelationsInline();
 			
-		ModelAndView model = new ModelAndView("/home");
+		ModelAndView model = new ModelAndView("redirect:/");
 		return model;
 	}
 }

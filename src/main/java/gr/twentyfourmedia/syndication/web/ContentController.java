@@ -26,7 +26,6 @@ import javax.xml.transform.stream.StreamSource;
 import org.eclipse.persistence.oxm.CharacterEscapeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -49,9 +48,8 @@ public class ContentController {
 	 * @return View To Be Rendered
 	 */
 	@RequestMapping(value = "marshall")
-	public String marshallToOneFile(@RequestParam(value = "id", required = false) Long id,
-									@RequestParam(value = "type", required = false) String type, 
-									Model model) {
+	public ModelAndView marshallToOneFile(@RequestParam(value = "id", required = false) Long id,
+										  @RequestParam(value = "type", required = false) String type) {
 
 		Escenic contents = new Escenic();
 		contents.setVersion("2.0");
@@ -102,7 +100,8 @@ public class ContentController {
 			exception.printStackTrace();
 		}
 
-		return "/home";
+		ModelAndView model = new ModelAndView("redirect:/");
+		return model;
 	}
 	
 	/**
@@ -113,9 +112,8 @@ public class ContentController {
 	 * @return View To Be Rendered
 	 */
 	@RequestMapping(value = "marshallToMultipleFiles")
-	public String marshallToMultipleFiles(@RequestParam(value = "type", required = false) String type,
-										  @RequestParam(value = "itemsPerFile") int itemsPerFile,
-										  Model model) {
+	public ModelAndView marshallToMultipleFiles(@RequestParam(value = "type", required = false) String type,
+										  	    @RequestParam(value = "itemsPerFile") int itemsPerFile) {
 
 		List<Content> contentsList = new ArrayList<Content>();
 		
@@ -186,11 +184,12 @@ public class ContentController {
 			}
 		}
 
-		return "/home";
+		ModelAndView model = new ModelAndView("redirect:/");
+		return model;
 	}	
 
 	@RequestMapping(value = "unmarshall")
-	public String unmarshall(Model model) throws Exception {
+	public ModelAndView unmarshall() throws Exception {
 		
 		String path = System.getProperty("filepath.syndicationFiles") + "/read/Contents_Import.xml";
 		
@@ -221,7 +220,8 @@ public class ContentController {
 			throw new CustomException("${syndicationFiles}/read/Contents_Import.xml File Does Not Exist");
 		}
 		
-		return "/home";
+		ModelAndView model = new ModelAndView("redirect:/");
+		return model;
 	}
 	
 	//TODO Create View For Delete Action
@@ -244,7 +244,7 @@ public class ContentController {
 			throw new CustomException("Content Does Not Exist.");
 		}
 		
-		ModelAndView model = new ModelAndView("/home");
+		ModelAndView model = new ModelAndView("redirect:/");
 		return model;
 	}
 	
