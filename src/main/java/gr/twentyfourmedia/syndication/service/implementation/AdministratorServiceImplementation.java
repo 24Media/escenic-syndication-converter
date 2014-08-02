@@ -183,6 +183,7 @@ public class AdministratorServiceImplementation implements AdministratorService 
 		}
 	}
 	
+	//TODO Delete Old Implementation If It's Not Needed
 	/**
 	 * Parse Content's Body Field and Persist Possible Inline Relations
 	 * @param content Content
@@ -191,6 +192,7 @@ public class AdministratorServiceImplementation implements AdministratorService 
 	@Override
 	public void parseBodyPersistRelationsInline(Content content, String body) {
 		
+		/*
 		String input = body;
 		String split = "<relation ";
 		String source = "source=\"";
@@ -208,6 +210,21 @@ public class AdministratorServiceImplementation implements AdministratorService 
 			relationInline.setContentApplicationId(content);
 			relationInline.setSource(temporarySource.substring(0, temporarySource.indexOf("\"")));
 			relationInline.setSourceId(temporarySourceId.substring(0, temporarySourceId.indexOf("\"")));
+			
+			relationInlineService.persistRelationInline(relationInline);
+		}
+		*/
+		
+		String input = body.replaceAll("<!\\[CDATA\\[", "").replaceAll("\\]\\]>", "");
+		Element jsoup = Jsoup.parse(input);
+		Elements relations = jsoup.select("relation");
+		
+		for(Element r : relations) {
+					
+			RelationInline relationInline = new RelationInline();
+			relationInline.setContentApplicationId(content);
+			relationInline.setSource(r.attr("source"));
+			relationInline.setSourceId(r.attr("sourceid"));
 			
 			relationInlineService.persistRelationInline(relationInline);
 		}
