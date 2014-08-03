@@ -12,6 +12,8 @@
 		<a href="#">Exclude Content</a>
 		<a href="#">Delete Section</a>
 		<a href="#">Delete Content</a>
+		<a href="<c:url value='/administrator/relations' />" onclick="return confirm('Old Analysis Will Be Deleted. Proceed?')">Analyse Relations</a>
+		<a href="<c:url value='/administrator/analysis' />">View Analysis</a>
 	</div>
 	<!--
 		*
@@ -74,7 +76,7 @@
 		*
 	-->
 	<c:if test="${fn:length(newsDuplicates) > 0}">
-		<h4 style="background-color:red;">'news' Relations Inline Problems Summary</h4>
+		<h4 style="background-color:#DA4747;">'news' Relations Inline Problems Summary</h4>
 		<c:forEach var="entry" items="${newsDuplicates}">
 			<div>
 				<div class="summaryLeft"><c:out value="${entry.key}"/></div>

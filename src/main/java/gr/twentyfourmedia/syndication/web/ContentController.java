@@ -41,15 +41,14 @@ public class ContentController {
 	private FieldService fieldService;
 	
 	/**
-	 * Marshall Contents Read From Database, Given an Id, Content's Type et al.
+	 * Marshall Contents Read From Database, Given an Id or Content's Type
 	 * @param id Application Id Of A Specific Content
 	 * @param type Content Type
-	 * @param model Model
-	 * @return View To Be Rendered
+	 * @return ModelAndView Object
 	 */
 	@RequestMapping(value = "marshall")
 	public ModelAndView marshallToOneFile(@RequestParam(value = "id", required = false) Long id,
-										  @RequestParam(value = "type", required = false) String type) {
+										  @RequestParam(value = "type", required = true) String type) {
 
 		Escenic contents = new Escenic();
 		contents.setVersion("2.0");
@@ -79,10 +78,6 @@ public class ContentController {
 		else if(type != null) { //Content Items Of Specified Type
 			
 			contents.setContentList(filterOutElementsAndAttributes(contentService.getContentsByType(type, "excludeEverything")));
-		}
-		else { //All Content Items
-			
-			contents.setContentList(filterOutElementsAndAttributes(contentService.getContents("escludeEverything")));
 		}
 		
 		String path = System.getProperty("filepath.syndicationFiles") + "/write/Contents_Export.xml";
@@ -121,27 +116,18 @@ public class ContentController {
 	}
 	
 	/**
-	 * Marshall Contents Read From Database, Given an Id, Content's Type et al.
+	 * Marshall Contents Read From Database Given Content's Type
 	 * @param type Content Type
 	 * @param itemsPerFile Items Per File
-	 * @param model Model
-	 * @return View To Be Rendered
+	 * @return ModelAndView Object
 	 */
 	@RequestMapping(value = "marshallToMultipleFiles")
-	public ModelAndView marshallToMultipleFiles(@RequestParam(value = "type", required = false) String type,
+	public ModelAndView marshallToMultipleFiles(@RequestParam(value = "type", required = true) String type,
 										  	    @RequestParam(value = "itemsPerFile") int itemsPerFile) {
 
 		List<Content> contentsList = new ArrayList<Content>();
+		contentsList.addAll(contentService.getContentsByType(type, "excludeEverything"));
 		
-		if(type != null) {
-			
-			contentsList.addAll(contentService.getContentsByType(type, "excludeEverything"));
-		}
-		else {
-			
-			contentsList.addAll(contentService.getContents("excludeEverything"));
-		}
-
 		Escenic escenic = new Escenic();
 		escenic.setVersion("2.0");
 		

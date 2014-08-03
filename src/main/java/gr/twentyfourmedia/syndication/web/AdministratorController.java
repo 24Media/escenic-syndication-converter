@@ -53,6 +53,44 @@ public class AdministratorController {
 		administratorService.findDuplicateInlineRelations();
 		
 		ModelAndView model = new ModelAndView("/administrator/relations");
+		populateSummaries(model);
+		return model;
+	}
+
+	@RequestMapping(value = "anchors")
+	public ModelAndView anchors() {
+
+		/*
+		 * Clear Existing Values To Examine Contents Again
+		 */
+		anchorInlineService.deleteAllAnchorsInline();
+		
+		administratorService.parseInlineAnchors(5, "cosmo");
+		administratorService.characterizeContentAndRelationsInline();
+		
+		ModelAndView model = new ModelAndView("/administrator/anchors");
+		populateSummaries(model);
+		return model;
+	}
+	
+	/**
+	 * Just Populate Summaries And Show The Results
+	 * @return ModelAndView Object
+	 */
+	@RequestMapping(value = "analysis")
+	public ModelAndView analysis() {
+
+		ModelAndView model = new ModelAndView("/administrator/anchors");
+		populateSummaries(model);
+		return model;
+	}
+	
+	/**
+	 * Add Content and Relation Inline Problems Summaries To Given ModelAndView Object
+	 * @param model ModelAndView Object
+	 * @return ModelAndView Enriched With Summaries
+	 */
+	private ModelAndView populateSummaries(ModelAndView model) {
 		
 		/*
 		 * Content Problems Summary
@@ -81,32 +119,6 @@ public class AdministratorController {
 		 */
 		Map<String, Map<String, Long>> combinedProblems = contentService.contentCombinedSummary();
 		model.addObject("combinedProblems", combinedProblems);
-		
-		return model;
-	}
-
-	//TODO Redirect To A View With Summaries
-	@RequestMapping(value = "anchors")
-	public ModelAndView anchors() {
-
-		/*
-		 * Clear Existing Values To Examine Contents Again
-		 */
-		anchorInlineService.deleteAllAnchorsInline();
-		
-		administratorService.parseInlineAnchors(5, "cosmo");
-		administratorService.characterizeContentAndRelationsInline();
-			
-		
-		
-		
-		ModelAndView model = new ModelAndView("/administrator/anchors");
-		
-		//TODO Create A Proper Summary Page
-		//Summary Of 'news' contentProblems
-		Map<String, Map<String, Long>> problems = contentService.contentSummary("problemSummary");
-		Map<String, Long> newsProblems = problems.get("news");
-		model.addObject("newsProblems", newsProblems);
 		
 		return model;
 	}
