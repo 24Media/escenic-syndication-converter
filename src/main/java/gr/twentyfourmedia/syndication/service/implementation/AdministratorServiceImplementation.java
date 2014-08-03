@@ -1,11 +1,6 @@
 package gr.twentyfourmedia.syndication.service.implementation;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -230,57 +225,6 @@ public class AdministratorServiceImplementation implements AdministratorService 
 		}
 	}
 	
-	//TODO Logic Can Be Used For Replacement
-	@Override
-	public void replaceRelationsInlineWithAnchors() {
-		
-		/*
-		List<Content> contents = contentService.getContentsWithAnchorsInline(null);
-		
-		for(Content c : contents) {
-			
-			String body = contentService.getContentBodyFieldField(c);
-			Set<AnchorInline> anchors = c.getAnchorInlineSet();
-			
-			for(AnchorInline a : anchors) {
-		
-				if(body.indexOf(a.getAnchor()) == -1) { //If Anchor Does Not Exist Check If It Can Replace A Duplicate
-				
-					RelationInline relationInline = relationInlineService.getFirstRelationInlineHavingProblem(c, RelationInlineProblem.RELATIONS_NEEDS_REPLACEMENT);
-					
-					if(relationInline != null) { //Replacement Possible
-						
-						relationInline.setRelationInlineProblem(RelationInlineProblem.RELATIONS_CAN_BE_REPLACED);
-						relationInlineService.mergeRelationInline(relationInline);
-					}
-					else { //Not Possible
-						
-						c.setRelationInlineProblem(RelationInlineProblem.RELATIONS_CANNOT_BE_REPLACED);
-						contentService.mergeContent(c, false);
-						break; //Anchor Does Not Exist In Body And Replacement Not Possible: Content Is Rubbish
-					}
-				}
-			}
-			
-			//Handle The Case Of Remaining RelationInlineProblems And Give A Final Characterization To Content
-			RelationInline remaining = relationInlineService.getFirstRelationInlineHavingProblem(c, RelationInlineProblem.RELATIONS_NEEDS_REPLACEMENT);
-			
-			if(remaining != null) {
-				
-				remaining.setRelationInlineProblem(RelationInlineProblem.RELATIONS_CANNOT_BE_REPLACED);
-				relationInlineService.mergeRelationInline(remaining);
-				c.setRelationInlineProblem(RelationInlineProblem.RELATIONS_CANNOT_BE_REPLACED);
-				contentService.mergeContent(c, false);
-			}
-			else {
-				
-				c.setRelationInlineProblem(RelationInlineProblem.RELATIONS_CAN_BE_REPLACED);
-				contentService.mergeContent(c, false);
-			}
-		}
-		*/
-	}
-
 	//TODO Delete Old Implementation If It's Not Needed
 	/**
 	 * Parse Content's Body Field and Persist Possible Inline Relations
@@ -368,44 +312,5 @@ public class AdministratorServiceImplementation implements AdministratorService 
 			
 			exception.printStackTrace();
 		}
-	}	
-	
-	/**
-	 * Given A Publication and Content's ArticleId, Read Content From RSS Feed
-	 * @param publicationId Publication's Id
-	 * @param articleId Content's Article Id
-	 * @param ident Publications Ident
-	 * @return RSS Feed's Content As String
-	 */
-	@Override
-	public String getContentFromRSSFeed(int publicationId, Long articleId, String ident) {
-		
-		StringBuilder builder = new StringBuilder();
-		
-		try {
-			
-			URL url = new URL("http://feeds.24media.gr/feed/article/?publicationId=" + publicationId + "&articleId=" + articleId + "&ident=" + ident);
-			URLConnection connection = url.openConnection();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			
-			String line;
-			
-			while((line = reader.readLine()) != null) {
-				
-				builder.append(line.trim());
-			}
-			
-			reader.close();
-		} 
-		catch (MalformedURLException exception) {
-
-			exception.printStackTrace();
-		} 
-		catch (IOException exception) {
-			
-			exception.printStackTrace();
-		}
-		
-		return builder.toString();
 	}
 }

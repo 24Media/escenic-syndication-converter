@@ -6,6 +6,7 @@ import gr.twentyfourmedia.syndication.model.Field;
 import gr.twentyfourmedia.syndication.model.RelationInlineProblem;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ContentService {
 
@@ -54,4 +55,10 @@ public interface ContentService {
 	void updateContentProblem(Content content, ContentProblem contentProblem);
 	
 	void deleteContent(Long applicationId);
+	
+	String replaceDuplicateRelationsInlineWithAnchors(Content content);
+	
+	Map<String, Map<String, Long>> contentSummary(String namedQuery);
+	
+	Map<String, Map<String, Long>> contentCombinedSummary();
 }

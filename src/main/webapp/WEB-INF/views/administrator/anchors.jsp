@@ -12,15 +12,14 @@
 		<a href="#">Delete Section</a>
 		<a href="#">Delete Content</a>
 	</div>
-	
-	<c:if test="${not empty errorMessage}">
-		<h4>Exception Error Message</h4>
-		<p>${errorMessage}</p>
-	</c:if>
-	<c:if test="${not empty errorStackTrace}">
-		<h4>Exception Stack Trace</h4>
-		<p><code>${errorStackTrace}</code></p>
-	</c:if>
+
+	<h4>'news' Content Problems Summary</h4>
+	<c:forEach var="entry" items="${newsProblems}">
+		<div>
+			<div class="summaryLeft"><c:out value="${entry.key}"/></div>
+	  		<div class="summaryRight"><c:out value="${entry.value}"/></div>
+	  	</div>
+	</c:forEach>
 	
 	<div class="footer">Copyright © 2014 24MEDIA</div>
 </body>

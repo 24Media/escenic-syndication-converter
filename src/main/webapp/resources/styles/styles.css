@@ -21,6 +21,7 @@ h3 {
 	margin:0;
 }
 h4 {
+	clear:both;
 	background-color:#6666FF;
 	height:20px;
 	line-height:20px;
@@ -50,6 +51,29 @@ div.rightColumn {
 	box-sizing:border-box;
 	float:left;
 	width:50%;
+}
+div.summaryLeft {
+	box-sizing:border-box;
+	width:50%;
+	float:left;
+	text-align:right;	
+}
+div.summaryRight {
+	box-sizing:border-box;
+	width:50%;
+	float:left;
+	text-align:left;
+	padding-left:20px;
+}
+div.note {
+	clear:both;
+	text-align:center;
+}
+div.important {
+	background-color:#FFFFCC;
+}
+div.note a {
+	padding-left:0px!important;	
 }
 div.footer {
 	clear:both;

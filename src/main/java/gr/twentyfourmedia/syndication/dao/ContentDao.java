@@ -1,6 +1,7 @@
 package gr.twentyfourmedia.syndication.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import gr.twentyfourmedia.syndication.model.Content;
 import gr.twentyfourmedia.syndication.model.ContentProblem;
@@ -31,4 +32,8 @@ public interface ContentDao extends AbstractDao<Content> {
 	void excludeByStateDraftOrDeleted();
 	
 	void clearProblems();
+	
+	Map<String, Map<String, Long>> summary(String namedQuery);
+		
+	Map<String, Map<String, Long>> combinedSummary();
 }

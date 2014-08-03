@@ -98,7 +98,16 @@ import org.springframework.format.annotation.DateTimeFormat;
 			query = "UPDATE Content c SET c.contentProblem = null"),
 	@NamedQuery(
 			name = "excludeDraftOrDeletedContent",
-			query = "UPDATE Content c SET c.contentProblem = :contentProblem WHERE c.state IN ('draft', 'deleted')")
+			query = "UPDATE Content c SET c.contentProblem = :contentProblem WHERE c.state IN ('draft', 'deleted')"),
+	@NamedQuery(
+			name = "problemSummary",
+			query = "SELECT c.type, c.contentProblem, COUNT(*) FROM Content c GROUP BY c.type, c.contentProblem"),
+	@NamedQuery(
+			name = "relationInlineSummary",
+			query = "SELECT c.type, c.relationInlineProblem, COUNT(*) FROM Content c GROUP BY c.type, c.relationInlineProblem"),
+	@NamedQuery(
+			name = "problemAndRelationInlineSummary",
+			query = "SELECT c.contentProblem, c.relationInlineProblem, COUNT(*) FROM Content c WHERE c.type = 'news' GROUP BY c.contentProblem, c.relationInlineProblem")			
 })
 @FilterDefs({
     @FilterDef(name = "excludeAuthors"),

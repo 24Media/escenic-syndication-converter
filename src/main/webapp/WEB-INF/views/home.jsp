@@ -7,7 +7,7 @@
 <body>
 	<h1>Escenic Syndication Converter</h1>
 	<div class="menu">
-		<a href="<c:url value='/' />">Home Section</a>
+		<a href="<c:url value='/' />">Home Page</a>
 		<a href="#">Exclude Content</a>
 		<a href="#">Delete Section</a>
 		<a href="#">Delete Content</a>

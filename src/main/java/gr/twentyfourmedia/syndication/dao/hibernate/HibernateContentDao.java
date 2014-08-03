@@ -1,6 +1,8 @@
 package gr.twentyfourmedia.syndication.dao.hibernate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
@@ -117,5 +119,55 @@ public class HibernateContentDao extends HibernateAbstractDao<Content> implement
 		
 		Query query = getSession().getNamedQuery("clearContentProblems");
 		query.executeUpdate();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Map<String, Map<String, Long>> summary(String namedQuery) {
+		
+		Query query = getSession().getNamedQuery(namedQuery);
+
+		List<Object[]> rows = query.list();
+		Map<String, Map<String, Long>> result = new HashMap<String, Map<String, Long>>();
+		
+        for(Object[] row : rows) {
+            
+        	String type = (String) row[0];
+        	Map<String, Long> counting;
+        	if(result.get(type) == null) counting = new HashMap<String, Long>(); else counting = result.get(type);
+        	
+        	String problem = row[1]==null ? "null" : row[1].toString();
+        	Long count = (Long) row[2];
+        	counting.put(problem, count);
+        	
+        	result.put(type, counting);
+        }
+		
+        return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Map<String, Map<String, Long>> combinedSummary() {
+
+		Query query = getSession().getNamedQuery("problemAndRelationInlineSummary");
+
+		List<Object[]> rows = query.list();
+		Map<String, Map<String, Long>> result = new HashMap<String, Map<String, Long>>();
+		
+        for(Object[] row : rows) {
+            
+        	String problem = row[0]==null ? "null" : row[0].toString();
+        	Map<String, Long> counting;
+        	if(result.get(problem) == null) counting = new HashMap<String, Long>(); else counting = result.get(problem);
+        	
+        	String duplicate = row[1]==null ? "null" : row[1].toString();
+        	Long count = (Long) row[2];
+        	counting.put(duplicate, count);
+        	
+        	result.put(problem, counting);
+        }
+		
+        return result;	
 	}
 }

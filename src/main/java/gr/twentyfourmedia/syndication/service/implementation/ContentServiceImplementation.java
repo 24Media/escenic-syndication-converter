@@ -3,19 +3,24 @@ package gr.twentyfourmedia.syndication.service.implementation;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import gr.twentyfourmedia.syndication.dao.AuthorDao;
 import gr.twentyfourmedia.syndication.dao.ContentDao;
 import gr.twentyfourmedia.syndication.dao.FieldDao;
 import gr.twentyfourmedia.syndication.dao.RelationDao;
 import gr.twentyfourmedia.syndication.dao.SectionRefDao;
+import gr.twentyfourmedia.syndication.model.AnchorInline;
 import gr.twentyfourmedia.syndication.model.Content;
 import gr.twentyfourmedia.syndication.model.ContentProblem;
 import gr.twentyfourmedia.syndication.model.Field;
 import gr.twentyfourmedia.syndication.model.Relation;
+import gr.twentyfourmedia.syndication.model.RelationInline;
 import gr.twentyfourmedia.syndication.model.RelationInlineProblem;
 import gr.twentyfourmedia.syndication.model.SectionRef;
 import gr.twentyfourmedia.syndication.service.ContentService;
+import gr.twentyfourmedia.syndication.service.RelationInlineService;
 
 import javax.transaction.Transactional;
 
@@ -23,6 +28,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +50,9 @@ public class ContentServiceImplementation implements ContentService {
 
 	@Autowired
 	private AuthorDao authorDao;
+	
+	@Autowired
+	private RelationInlineService relationInlineService;
 	
 	@Override
 	public void persistContent(Content content) {
@@ -420,5 +429,47 @@ public class ContentServiceImplementation implements ContentService {
 	public void deleteContent(Long applicationId) {
 		
 		contentDao.deleteById(applicationId);
-	}	
+	}
+	
+	//TODO Logic Can Be Used For Replacement
+	//TODO In body.replaceAll You Have To Replace Second Occurence Only
+	@Override
+	public String replaceDuplicateRelationsInlineWithAnchors(Content content) {
+		
+		String prologue = getContentFieldField(content, "prologue"); //No Need To Escape CDATA For Prologue
+		String body = getContentFieldField(content, "body").replaceAll("<!\\[CDATA\\[", "").replaceAll("\\]\\]>", "");
+		Set<AnchorInline> anchors = content.getAnchorInlineSet();
+		System.out.println("ANCHORS INLINE = " + anchors.size());
+		
+		for(AnchorInline a : anchors) {
+	
+			if((prologue+body).indexOf(a.getAnchor()) == -1) { //If Anchor Does Not Exist It Can Replace A Duplicate
+
+				RelationInline relationInline = relationInlineService.getFirstRelationInlineHavingProblem(content, RelationInlineProblem.RELATIONS_NEEDS_REPLACEMENT);
+				
+				System.out.println("NEEDS REPLACEMENT " + a.getAnchor());
+				System.out.println("sourceid = " + relationInline.getSourceId());
+				
+				org.jsoup.nodes.Element jsoup = Jsoup.parse(body); //Every Time A Replacement Is Needed Parse Current Body String
+				String relation = jsoup.select("relation[sourceid=" + relationInline.getSourceId() + "]").get(1).outerHtml();
+				System.out.println("RELATION TO REPLACE : " + relation);
+				
+				body = body.replaceAll(relation, a.getAnchor());
+			}
+		}
+		
+		return "<![CDATA[" + body + "]]>";
+	}
+
+	@Override
+	public Map<String, Map<String, Long>> contentSummary(String namedQuery) {
+		
+		return contentDao.summary(namedQuery);
+	}
+
+	@Override
+	public Map<String, Map<String, Long>> contentCombinedSummary() {
+		
+		return contentDao.combinedSummary();
+	}
 }

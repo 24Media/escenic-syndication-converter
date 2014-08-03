@@ -57,8 +57,24 @@ public class ContentController {
 		
 		if(id != null) { //A Single Content Item
 		
-			contentsList.add(contentService.getContent(id, "excludeEverything"));
-			contents.setContentList(filterOutElementsAndAttributes(contentsList));
+			//contentsList.add(contentService.getContent((long) 73, "excludeEverything"));
+			//contents.setContentList(filterOutElementsAndAttributes(contentsList));
+		
+			//TODO Put Them In The Right Place
+			Content content = contentService.getContent((long) 73, null);
+			
+		
+			
+			System.out.println(contentService.replaceDuplicateRelationsInlineWithAnchors(content));
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		}
 		else if(type != null) { //Content Items Of Specified Type
 			
