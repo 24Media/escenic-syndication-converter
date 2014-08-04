@@ -2,6 +2,7 @@ package gr.twentyfourmedia.syndication.service.implementation;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -431,36 +432,94 @@ public class ContentServiceImplementation implements ContentService {
 		contentDao.deleteById(applicationId);
 	}
 	
-	//TODO Logic Can Be Used For Replacement
-	//TODO In body.replaceAll You Have To Replace Second Occurence Only
+	/**
+	 * Replace Duplicate Inline Relations Of A Content That Can Be Corrected With Inline Anchors Read From RSS Feed
+	 * @param Content With Duplicates
+	 * @return Content Without Duplicates or null
+	 */
 	@Override
-	public String replaceDuplicateRelationsInlineWithAnchors(Content content) {
+	public Content replaceDuplicateRelationsInlineWithAnchors(Content content) {
 		
 		String prologue = getContentFieldField(content, "prologue"); //No Need To Escape CDATA For Prologue
 		String body = getContentFieldField(content, "body").replaceAll("<!\\[CDATA\\[", "").replaceAll("\\]\\]>", "");
+		
+		Set<RelationInline> relations = content.getRelationInlineSet();
 		Set<AnchorInline> anchors = content.getAnchorInlineSet();
-		System.out.println("ANCHORS INLINE = " + anchors.size());
+
+		//Check Before Returning That Replacements Done Equals The Expected Number
+		int replacementsDone = 0;
+		int replacementsExpected = relationInlineService.countRelationsInlineWithGivenProblem(content, RelationInlineProblem.RELATIONS_CAN_BE_REPLACED);
 		
 		for(AnchorInline a : anchors) {
 	
 			if((prologue+body).indexOf(a.getAnchor()) == -1) { //If Anchor Does Not Exist It Can Replace A Duplicate
 
-				RelationInline relationInline = relationInlineService.getFirstRelationInlineHavingProblem(content, RelationInlineProblem.RELATIONS_NEEDS_REPLACEMENT);
+				/*
+				 * Find The First Relation Inline With Problem RELATIONS_CAN_BE_REPLACED
+				 */
+				RelationInline problem = null;
 				
-				System.out.println("NEEDS REPLACEMENT " + a.getAnchor());
-				System.out.println("sourceid = " + relationInline.getSourceId());
+				Iterator<RelationInline> iterator = relations.iterator();
 				
-				org.jsoup.nodes.Element jsoup = Jsoup.parse(body); //Every Time A Replacement Is Needed Parse Current Body String
-				String relation = jsoup.select("relation[sourceid=" + relationInline.getSourceId() + "]").get(1).outerHtml();
-				System.out.println("RELATION TO REPLACE : " + relation);
+				while(iterator.hasNext()) {
+					
+					RelationInline current = iterator.next();
+					
+					if(current.getRelationInlineProblem()!=null && current.getRelationInlineProblem().equals(RelationInlineProblem.RELATIONS_CAN_BE_REPLACED)) {
+						problem = current;
+						iterator.remove(); //Remove It From Set So Next Call Finds The Next Problem
+						break;
+					}
+				}
 				
-				body = body.replaceAll(relation, a.getAnchor());
+				/*
+				 * Every Time A Replacement Is Needed Parse Current Body String To Exclude Already Corrected Duplicates
+				 */
+				org.jsoup.nodes.Element jsoup = Jsoup.parse(body);
+				String relation = jsoup
+								 .select("relation[sourceid=" + problem.getSourceId() + "]")
+								 .get(1)
+								 .outerHtml()
+								 .replaceAll("(\\r|\\n)", "")
+								 .replaceAll("> <", "><")
+								 .replaceAll(" />", "/>");
+
+				String replaced = gr.twentyfourmedia.syndication.utilities.StringUtilities.replaceNthOccurrence(body, relation, a.getAnchor(), 2);
+
+				if(!replaced.equals(body)) {
+					
+					body = replaced;
+					replacementsDone++;
+				}
+				else {
+					
+					break; //No Need To Continue
+				}
 			}
 		}
 		
-		return "<![CDATA[" + body + "]]>";
+		/*
+		 * Return Content With Body Replaced Or null If Some Error Occurred 
+		 */
+		if(replacementsDone == replacementsExpected) {
+			
+			List<Field> contentFields = new ArrayList<Field>();
+			
+			for(Field f : content.getFieldList()) {
+				
+				if(f.getName().equals("body")) f.setField("<![CDATA[" + body + "]]>");
+				contentFields.add(f);
+			}
+			
+			content.setFieldList(contentFields);
+			return content;
+		}
+		else {
+			
+			return null;
+		}
 	}
-
+	
 	@Override
 	public Map<String, Map<String, Long>> contentSummary(String namedQuery) {
 		

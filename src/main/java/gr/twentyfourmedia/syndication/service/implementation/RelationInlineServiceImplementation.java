@@ -39,7 +39,9 @@ public class RelationInlineServiceImplementation implements RelationInlineServic
 	}
 
 	@Override
-	public RelationInline getFirstRelationInlineHavingProblem(Content content, RelationInlineProblem relationInlineProblem) {
+	public int countRelationsInlineWithGivenProblem(Content content, RelationInlineProblem relationInlineProblem) {
+		
+		int result = 0;
 		
 		Set<RelationInline> relationsInline = content.getRelationInlineSet();
 		
@@ -47,10 +49,10 @@ public class RelationInlineServiceImplementation implements RelationInlineServic
 			
 			if(r.getRelationInlineProblem()!=null && r.getRelationInlineProblem().equals(relationInlineProblem)) {
 				
-				return r;
+				result++;
 			}
 		}
 		
-		return null; //If No RelationInline With The Given Problem Exists
+		return result;
 	}
 }

@@ -12,5 +12,5 @@ public interface RelationInlineService {
 	
 	void deleteAllRelationsInline();
 	
-	RelationInline getFirstRelationInlineHavingProblem(Content content, RelationInlineProblem relationInlineProblem); //TODO Delete It If Not Used
+	int countRelationsInlineWithGivenProblem(Content content, RelationInlineProblem relationInlineProblem);
 }

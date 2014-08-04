@@ -56,7 +56,7 @@ public interface ContentService {
 	
 	void deleteContent(Long applicationId);
 	
-	String replaceDuplicateRelationsInlineWithAnchors(Content content);
+	Content replaceDuplicateRelationsInlineWithAnchors(Content content);
 	
 	Map<String, Map<String, Long>> contentSummary(String namedQuery);
 	
