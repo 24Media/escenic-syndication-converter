@@ -23,4 +23,6 @@ public interface SectionService {
 	boolean sectionExistsByUniqueNameElement(String uniqueNameElement);
 	
 	void deleteSection(Long applicationId);
+	
+	Long countSection();
 }

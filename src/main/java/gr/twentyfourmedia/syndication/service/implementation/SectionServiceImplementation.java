@@ -71,4 +71,10 @@ public class SectionServiceImplementation implements SectionService {
 		
 		sectionDao.deleteById(applicationId);
 	}
+
+	@Override
+	public Long countSection() {
+		
+		return sectionDao.count();
+	}
 }

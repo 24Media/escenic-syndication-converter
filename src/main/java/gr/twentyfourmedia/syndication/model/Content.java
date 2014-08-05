@@ -94,6 +94,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 			name = "findContentsExcludingContentProblemsIncludingRelationInlineProblem",
 			query = "FROM Content WHERE contentProblem NOT IN (:contentProblem) AND relationInlineProblem = :relationInlineProblem"),
 	@NamedQuery(
+			name = "countContentByType",
+			query = "SELECT COUNT(*) FROM Content c WHERE c.type = :type"),
+	@NamedQuery(
 			name = "clearContentProblems",
 			query = "UPDATE Content c SET c.contentProblem = null"),
 	@NamedQuery(

@@ -12,10 +12,23 @@
 		<a href="#">Exclude Content</a>
 		<a href="#">Delete Section</a>
 		<a href="#">Delete Content</a>
-		<a href="<c:url value='/administrator/relations' />" onclick="return confirm('Old Analysis Will Be Deleted. Proceed?')">Analyse Relations</a>
+		<a href="<c:url value='/administrator/relations' />" onclick="return confirm('Existing Analysis Will Be Deleted. Proceed?')">Analyse Relations</a>
 		<a href="<c:url value='/administrator/analysis' />">View Analysis</a>
 	</div>
+	
+	<!-- Photostory -->
+	<h3 class="higher">'photostory'</h3>
+	<h4>'photostory' Content Problems Summary</h4>
+	<c:forEach var="map" items="${photostoryProblems}">
+		<div>
+			<div class="summaryLeft"><c:out value="${map.key}"/></div>
+	  		<div class="summaryRight"><c:out value="${map.value}"/></div>
+	  	</div>
+	</c:forEach>
+	<h3 style="border-bottom:1px solid white;">GRAND TOTALS : <c:out value="${photostoryProblems.size()}" /></h3>
 
+	<!-- News -->
+	<h3 class="higher">'news'</h3>
 	<!-- Total Counters -->
 	<c:set var="totalContent" value="${0}" />
 	<c:set var="totalProblem" value="${0}" />
@@ -83,20 +96,56 @@
 		</c:forEach>
 	</c:forEach>
 	<h3>GRAND TOTALS : <c:out value="${totalContent}" /></h3>
+	<!-- Excluded Contents -->
 	<div style="text-align:center;"><c:out value="${excludedBySection}" /> 'EXCLUDED_BY_SECTION'</div>
 	<div style="text-align:center;"><c:out value="${draftOrDeleted}" /> 'DRAFT OR DELETED'</div>
 	<div style="text-align:center;"><c:out value="${missingInlineRelations}" /> 'MISSING_INLINE_RELATIONS'</div>
 	<div style="text-align:center;"><c:out value="${cannotBeReplaced}" /> 'RELATIONS_CANNOT_BE_REPLACED'</div>
 	<h4 style="background-color:#DA4747;">TOTAL EXCUDED ITEMS : <c:out value="${totalProblem}" /></h4>
+	<!-- Contents With No Problem -->
+	<div>
+		<div class="summaryLeft">
+			 null&nbsp;&mdash;&nbsp;null
+		</div>
+		<div class="summaryRight">
+			<c:out value="${totalCorrect}" />
+			<a class="initial" href="<c:url value='#' />">Marshall</a>
+		</div>
+	</div>	
 	<h4 style="background-color:#66FF33;">TOTAL ITEMS WITHOUT PROBLEM : <c:out value="${totalCorrect}" /></h4>	
-	<div style="text-align:center;"><c:out value="${canBeReplaced}" /> RELATIONS_CAN_BE_REPLACED&nbsp;&mdash;&nbsp;null</div>
-	<div style="text-align:center;"><c:out value="${missingRelations}" /> MISSING_RELATIONS&nbsp;&mdash;&nbsp;null</div>
-	<div style="text-align:center;"><c:out value="${canBeReplacedMissingRelations}" /> MISSING_RELATIONS&nbsp;&mdash;&nbsp;RELATIONS_CAN_BE_REPLACED</div>
+	<!-- Contents That Can Be Corrected -->
+	<div>
+		<div class="summaryLeft">
+			 RELATIONS_CAN_BE_REPLACED&nbsp;&mdash;&nbsp;null
+		</div>
+		<div class="summaryRight">
+			<c:out value="${canBeReplaced}" />
+			<a class="initial" href="<c:url value='#' />">Marshall</a>
+		</div>
+	</div>
+	<div>
+		<div class="summaryLeft">
+			 MISSING_RELATIONS&nbsp;&mdash;&nbsp;null
+		</div>
+		<div class="summaryRight">
+			<c:out value="${missingRelations}" />
+			<a class="initial" href="<c:url value='#' />">Marshall</a>
+		</div>
+	</div>	
+	<div>
+		<div class="summaryLeft">
+			 MISSING_RELATIONS&nbsp;&mdash;&nbsp;RELATIONS_CAN_BE_REPLACED
+		</div>
+		<div class="summaryRight">
+			<c:out value="${canBeReplacedMissingRelations}" />
+			<a class="initial" href="<c:url value='#' />">Marshall</a>
+		</div>
+	</div>	
 	<h4 style="background-color:#66FF33;">TOTAL ITEMS WITH PROBLEMS THAT CAN BE CORRECTED : <c:out value="${totalToCorrect}" /></h4>
 	<h3>GRAND TOTALS : <c:out value="${totalProblem+totalCorrect+totalToCorrect}" /></h3>
 
-	<div class="note important">Proceed With Content Marshalling : <a href="<c:url value='/' />">Home Page</a></div>
-	
-	<div class="footer">Copyright © 2014 24MEDIA</div>
+	<div class="note important">Content Other Than 'photostory' | 'news' Can Be Marshalled Here : <a href="<c:url value='/' />">Home Page</a></div>
+
+	<div class="footer">Copyright &copy; 2014 24MEDIA</div>
 </body>
 </html>

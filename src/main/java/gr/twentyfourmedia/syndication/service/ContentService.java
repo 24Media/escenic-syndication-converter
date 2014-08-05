@@ -61,4 +61,6 @@ public interface ContentService {
 	Map<String, Map<String, Long>> contentSummary(String namedQuery);
 	
 	Map<String, Map<String, Long>> contentCombinedSummary();
+	
+	Long countContentByType(String type);
 }

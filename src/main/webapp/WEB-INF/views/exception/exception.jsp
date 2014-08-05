@@ -11,7 +11,7 @@
 		<a href="#">Exclude Content</a>
 		<a href="#">Delete Section</a>
 		<a href="#">Delete Content</a>
-		<a href="<c:url value='/administrator/relations' />" onclick="return confirm('Old Analysis Will Be Deleted. Proceed?')">Analyse Relations</a>
+		<a href="<c:url value='/administrator/relations' />" onclick="return confirm('Existing Analysis Will Be Deleted. Proceed?')">Analyse Relations</a>
 		<a href="<c:url value='/administrator/analysis' />">View Analysis</a>
 	</div>
 	
@@ -24,6 +24,6 @@
 		<p><code>${errorStackTrace}</code></p>
 	</c:if>
 	
-	<div class="footer">Copyright © 2014 24MEDIA</div>
+	<div class="footer">Copyright &copy; 2014 24MEDIA</div>
 </body>
 </html>

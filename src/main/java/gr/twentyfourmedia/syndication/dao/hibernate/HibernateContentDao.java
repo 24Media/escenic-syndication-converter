@@ -170,4 +170,13 @@ public class HibernateContentDao extends HibernateAbstractDao<Content> implement
 		
         return result;	
 	}
+
+	@Override
+	public Long countByType(String type) {
+		
+		Query query = getSession().getNamedQuery("countContentByType");
+		query.setParameter("type", type);
+		
+		return (Long) query.uniqueResult();
+	}
 }

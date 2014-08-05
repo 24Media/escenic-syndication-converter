@@ -12,14 +12,13 @@
 		<a href="#">Exclude Content</a>
 		<a href="#">Delete Section</a>
 		<a href="#">Delete Content</a>
-		<a href="<c:url value='/administrator/relations' />" onclick="return confirm('Old Analysis Will Be Deleted. Proceed?')">Analyse Relations</a>
+		<a href="<c:url value='/administrator/relations' />" onclick="return confirm('Existing Analysis Will Be Deleted. Proceed?')">Analyse Relations</a>
 		<a href="<c:url value='/administrator/analysis' />">View Analysis</a>
 	</div>
-	<!--
-		*
-		* Content Problems Analysis Per Type
-		*
-	-->
+	
+	<c:set var="totalContent" value="${0}" />
+	<c:set var="totalNewsPhotostory" value="${0}" />
+	
 	<!-- Pictures -->
 	<c:if test="${fn:length(pictureProblems) > 0}">
 		<h4>'picture' Content Problems Summary</h4>
@@ -28,6 +27,7 @@
 				<div class="summaryLeft"><c:out value="${entry.key}"/></div>
 		  		<div class="summaryRight"><c:out value="${entry.value}"/></div>
 		  	</div>
+		  	<c:set var="totalContent" value="${totalContent+entry.value}" />
 		</c:forEach>
 	</c:if>
 	<!-- MultipleTypeVideos -->
@@ -38,6 +38,7 @@
 				<div class="summaryLeft"><c:out value="${entry.key}"/></div>
 		  		<div class="summaryRight"><c:out value="${entry.value}"/></div>
 		  	</div>
+		  	<c:set var="totalContent" value="${totalContent+entry.value}" />
 		</c:forEach>
 	</c:if>
 	<!-- Tags -->
@@ -48,6 +49,7 @@
 				<div class="summaryLeft"><c:out value="${entry.key}"/></div>
 		  		<div class="summaryRight"><c:out value="${entry.value}"/></div>
 		  	</div>
+		  	<c:set var="totalContent" value="${totalContent+entry.value}" />
 		</c:forEach>
 	</c:if>
 	<!-- Photostories -->
@@ -58,37 +60,11 @@
 				<div class="summaryLeft"><c:out value="${entry.key}"/></div>
 		  		<div class="summaryRight"><c:out value="${entry.value}"/></div>
 		  	</div>
+		  	<c:set var="totalContent" value="${totalContent+entry.value}" />
+		  	<c:set var="totalNewsPhotostory" value="${totalNewsPhotostory+entry.value}" />
 		</c:forEach>
 	</c:if>
-	<!-- news -->
-	<c:if test="${fn:length(newsProblems) > 0}">
-		<h4>'news' Content Problems Summary</h4>
-		<c:forEach var="entry" items="${newsProblems}">
-			<div>
-				<div class="summaryLeft"><c:out value="${entry.key}"/></div>
-		  		<div class="summaryRight"><c:out value="${entry.value}"/></div>
-		  	</div>
-		</c:forEach>
-	</c:if>	
-	<!--
-		*
-		* Relations Inline Problems Analysis For 'news'
-		*
-	-->
-	<c:if test="${fn:length(newsDuplicates) > 0}">
-		<h4 style="background-color:#DA4747;">'news' Relations Inline Problems Summary</h4>
-		<c:forEach var="entry" items="${newsDuplicates}">
-			<div>
-				<div class="summaryLeft"><c:out value="${entry.key}"/></div>
-		  		<div class="summaryRight"><c:out value="${entry.value}"/></div>
-		  	</div>
-		</c:forEach>
-	</c:if>
-	<!--
-		*
-		* Combined Problems Analysis For 'news'
-		*
-	-->
+	<!-- News -->
 	<c:set var="analyseAnchors" value="${0}" />
 	<c:if test="${fn:length(combinedProblems) > 0}">
 		<h4>'news' Content & Relations Inline Problems Summary</h4>
@@ -102,14 +78,18 @@
 			  		<div class="summaryRight"><c:out value="${problem.value}"/></div>
 			  	</div>
 			  	<c:if test="${problem.key=='RELATIONS_NEEDS_REPLACEMENT' && (map.key=='MISSING_RELATIONS' || map.key == 'null')}">
-			  		<c:set var="analyseAnchors" value="${analyseAnchors+problem.value}">
-			  	</c:set></c:if>		  	
+			  		<c:set var="analyseAnchors" value="${analyseAnchors+problem.value}"></c:set>
+			  	</c:if>
+			  	<c:set var="totalContent" value="${totalContent+problem.value}" />
+		  		<c:set var="totalNewsPhotostory" value="${totalNewsPhotostory+problem.value}" />
 			</c:forEach>
 		</c:forEach>
 	</c:if>
 	
-	<div class="note important">Proceed With Analysis of Inline Anchors For <c:out value="${analyseAnchors}" /> 'news' Contents: <a href="<c:url value='/administrator/anchors/' />">/administrator/anchors/</a></div>
+	<h3>GRAND TOTALS : <c:out value="${totalContent}" /> [ <c:out value="${totalNewsPhotostory}" /> 'photostory' | 'news' ]</h3>
 	
-	<div class="footer">Copyright © 2014 24MEDIA</div>
+	<div class="note important">Proceed With Analysis of Inline Anchors For <c:out value="${analyseAnchors}" /> 'news' Contents: <a href="<c:url value='/administrator/anchors/' />" onclick="return confirm('Existing Anchor Analysis Will Be Deleted. Proceed?')">/administrator/anchors/</a></div>
+	
+	<div class="footer">Copyright &copy; 2014 24MEDIA</div>
 </body>
 </html>

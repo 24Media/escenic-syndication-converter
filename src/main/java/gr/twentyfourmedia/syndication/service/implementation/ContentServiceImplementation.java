@@ -531,4 +531,10 @@ public class ContentServiceImplementation implements ContentService {
 		
 		return contentDao.combinedSummary();
 	}
+
+	@Override
+	public Long countContentByType(String type) {
+		
+		return contentDao.countByType(type);
+	}
 }

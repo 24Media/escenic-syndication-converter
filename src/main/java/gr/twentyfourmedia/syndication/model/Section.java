@@ -53,7 +53,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 			query = "FROM Section WHERE uniqueNameElement = :uniqueNameElement"),
 	@NamedQuery(
 			name = "findSectionBySourceId",
-			query = "FROM Section WHERE sourceId = :sourceId")		
+			query = "FROM Section WHERE sourceId = :sourceId"),
+	@NamedQuery(
+			name = "countSections",
+			query = "SELECT COUNT(*) FROM Section")			
 })
 @Entity
 @Table(name = "section")

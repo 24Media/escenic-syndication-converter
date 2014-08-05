@@ -36,4 +36,6 @@ public interface ContentDao extends AbstractDao<Content> {
 	Map<String, Map<String, Long>> summary(String namedQuery);
 		
 	Map<String, Map<String, Long>> combinedSummary();
+	
+	Long countByType(String type);
 }

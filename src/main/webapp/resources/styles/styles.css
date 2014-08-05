@@ -6,8 +6,8 @@ body {
 h1 {
 	background-color:#595D60;
 	color:white;
-	height:60px;
-	line-height:60px;
+	height:2.5em;
+	line-height:2.5em;
 	text-align:center;
 	margin:0;
 }
@@ -15,10 +15,15 @@ h3 {
 	clear:both;
 	background-color:#001F7A;
 	color:white;
-	height:30px;
-	line-height:30px;
+	height:2.5em;
+	line-height:2.5em;
 	text-align:center;
 	margin:0;
+}
+h3.higher {
+	height:3em;
+	line-height:3em;
+	font-size:1.5em;
 }
 h4 {
 	clear:both;
@@ -63,7 +68,7 @@ div.summaryRight {
 	width:50%;
 	float:left;
 	text-align:left;
-	padding-left:20px;
+	padding-left:1.2em;
 }
 div.note {
 	clear:both;
@@ -73,7 +78,7 @@ div.important {
 	background-color:#FFFFCC;
 }
 div.note a {
-	padding-left:0px!important;	
+	padding-left:0!important;	
 }
 div.footer {
 	clear:both;
@@ -90,6 +95,9 @@ a:link, a:visited, a:active {
 }
 a:hover {
 	color:#6666FF;
+}
+a.initial {
+	padding:0 0 0 1.2em;
 }
 code {
 	font-size:0.9em;
