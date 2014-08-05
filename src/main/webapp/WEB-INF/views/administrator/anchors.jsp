@@ -109,7 +109,7 @@
 		</div>
 		<div class="summaryRight">
 			<c:out value="${totalCorrect}" />
-			<a class="initial" href="<c:url value='#' />">Marshall</a>
+			<a class="initial" href="<c:url value='/content/marshall?type=news&problemId=0' />">Marshall</a>
 		</div>
 	</div>	
 	<h4 style="background-color:#66FF33;">TOTAL ITEMS WITHOUT PROBLEM : <c:out value="${totalCorrect}" /></h4>	
@@ -120,7 +120,7 @@
 		</div>
 		<div class="summaryRight">
 			<c:out value="${canBeReplaced}" />
-			<a class="initial" href="<c:url value='#' />">Marshall</a>
+			<a class="initial" href="<c:url value='/content/marshall?type=news&problemId=2' />">Marshall</a>
 		</div>
 	</div>
 	<div>

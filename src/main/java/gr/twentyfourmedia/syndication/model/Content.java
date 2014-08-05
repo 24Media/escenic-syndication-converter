@@ -65,8 +65,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  * 		<uri/>?
  * 	</content>
  * 
- *  Note 1 : Use of <reference /> element is deprecated. It is only retained for reasons of backwards compatibility.
- *  Note 2 : <uri/> Element Is Not Referenced In Escenic's Documentation
+ *  Note : Use of <reference /> element is deprecated. It is only retained for reasons of backwards compatibility.
  */
 @NamedQueries({
 	@NamedQuery(
@@ -102,6 +101,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 	@NamedQuery(
 			name = "excludeDraftOrDeletedContent",
 			query = "UPDATE Content c SET c.contentProblem = :contentProblem WHERE c.state IN ('draft', 'deleted')"),
+	@NamedQuery(
+			name = "randomContent",
+			query = "FROM Content WHERE contentProblem IS NULL AND relationInlineProblem IS NULL ORDER BY RAND()"),
 	@NamedQuery(
 			name = "problemSummary",
 			query = "SELECT c.type, c.contentProblem, COUNT(*) FROM Content c GROUP BY c.type, c.contentProblem"),

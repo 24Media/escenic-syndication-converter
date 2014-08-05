@@ -99,6 +99,12 @@ public class ContentServiceImplementation implements ContentService {
 	}
 	
 	@Override
+	public Content getRandomContent(String filterName) {
+		
+		return contentDao.getRandom(filterName);
+	}
+	
+	@Override
 	public String getContentHomeSection(Content content) {
 		
 		String result = null;
@@ -186,6 +192,12 @@ public class ContentServiceImplementation implements ContentService {
 	public List<Content> getContentsByRelationInlineProblem(RelationInlineProblem relationInlineProblem, String filterName) {
 		
 		return contentDao.getByRelationInlineProblem(relationInlineProblem, filterName);
+	}
+	
+	@Override
+	public List<Content> getContentsByTypeContentProblemRelationInlineProblem(String type, ContentProblem contentProblem, RelationInlineProblem relationInlineProblem, String filterName) {
+		
+		return contentDao.getByTypeContentProblemRelationInlineProblem(type, contentProblem, relationInlineProblem, filterName);
 	}
 	
 	@Override

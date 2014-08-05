@@ -32,6 +32,15 @@ public class HibernateContentDao extends HibernateAbstractDao<Content> implement
 	}
 	
 	@Override
+	public Content getRandom(String filterName) {
+		
+		if(filterName != null) getSession().enableFilter(filterName);
+		Query query = getSession().getNamedQuery("randomContent");
+		query.setMaxResults(1);
+		return (Content) query.uniqueResult();
+	}
+	
+	@Override
 	public List<Content> get(String filterName) {
 		
 		if(filterName != null) getSession().enableFilter(filterName);
@@ -92,6 +101,22 @@ public class HibernateContentDao extends HibernateAbstractDao<Content> implement
 		if(filterName != null) getSession().enableFilter(filterName);
 		Query query = getSession().getNamedQuery("findContentsByRelationInlineProblem");
 		query.setParameter("relationInlineProblem", relationInlineProblem);
+		return (List<Content>) query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Content> getByTypeContentProblemRelationInlineProblem(String type, ContentProblem contentProblem, RelationInlineProblem relationInlineProblem, String filterName) {
+				
+		if(filterName != null) getSession().enableFilter(filterName);
+		//Need To Build A Query Like This To Select null Enumeration Values
+		String sql = "FROM Content WHERE type = :type";
+		if(contentProblem == null) sql += " AND contentProblem IS NULL"; else sql += " AND contentProblem = :contentProblem";
+		if(relationInlineProblem == null) sql += " AND relationInlineProblem IS NULL"; else sql += " AND relationInlineProblem = :relationInlineProblem";
+		Query query = getSession().createQuery(sql);
+		query.setParameter("type", type);
+		if(contentProblem != null) query.setParameter("contentProblem", contentProblem);
+		if(relationInlineProblem != null) query.setParameter("relationInlineProblem", relationInlineProblem);
 		return (List<Content>) query.list();
 	}
 

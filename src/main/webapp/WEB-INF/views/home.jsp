@@ -29,7 +29,7 @@
 		<h4>Sections</h4>
 			<a href="<c:url value='/section/marshall' />">'section'</a><code>[<c:out value="${countSection}" />]</code><br />
 		<h4>Content</h4>
-			<a href="<c:url value='/content/marshall?id=25979&type=type' />"> A (Not So) Random Content</a><br />
+			<a href="<c:url value='/content/marshall?random=random&type=type' />"> A Random Content</a><br />
 			<a href="<c:url value='/content/marshall?type=tag' />">'tag'</a><code>[<c:out value="${countTag}" />]</code><br />
 			<a href="<c:url value='/content/marshall?type=picture' />">'picture'</a><code>[<c:out value="${countPicture}" />]</code><br />
 			<a href="<c:url value='/content/marshall?type=multipleTypeVideo' />">'multipleTypeVideo'</a><code>[<c:out value="${countMultipleTypeVideo}" />]</code><br />

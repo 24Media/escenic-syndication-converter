@@ -18,6 +18,8 @@ public interface ContentService {
 	
 	Content getContent(String sourceId, String filterName);
 	
+	Content getRandomContent(String filterName);
+	
 	String getContentHomeSection(Content content);
 	
 	Field getContentField(Content content, String fieldName);
@@ -37,6 +39,8 @@ public interface ContentService {
 	List<Content> getContentsByContentProblem(ContentProblem contentProblem, String filterName);
 	
 	List<Content> getContentsByRelationInlineProblem(RelationInlineProblem relationInlineProblem, String filterName);
+	
+	List<Content> getContentsByTypeContentProblemRelationInlineProblem(String type, ContentProblem contentProblem, RelationInlineProblem relationInlineProblem, String filterName);
 	
 	List<Content> getContentsExcludingContentProblemsIncludingRelationInlineProblem(List<ContentProblem> contentProblems, RelationInlineProblem relationInlineProblem, String filterName);
 	

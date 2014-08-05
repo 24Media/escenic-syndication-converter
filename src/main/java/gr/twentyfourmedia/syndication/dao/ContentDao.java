@@ -13,6 +13,8 @@ public interface ContentDao extends AbstractDao<Content> {
 	
 	Content getBySourceId(String sourceId, String filterName);
 	
+	Content getRandom(String filterName);
+	
 	List<Content> get(String filterName);
 	
 	List<Content> getByType(String type, String filterName);
@@ -26,6 +28,8 @@ public interface ContentDao extends AbstractDao<Content> {
 	List<Content> getByContentProblem(ContentProblem contentProblem, String filterName);
 	
 	List<Content> getByRelationInlineProblem(RelationInlineProblem relationInlineProblem, String filterName);
+	
+	List<Content> getByTypeContentProblemRelationInlineProblem(String type, ContentProblem contentProblem, RelationInlineProblem relationInlineProblem, String filterName);
 	
 	List<Content> getExcludingContentProblemsIncludingRelationInlineProblem(List<ContentProblem> contentProblems, RelationInlineProblem relationInlineProblem, String filterName);
 

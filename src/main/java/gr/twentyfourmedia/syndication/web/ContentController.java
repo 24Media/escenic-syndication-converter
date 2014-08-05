@@ -2,6 +2,7 @@ package gr.twentyfourmedia.syndication.web;
 
 import gr.twentyfourmedia.syndication.model.Content;
 import gr.twentyfourmedia.syndication.model.Escenic;
+import gr.twentyfourmedia.syndication.model.RelationInlineProblem;
 import gr.twentyfourmedia.syndication.service.ContentService;
 import gr.twentyfourmedia.syndication.service.FieldService;
 import gr.twentyfourmedia.syndication.utilities.CustomException;
@@ -47,43 +48,101 @@ public class ContentController {
 	 * @return ModelAndView Object
 	 */
 	@RequestMapping(value = "marshall")
-	public ModelAndView marshallToOneFile(@RequestParam(value = "id", required = false) Long id,
-										  @RequestParam(value = "type", required = true) String type) {
+	public ModelAndView marshallToOneFile(@RequestParam(value = "random", required = false) String random,
+										  @RequestParam(value = "type", required = true) String type,
+										  @RequestParam(value = "problemId", required = false) Integer problemId)
+										  throws Exception {
 
 		Escenic contents = new Escenic();
 		contents.setVersion("2.0");
 		List<Content> contentsList = new ArrayList<Content>();
 		
-		if(id != null) { //A Single Content Item
+		String path = System.getProperty("filepath.syndicationFiles") + "/write/";
+		String filename = null;
 		
-			//contentsList.add(contentService.getContent((long) 73, "excludeEverything"));
-			//contents.setContentList(filterOutElementsAndAttributes(contentsList));
-			
-			//TODO Put Them In The Right Place
-			Content content = contentService.getContent((long) 73, null);
-			contentsList.add(contentService.replaceDuplicateRelationsInlineWithAnchors(content));
-			contents.setContentList(filterOutElementsAndAttributes(contentsList));
+		int cannotCorrectDuplicates = 0;
 		
+		if(random != null) { //A Random Content For Demonstration
 		
-		
-		
-		
-		
-		
-		
-		
+			filename = path + "Random_Content";
+			contentsList.add(contentService.getRandomContent("excludeEverything"));
+			contents.setContentList(filterOutElementsAndAttributes(contentsList));		
 		}
-		else if(type != null) { //Content Items Of Specified Type
+		else if(type.equals("tag") || type.equals("picture") || type.equals("multipleTypeVideo")) { //Export Everything Without Examining 'problemId'
+
+			if(type.equals("tag")) filename = path + "Tag.xml";
+				else if(type.equals("picture")) filename = path + "Picture.xml"; 
+					else filename = path + "MultipleTypeVideo.xml";
 			
 			contents.setContentList(filterOutElementsAndAttributes(contentService.getContentsByType(type, "excludeEverything")));
 		}
+		else if(type.equals("photostory")) {
 		
-		String path = System.getProperty("filepath.syndicationFiles") + "/write/Contents_Export.xml";
+			//TODO Handle Case
+		}
+		else if(type.equals("news")) {
+			
+			/*
+			 * 	0	:	null - null
+			 * 	1	:	MISSING_RELATIONS - null
+			 * 	2	:	null - RELATIONS_CAN_BE_REPLACED
+			 * 	3	:	MISSING_RELATIONS - RELATIONS_CAN_BE_REPLACED
+			 */
+			if(problemId == 0) {
+				
+				filename = path + "News.xml";
+				contents.setContentList(filterOutElementsAndAttributes(contentService.getContentsByTypeContentProblemRelationInlineProblem("news", null, null, "excludeEverything")));
+			}
+			else if(problemId == 1) {
+				
+				filename = path + "News_#PID1.xml";
+				//TODO Handle
+			}
+			else if(problemId == 2) {
+						
+				filename = path + "News_#PID2.xml";
+				
+				List<Content> temporaryList = new ArrayList<Content>();
+
+				for(Content c : contentService.getContentsByTypeContentProblemRelationInlineProblem("news", null, RelationInlineProblem.RELATIONS_CAN_BE_REPLACED, "excludeAuthors")) {
+			
+					Content temporaryContent = contentService.replaceDuplicateRelationsInlineWithAnchors(c);
+					
+					if(temporaryContent != null) {
+						
+						temporaryList.add(temporaryContent);
+					}
+					else {
+						
+						cannotCorrectDuplicates++; //Will Be Added To ModelAndView
+					}
+				}
+				
+				contents.setContentList(filterOutElementsAndAttributes(temporaryList));				
+			}
+			else if(problemId == 3) {
+				
+				filename = path + "News_#PID3.xml";
+				//TODO Handle
+			}
+			else { //Other 'problemId' Given
+				
+				throw new CustomException("Marshalling Controller Can Not Handle The Given Problem Type");
+			}
+		}
+		else { //Other 'type' Given
+			
+			throw new CustomException("Marshalling Controller Can Not Handle The Given Content Type");
+		}
+		
+		/*
+		 * Marshall Contents
+		 */
 		FileOutputStream outputStream;
 		
 		try {
 			
-			outputStream = new FileOutputStream(new File(path));
+			outputStream = new FileOutputStream(new File(filename));
 			StreamResult result = new StreamResult(outputStream);
 			JAXBContext jaxbContext = JAXBContext.newInstance(Escenic.class);
             Marshaller marshaller = jaxbContext.createMarshaller();
@@ -102,14 +161,21 @@ public class ContentController {
 		} 
 		catch(FileNotFoundException exception) {
 			
-			exception.printStackTrace();
-		} 
-		catch (JAXBException exception) {
-
-			exception.printStackTrace();
+			throw new CustomException("Make Sure That ${syndicationFiles}/write/ Folder Exists");
 		}
 
-		ModelAndView model = new ModelAndView("redirect:/");
+		/*
+		 * Add To Model Some Information About What Happened
+		 */
+		ModelAndView model = new ModelAndView("administrator/results");
+		//Input Values
+		model.addObject("random", random);
+		model.addObject("type", type);
+		model.addObject("problemId", problemId);
+		//Result Values
+		model.addObject("countMarshalled", contents.getContentList().size());
+		model.addObject("cannotCorrectDuplicates", cannotCorrectDuplicates);
+		
 		return model;
 	}
 	
