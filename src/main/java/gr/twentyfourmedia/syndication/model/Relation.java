@@ -42,7 +42,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @NamedQueries({
 	@NamedQuery(
 			name = "clearRelationProblems",
-			query = "UPDATE Relation r SET r.relationProblem = null")
+			query = "UPDATE Relation r SET r.contentProblem = null")
 })
 @Entity
 @Table(name = "relation")
@@ -123,7 +123,7 @@ public class Relation {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "problem")
 	@XmlTransient
-	private RelationProblem relationProblem;
+	private ContentProblem contentProblem;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -221,14 +221,14 @@ public class Relation {
 		return fieldList;
 	}
 	
-	public void setRelationProblem(RelationProblem relationProblem) {
+	public void setContentProblem(ContentProblem contentProblem) {
 		
-		this.relationProblem = relationProblem;
+		this.contentProblem = contentProblem;
 	}
 	
-	public RelationProblem getRelationProblem() {
+	public ContentProblem getContentProblem() {
 		
-		return relationProblem;
+		return contentProblem;
 	}
 	
 	public void setApplicationDateUpdated(Calendar applicationDateUpdated) {

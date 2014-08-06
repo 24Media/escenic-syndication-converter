@@ -25,29 +25,38 @@
 	
 	<h3>WRITE | MARSHALL</h3>
 	<div class="leftColumn">
-		<h4 class="title">Marshall To One File</h4>
 		<h4>Sections</h4>
-			<a href="<c:url value='/section/marshall' />">'section'</a><code>[<c:out value="${countSection}" />]</code><br />
-		<h4>Content</h4>
-			<a href="<c:url value='/content/marshall?random=random&type=type' />"> A Random Content</a><br />
-			<a href="<c:url value='/content/marshall?type=tag' />">'tag'</a><code>[<c:out value="${countTag}" />]</code><br />
-			<a href="<c:url value='/content/marshall?type=picture' />">'picture'</a><code>[<c:out value="${countPicture}" />]</code><br />
-			<a href="<c:url value='/content/marshall?type=multipleTypeVideo' />">'multipleTypeVideo'</a><code>[<c:out value="${countMultipleTypeVideo}" />]</code><br />
-			<!--
-			<a href="<c:url value='/content/marshall?type=photostory' />">'photostory'</a><br />
-			<a href="<c:url value='/content/marshall?type=news' />">'news'</a><br />
-			-->
+		<a href="<c:url value='/section/marshall' />">'section'</a><code>[<c:out value="${countSection}" />]</code><br />	
 	</div>
 	<div class="rightColumn">
-		<h4 class="title">Marshall To Multiple Files</h4>
-		<h4>Content</h4>
-			<a href="<c:url value='/content/marshallToMultipleFiles?type=tag&itemsPerFile=10' />">'tag'</a><code>[<c:out value="${countTag}" />]</code><br />
-			<a href="<c:url value='/content/marshallToMultipleFiles?type=picture&itemsPerFile=10' />">'picture'</a><code>[<c:out value="${countPicture}" />]</code><br />
-			<a href="<c:url value='/content/marshallToMultipleFiles?type=multipleTypeVideo&itemsPerFile=10' />">'multipleTypeVideo'</a><code>[<c:out value="${countMultipleTypeVideo}" />]</code><br />
-			<!--
-			<a href="<c:url value='/content/marshallToMultipleFiles?type=photostory&itemsPerFile=10' />">'photostory'</a><br />
-			<a href="<c:url value='/content/marshallToMultipleFiles?type=news&itemsPerFile=10' />">'news'</a><br />	
-			-->
+		<h4>Contents</h4>
+		
+		<a href="<c:url value='/content/marshall?random=random&type=type&itemsPerFile=1' />"> A Random Content</a><br />
+	
+		<!-- Marshall Tags -->
+		<strong style="padding-left:1.4em;">'tag'</strong>
+		<code>[<c:out value="${countTag}" />]</code>
+		<a href="<c:url value='/content/marshall?type=tag&itemsPerFile=1' />">1 / File</a>
+		<a href="<c:url value='/content/marshall?type=tag&itemsPerFile=10' />">10 / File</a>
+		
+		<br />
+		
+		<!-- Marshall Pictures -->
+		<strong style="padding-left:1.4em;">'picture'</strong>
+		<code>[<c:out value="${countPicture}" />]</code>
+		<a href="<c:url value='/content/marshall?type=picture&itemsPerFile=1' />">1 / File</a>
+		<a href="<c:url value='/content/marshall?type=picture&itemsPerFile=10' />">10 / File</a>
+		
+		<br />
+		
+		<!-- Marshall MultipleTypeVideos -->
+		<strong style="padding-left:1.4em;">'multipleTypeVideo'</strong>
+		<code>[<c:out value="${countMultipleTypeVideo}" />]</code>
+		<a href="<c:url value='/content/marshall?type=multipleTypeVideo&itemsPerFile=1' />">1 / File</a>
+		<a href="<c:url value='/content/marshall?type=multipleTypeVideo&itemsPerFile=10' />">10 / File</a>
+		
+		<br />
+
 	</div>
 	
 	<div class="note important">To Marshall 'photostory' or 'news' You Have To Analyse Relations First : <a href="<c:url value='/administrator/relations/' />" onclick="return confirm('Existing Analysis Will Be Deleted. Proceed?')">/administrator/relations/</a></div>

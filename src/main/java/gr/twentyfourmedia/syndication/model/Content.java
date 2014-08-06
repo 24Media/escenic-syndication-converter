@@ -25,6 +25,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -116,7 +117,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 })
 @FilterDefs({
     @FilterDef(name = "excludeAuthors"),
-    @FilterDef(name = "excludeMissingRelations"),
     @FilterDef(name = "excludeAdministrativeEntities"),
     @FilterDef(name = "excludeEverything")
 })
@@ -246,10 +246,6 @@ public class Content {
 	@XmlElement(name = "section-ref")
 	private Set<SectionRef> sectionRefSet;
 	
-	@Filters({
-		@Filter(name = "excludeMissingRelations", condition = "problem != 'MISSING_RELATION'"),
-		@Filter(name = "excludeEverything", condition = "applicationId = -1")
-	})
 	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@Fetch(FetchMode.SELECT)
 	@OrderBy(value = "applicationId ASC")
@@ -346,6 +342,13 @@ public class Content {
 	@Column(name = "duplicates")
 	@XmlTransient
 	private RelationInlineProblem relationInlineProblem;
+	
+	/**
+	 * All work and no play makes Jack a dull boy.
+	 */
+	@Transient
+	@XmlTransient
+	private String dull;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -603,6 +606,16 @@ public class Content {
 		return relationInlineProblem;
 	}
 
+	public void setDull(String dull) {
+		
+		this.dull = dull;
+	}
+	
+	public String getDull() {
+		
+		return dull;
+	}
+	
 	public void setApplicationDateUpdated(Calendar applicationDateUpdated) {
 		
 		this.applicationDateUpdated = applicationDateUpdated;

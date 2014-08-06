@@ -88,7 +88,7 @@
 	
 	<h3>GRAND TOTALS : <c:out value="${totalContent}" /> [ <c:out value="${totalNewsPhotostory}" /> 'photostory' | 'news' ]</h3>
 	
-	<div class="note important">Proceed With Analysis of Inline Anchors For <c:out value="${analyseAnchors}" /> 'news' Contents: <a href="<c:url value='/administrator/anchors/' />" onclick="return confirm('Existing Anchor Analysis Will Be Deleted. Proceed?')">/administrator/anchors/</a></div>
+	<div class="note important">Proceed With Analysis of Inline Anchors For <c:out value="${analyseAnchors}" /> 'news' Contents: <a href="<c:url value='/administrator/anchors/' />">/administrator/anchors/</a></div>
 	
 	<div class="footer">Copyright &copy; 2014 24MEDIA</div>
 </body>

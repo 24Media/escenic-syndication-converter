@@ -12,7 +12,6 @@ import gr.twentyfourmedia.syndication.model.ContentProblem;
 import gr.twentyfourmedia.syndication.model.Relation;
 import gr.twentyfourmedia.syndication.model.RelationInline;
 import gr.twentyfourmedia.syndication.model.RelationInlineProblem;
-import gr.twentyfourmedia.syndication.model.RelationProblem;
 import gr.twentyfourmedia.syndication.service.AdministratorService;
 import gr.twentyfourmedia.syndication.service.AnchorInlineService;
 import gr.twentyfourmedia.syndication.service.ContentService;
@@ -80,8 +79,8 @@ public class AdministratorServiceImplementation implements AdministratorService 
 				Content relatedContent = contentService.getContent(relation.getSourceId(), null);
 				
 				if(relatedContent == null || relatedContent.getContentProblem() != null) {
-					
-					relation.setRelationProblem(RelationProblem.MISSING_RELATION);
+
+					relation.setContentProblem(ContentProblem.MISSING_RELATIONS);
 					relationService.mergeRelation(relation);
 					missingFound = true;
 				}

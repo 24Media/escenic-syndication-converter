@@ -50,12 +50,12 @@ div.leftColumn {
 	box-sizing:border-box;
 	float:left;
 	width:50%;
-	border-right:1px solid black;
 }
 div.rightColumn {
 	box-sizing:border-box;
 	float:left;
 	width:50%;
+	border-left:1px solid black;
 }
 div.summaryLeft {
 	box-sizing:border-box;

@@ -22,7 +22,14 @@
 	<c:forEach var="map" items="${photostoryProblems}">
 		<div>
 			<div class="summaryLeft"><c:out value="${map.key}"/></div>
-	  		<div class="summaryRight"><c:out value="${map.value}"/></div>
+	  		<div class="summaryRight"><c:out value="${map.value}"/>
+	  			<c:if test="${map.key=='null'}">
+	  				<a class="initial" href="<c:url value='/content/marshall?type=photostory&problem=A&itemsPerFile=1' />">Marshall</a>
+	  			</c:if>
+	  			<c:if test="${map.key=='MISSING_RELATIONS'}">
+	  				<a class="initial" href="<c:url value='/content/marshall?type=photostory&problem=B&itemsPerFile=1' />">Marshall</a>
+	  			</c:if>
+	  		</div>
 	  	</div>
 	</c:forEach>
 	<h3 style="border-bottom:1px solid white;">GRAND TOTALS : <c:out value="${photostoryProblems.size()}" /></h3>
@@ -101,7 +108,7 @@
 	<div style="text-align:center;"><c:out value="${draftOrDeleted}" /> 'DRAFT OR DELETED'</div>
 	<div style="text-align:center;"><c:out value="${missingInlineRelations}" /> 'MISSING_INLINE_RELATIONS'</div>
 	<div style="text-align:center;"><c:out value="${cannotBeReplaced}" /> 'RELATIONS_CANNOT_BE_REPLACED'</div>
-	<h4 style="background-color:#DA4747;">TOTAL EXCUDED ITEMS : <c:out value="${totalProblem}" /></h4>
+	<h4 style="background-color:#DA4747;">TOTAL EXCLUDED ITEMS : <c:out value="${totalProblem}" /></h4>
 	<!-- Contents With No Problem -->
 	<div>
 		<div class="summaryLeft">
@@ -109,10 +116,10 @@
 		</div>
 		<div class="summaryRight">
 			<c:out value="${totalCorrect}" />
-			<a class="initial" href="<c:url value='/content/marshall?type=news&problemId=0' />">Marshall</a>
+			<a class="initial" href="<c:url value='/content/marshall?type=news&problem=A&itemsPerFile=1' />">Marshall</a>
 		</div>
 	</div>	
-	<h4 style="background-color:#66FF33;">TOTAL ITEMS WITHOUT PROBLEM : <c:out value="${totalCorrect}" /></h4>	
+	<h4 style="background-color:#66FF33;">TOTAL ITEMS WITHOUT PROBLEMS : <c:out value="${totalCorrect}" /></h4>	
 	<!-- Contents That Can Be Corrected -->
 	<div>
 		<div class="summaryLeft">
@@ -120,7 +127,7 @@
 		</div>
 		<div class="summaryRight">
 			<c:out value="${canBeReplaced}" />
-			<a class="initial" href="<c:url value='/content/marshall?type=news&problemId=2' />">Marshall</a>
+			<a class="initial" href="<c:url value='/content/marshall?type=news&problem=C&itemsPerFile=1' />">Marshall</a>
 		</div>
 	</div>
 	<div>
@@ -129,7 +136,7 @@
 		</div>
 		<div class="summaryRight">
 			<c:out value="${missingRelations}" />
-			<a class="initial" href="<c:url value='#' />">Marshall</a>
+			<a class="initial" href="<c:url value='/content/marshall?type=news&problem=B&itemsPerFile=1' />">Marshall</a>
 		</div>
 	</div>	
 	<div>
@@ -138,7 +145,7 @@
 		</div>
 		<div class="summaryRight">
 			<c:out value="${canBeReplacedMissingRelations}" />
-			<a class="initial" href="<c:url value='#' />">Marshall</a>
+			<a class="initial" href="<c:url value='/content/marshall?type=news&problem=D&itemsPerFile=1' />">Marshall</a>
 		</div>
 	</div>	
 	<h4 style="background-color:#66FF33;">TOTAL ITEMS WITH PROBLEMS THAT CAN BE CORRECTED : <c:out value="${totalToCorrect}" /></h4>
