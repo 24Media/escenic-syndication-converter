@@ -27,7 +27,7 @@ public class StringUtilities {
 			
 			if(count == occurrence) {
 				matcher.appendReplacement(buffer, replaceWith);
-				break; //TODO This May Cause A Problem
+				break;
 			}
 		}
 	
