@@ -40,11 +40,13 @@ h4.title {
 div.menu {
 	text-align:center;
 	background-color:#8B8E90;
+	padding:1em 0 1em 0;
 }
 div.menu a:link, div.menu a:visited, div.menu a:hover, div.menu a:active {
 	color:white;
 	text-decoration:none;
 	font-size:1em;
+	padding-left:1em;
 }
 div.leftColumn {
 	box-sizing:border-box;
@@ -56,6 +58,10 @@ div.rightColumn {
 	float:left;
 	width:50%;
 	border-left:1px solid black;
+}
+div.leftColumn div, div.rightColumn div {
+	box-sizing:border-box;
+	margin:1em 0 1em 1em;
 }
 div.summaryLeft {
 	box-sizing:border-box;
@@ -73,12 +79,10 @@ div.summaryRight {
 div.note {
 	clear:both;
 	text-align:center;
+	padding:1em 0 1em 0;
 }
 div.important {
 	background-color:#FFFFB2;
-}
-div.note a {
-	padding-left:0!important;	
 }
 div.footer {
 	clear:both;
@@ -91,13 +95,10 @@ a:link, a:visited, a:active {
 	display:inline-block;
 	font-weight:bold;
 	color:black;
-	padding:1em 0 1em 1.4em;
+	padding-left:0.7em;
 }
 a:hover {
 	color:#6666FF;
-}
-a.initial {
-	padding:0 0 0 1.2em;
 }
 code {
 	font-size:0.9em;

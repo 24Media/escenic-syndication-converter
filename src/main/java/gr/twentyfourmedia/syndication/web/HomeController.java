@@ -27,11 +27,15 @@ public class HomeController {
 		Long countTag = contentService.countContentByType("tag");
 		Long countPicture = contentService.countContentByType("picture");
 		Long countMultipleTypeVideo = contentService.countContentByType("multipleTypeVideo");
-		
+		Long countPhotostory = contentService.countContentByType("photostory");
+		Long countNews = contentService.countContentByType("news");
+
 		model.addObject("countSection", countSection);
 		model.addObject("countTag", countTag);
 		model.addObject("countPicture", countPicture);
 		model.addObject("countMultipleTypeVideo", countMultipleTypeVideo);
+		model.addObject("countPhotostory", countPhotostory);
+		model.addObject("countNews", countNews);
 
 		return model;
 	}

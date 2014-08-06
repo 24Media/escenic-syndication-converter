@@ -24,10 +24,10 @@
 			<div class="summaryLeft"><c:out value="${map.key}"/></div>
 	  		<div class="summaryRight"><c:out value="${map.value}"/>
 	  			<c:if test="${map.key=='null'}">
-	  				<a class="initial" href="<c:url value='/content/marshall?type=photostory&problem=A&itemsPerFile=1' />">Marshall</a>
+	  				<a href="<c:url value='/content/marshall?type=photostory&problem=A&itemsPerFile=1' />">Marshall</a>
 	  			</c:if>
 	  			<c:if test="${map.key=='MISSING_RELATIONS'}">
-	  				<a class="initial" href="<c:url value='/content/marshall?type=photostory&problem=B&itemsPerFile=1' />">Marshall</a>
+	  				<a href="<c:url value='/content/marshall?type=photostory&problem=B&itemsPerFile=1' />">Marshall</a>
 	  			</c:if>
 	  		</div>
 	  	</div>
@@ -116,7 +116,7 @@
 		</div>
 		<div class="summaryRight">
 			<c:out value="${totalCorrect}" />
-			<a class="initial" href="<c:url value='/content/marshall?type=news&problem=A&itemsPerFile=1' />">Marshall</a>
+			<a href="<c:url value='/content/marshall?type=news&problem=A&itemsPerFile=1' />">Marshall</a>
 		</div>
 	</div>	
 	<h4 style="background-color:#66FF33;">TOTAL ITEMS WITHOUT PROBLEMS : <c:out value="${totalCorrect}" /></h4>	
@@ -127,7 +127,7 @@
 		</div>
 		<div class="summaryRight">
 			<c:out value="${canBeReplaced}" />
-			<a class="initial" href="<c:url value='/content/marshall?type=news&problem=C&itemsPerFile=1' />">Marshall</a>
+			<a href="<c:url value='/content/marshall?type=news&problem=C&itemsPerFile=1' />">Marshall</a>
 		</div>
 	</div>
 	<div>
@@ -136,7 +136,7 @@
 		</div>
 		<div class="summaryRight">
 			<c:out value="${missingRelations}" />
-			<a class="initial" href="<c:url value='/content/marshall?type=news&problem=B&itemsPerFile=1' />">Marshall</a>
+			<a href="<c:url value='/content/marshall?type=news&problem=B&itemsPerFile=1' />">Marshall</a>
 		</div>
 	</div>	
 	<div>
@@ -145,7 +145,7 @@
 		</div>
 		<div class="summaryRight">
 			<c:out value="${canBeReplacedMissingRelations}" />
-			<a class="initial" href="<c:url value='/content/marshall?type=news&problem=D&itemsPerFile=1' />">Marshall</a>
+			<a href="<c:url value='/content/marshall?type=news&problem=D&itemsPerFile=1' />">Marshall</a>
 		</div>
 	</div>	
 	<h4 style="background-color:#66FF33;">TOTAL ITEMS WITH PROBLEMS THAT CAN BE CORRECTED : <c:out value="${totalToCorrect}" /></h4>
