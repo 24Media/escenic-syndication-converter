@@ -65,7 +65,7 @@ public class AdministratorServiceImplementation implements AdministratorService 
 	@Override
 	public void findMissingRelations() {
 		
-		List<Content> contents = contentService.getContentsWithRelations("excludeAuthors");
+		List<Content> contents = contentService.getContentsWithRelations("excludeContributors");
 		
 		for(Content c : contents) {
 			
@@ -99,7 +99,7 @@ public class AdministratorServiceImplementation implements AdministratorService 
 	@Override
 	public void findMissingInlineRelations() {
 		
-		List<Content> contents = contentService.getContentsWithRelationsInline("excludeAuthors");
+		List<Content> contents = contentService.getContentsWithRelationsInline("excludeContributors");
 		
 		for(Content c : contents) {
 			
@@ -125,7 +125,7 @@ public class AdministratorServiceImplementation implements AdministratorService 
 	@Override
 	public void findDuplicateInlineRelations() {
 		
-		List<Content> contents = contentService.getContentsWithRelationsInline("excludeAuthors");
+		List<Content> contents = contentService.getContentsWithRelationsInline("excludeContributors");
 		
 		for(Content c : contents) {
 			

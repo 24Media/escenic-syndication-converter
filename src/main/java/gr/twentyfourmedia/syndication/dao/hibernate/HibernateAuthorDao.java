@@ -27,5 +27,5 @@ public class HibernateAuthorDao extends HibernateAbstractDao<Author> implements 
 			a.setContentApplicationId(content);
 			merge(a);
 		}
-	}	
+	}
 }

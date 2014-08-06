@@ -16,11 +16,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -61,7 +59,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  * 		<field>...</field>*
  * 		<update/>?
  * 		<author/>*
- * 		<creator/>?
+ * 		<creator/>*
  * 		<priority/>?
  * 		<uri/>?
  * 	</content>
@@ -116,7 +114,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 			query = "SELECT c.contentProblem, c.relationInlineProblem, COUNT(*) FROM Content c WHERE c.type = 'news' GROUP BY c.contentProblem, c.relationInlineProblem")			
 })
 @FilterDefs({
-    @FilterDef(name = "excludeAuthors"),
+    @FilterDef(name = "excludeContributors"),
     @FilterDef(name = "excludeAdministrativeEntities"),
     @FilterDef(name = "excludeEverything")
 })
@@ -296,9 +294,8 @@ public class Content {
 	@XmlElement(name = "update")
 	private Update update;
 	
-	//TODO Author and Creator In Same Table, Excluding By Same Filter
 	@Filters({
-		@Filter(name = "excludeAuthors", condition = "applicationId = -1"),
+		@Filter(name = "excludeContributors", condition = "applicationId = -1"),
 		@Filter(name = "excludeEverything", condition = "applicationId = -1")
 	})
 	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
@@ -307,16 +304,15 @@ public class Content {
 	@XmlElement(name = "author")
 	private Set<Author> authorSet;
 	
-	/**
-	 * A reference to the creator of a content item. Content item authors are themselves represented by person objects. A person object 
-	 * is a special type of content item containing the fields needed to hold the usual kinds of personal details (name, phone number, 
-	 * email address and so on). A creator element must therefore contain a reference to a person object in the publication or a person 
-	 * element in the syndication file.
-	 */
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "creator", referencedColumnName = "applicationId", nullable = true)
+	@Filters({
+		@Filter(name = "excludeContributors", condition = "applicationId = -1"),
+		@Filter(name = "excludeEverything", condition = "applicationId = -1")
+	})
+	@OneToMany(mappedBy = "contentApplicationId", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	@Fetch(FetchMode.SELECT)
+	@OrderBy(value = "applicationId ASC")
 	@XmlElement(name = "creator")	
-	private Creator creator;
+	private Set<Creator> creatorSet;
 	
 	/**
 	 * Used to set section priority
@@ -556,14 +552,14 @@ public class Content {
 		return authorSet;
 	}
 	
-	public void setCreator(Creator creator) {
+	public void setCreatorSet(Set<Creator> creatorSet) {
 		
-		this.creator = creator;
+		this.creatorSet = creatorSet;
 	}
 	
-	public Creator getCreator() {
+	public Set<Creator> getCreatorSet() {
 		
-		return creator;
+		return creatorSet;
 	}
 	
 	public void setPriority(Priority priority) {

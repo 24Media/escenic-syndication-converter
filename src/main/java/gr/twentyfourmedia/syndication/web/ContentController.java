@@ -43,6 +43,7 @@ public class ContentController {
 	@Autowired
 	private FieldService fieldService;
 
+	//TODO Check That No Authors or Creators Gets Exported
 	/**
 	 * Marshall Contents Read From Database
 	 * @param random If Given A Random Content Will Be Marshalled
@@ -133,7 +134,7 @@ public class ContentController {
 
 				filenamePrefix = path + "News_C";
 
-				for(Content c : contentService.getContentsByTypeContentProblemRelationInlineProblem(type, null, RelationInlineProblem.RELATIONS_CAN_BE_REPLACED, "excludeAuthors")) {
+				for(Content c : contentService.getContentsByTypeContentProblemRelationInlineProblem(type, null, RelationInlineProblem.RELATIONS_CAN_BE_REPLACED, "excludeContributors")) {
 			
 					Content temporaryContent = contentService.replaceDuplicateRelationsInlineWithAnchors(c);
 					
@@ -153,7 +154,7 @@ public class ContentController {
 				
 				List<Content> temporaryList = new ArrayList<Content>();
 				
-				for(Content c : contentService.getContentsByTypeContentProblemRelationInlineProblem(type, ContentProblem.MISSING_RELATIONS, RelationInlineProblem.RELATIONS_CAN_BE_REPLACED, "excludeAuthors")) {
+				for(Content c : contentService.getContentsByTypeContentProblemRelationInlineProblem(type, ContentProblem.MISSING_RELATIONS, RelationInlineProblem.RELATIONS_CAN_BE_REPLACED, "excludeContributors")) {
 					
 					Content temporaryContent = contentService.replaceDuplicateRelationsInlineWithAnchors(c);
 					
@@ -215,7 +216,7 @@ public class ContentController {
 			
 			if(contentCounter % itemsPerFile == 0 || contentCounter == contentsList.size()) {
 				
-				escenic.setContentList(filterOutElementsAndAttributes(escenicContents));
+				escenic.setContentList(escenicContents);
 				
 				String filename = itemsPerFile == 1 ? filenamePrefix + "_Id" + current.getApplicationId() : filenamePrefix + "_File" + ++fileCounter;
 				if(current.getDull()!=null) filename += current.getDull() + ".xml"; else filename += ".xml";
@@ -325,28 +326,5 @@ public class ContentController {
 		
 		ModelAndView model = new ModelAndView("redirect:/");
 		return model;
-	}
-	
-	
-	//TODO A Filter For Creator, or something
-	//TODO Check That No Authors or Creators Gets Exported
-	/**
-	 * Given a List of Contents Filter Out Elements or Attributes That Are Not Needed In The Exported File 
-	 * @param contents List Of Input Contents
-	 * @return List Of Output Contents
-	 */
-	private List<Content> filterOutElementsAndAttributes(List<Content> contents) {
-		
-		List<Content> result = new ArrayList<Content>();
-		
-		for(Content c : contents) {
-			
-			c.setCreator(null);
-			//c.setAuthorSet(null);
-			
-			result.add(c);
-		}
-		
-		return result;
 	}
 }

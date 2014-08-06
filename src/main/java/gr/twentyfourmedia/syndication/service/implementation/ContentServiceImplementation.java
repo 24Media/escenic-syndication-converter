@@ -9,6 +9,7 @@ import java.util.Set;
 
 import gr.twentyfourmedia.syndication.dao.AuthorDao;
 import gr.twentyfourmedia.syndication.dao.ContentDao;
+import gr.twentyfourmedia.syndication.dao.CreatorDao;
 import gr.twentyfourmedia.syndication.dao.FieldDao;
 import gr.twentyfourmedia.syndication.dao.RelationDao;
 import gr.twentyfourmedia.syndication.dao.SectionRefDao;
@@ -53,6 +54,9 @@ public class ContentServiceImplementation implements ContentService {
 	private AuthorDao authorDao;
 	
 	@Autowired
+	private CreatorDao creatorDao;
+	
+	@Autowired
 	private RelationInlineService relationInlineService;
 	
 	@Override
@@ -67,6 +71,7 @@ public class ContentServiceImplementation implements ContentService {
 		if(content.getRelationSet()!=null && !content.getRelationSet().isEmpty()) relationDao.persistContentRelations(content);
 		if(content.getFieldList()!=null && !content.getFieldList().isEmpty()) fieldDao.persistContentFields(content);
 		if(content.getAuthorSet()!=null && !content.getAuthorSet().isEmpty()) authorDao.persistContentAuthors(content);
+		if(content.getCreatorSet()!=null && !content.getCreatorSet().isEmpty()) creatorDao.persistContentCreators(content);
 	}
 	
 	@Override
@@ -83,6 +88,7 @@ public class ContentServiceImplementation implements ContentService {
 			if(content.getRelationSet()!=null && !content.getRelationSet().isEmpty()) relationDao.mergeContentRelations(content);
 			if(content.getFieldList()!=null && !content.getFieldList().isEmpty()) fieldDao.mergeContentFields(content);
 			if(content.getAuthorSet()!=null && !content.getAuthorSet().isEmpty()) authorDao.mergeContentAuthors(content);
+			if(content.getCreatorSet()!=null && !content.getCreatorSet().isEmpty()) creatorDao.mergeContentCreators(content);
 		}
 	}
 
