@@ -32,6 +32,7 @@
 		<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
 		<prop key="hibernate.show_sql">true</prop>
 		<prop key="hibernate.jdbc.batch_size">10</prop>
+		<prop key="hibernate.jdbc.fetch_size">10</prop>
 		<prop key="hibernate.cache.use_second_level_cache">false</prop>
 		<prop key="hibernate.connection.characterEncoding">utf8</prop>
 		<prop key="hibernate.connection.charSet">utf8</prop>
