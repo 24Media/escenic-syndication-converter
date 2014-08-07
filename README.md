@@ -34,7 +34,7 @@ filepath.syndicationFiles=/home/blixabargeld/Desktop/folder-for-read-and-write
 
 2) 'news' Contents with home sections that do not interest us gets excluded next. Home sections like '%kairos%' is one good example. The characterization is <b>EXCLUDED_BY_SECTION</b> and can be given with the /administrator/analyze Controller. Note that -if not stated otherwise- this is the Controller that does everything that is described in the following paragraphs.
 
-3) All Content Items with state 'draft' or 'deleted' gets excluded also. The characterization is -surprisingly- <b>DRAFT_OR_DELETED</b>.
+3) All Content Items with state 'draft' or 'deleted' gets excluded also. The characterization is -surprisingly- named <b>DRAFT_OR_DELETED</b>.
 
 4) The next thing is to ensure that all Contents' Relations exist. If the related Content Item does not exist or has a characterization such as MISSING_BINARIES, DRAFT_OR_DELETED etc. the Content gets charactezized as <b>MISSING_RELATIONS</b>. The same characterization is given to the missing Relation Items also because, if we like, we can remove these Relations from the Content Item and proceed with the marshalling.
 
