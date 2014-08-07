@@ -42,7 +42,7 @@ filepath.syndicationFiles=/home/blixabargeld/Desktop/folder-for-read-and-write
 
 6) If there was a second source from which the missing inline anchors can be read, actions to correct duplicate inline relations could be taken. Fortunaly this source exist and it is a RSS Feed (deliberately no details will be given here). The implementation of the correction actions may be complicated but the idea is very simple: for every destroyed article read all anchor tags from the RSS Feed. How many of these does not exist in the article read from Escenic? Lets say 5. How many duplicate relations exist for the same article? Lets also say 5. Figure out the rest. The Content and Inline Relations gets characterized as <b>RELATIONS_CAN_BE_REPLACED</b> and we can marshall this article corrected. If missing anchors count does not match duplicate relations count Content gets characterized as <b>RELATIONS_CANNOT_BE_REPLACED</b> and is considered rubbish.
 
-Having all characterizations in place, we can proceed to marshalling following the links and advices given in the user interface.
+Having all characterizations in place, we can proceed to marshalling following the links and advices given in the .jsps.
 
 ### Future Improvements
 1) Due to tight deadlines Field's `((ANYTHING|<relation>...</relation>|text)*|<field>...</field>*|<value>...</value>*)<options>...</options>?` Element substituted by text inside CDATA tokens. Further parsing of this Element may be a good idea.
