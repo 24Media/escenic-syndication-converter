@@ -51,4 +51,4 @@ Having all characterizations in place, we can proceed to marshalling following t
 
 3) Model remaining Escenic Entities (Person, Inbox et al.)
 
-4) Create a real User Interface.
+4) Application's performance is lame. Given the absence of a real user interface and the need for object oriented implementation Hibernate was probably a bad choice. This does not mean that you can not configure it to perform better.
