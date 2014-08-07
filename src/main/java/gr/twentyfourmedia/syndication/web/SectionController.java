@@ -40,7 +40,7 @@ public class SectionController {
 		Escenic sections = new Escenic();
 		sections.setVersion("2.0");
 		List<Section> allSections = sectionService.getSections();
-		sections.setSectionList(sectionsFiltering(allSections));
+		sections.setSectionList(excludeMirroredSections(allSections));
 
 		String path = System.getProperty("filepath.syndicationFiles") + "/write/Section_Export.xml";
 		
@@ -135,8 +135,12 @@ public class SectionController {
 		return model;
 	}
 	
-	//TODO Add Some Filters Here
-	private List<Section> sectionsFiltering(List<Section> sections) {
+	/**
+	 * Exclude Mirrored Sections From Marshalling
+	 * @param sections List Of All Sections
+	 * @return List Of Sections Without Mirrored Ones
+	 */
+	private List<Section> excludeMirroredSections(List<Section> sections) {
 		
 		List<Section> result = new ArrayList<Section>();
 	
@@ -147,13 +151,11 @@ public class SectionController {
 				if(s.getParent() != null) { //Not Needed Parent Values
 					s.getParent().setSource(null);
 					s.getParent().setSourceId(null);
-					s.getParent().setExportedDbId(null);
 				}
 				
 				//Not Needed Section Values
 				s.setSource(null);
 				s.setSourceId(null);
-				s.setExportedDbId(null);
 				
 				result.add(s);
 			}

@@ -43,7 +43,6 @@ public class ContentController {
 	@Autowired
 	private FieldService fieldService;
 
-	//TODO Check That No Authors or Creators Gets Exported
 	/**
 	 * Marshall Contents Read From Database
 	 * @param random If Given A Random Content Will Be Marshalled

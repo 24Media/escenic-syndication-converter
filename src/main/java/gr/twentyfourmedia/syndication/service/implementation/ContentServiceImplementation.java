@@ -475,7 +475,7 @@ public class ContentServiceImplementation implements ContentService {
 		int replacementsExpected = relationInlineService.countRelationsInlineWithGivenProblem(content, RelationInlineProblem.RELATIONS_CAN_BE_REPLACED);
 		
 		for(AnchorInline a : anchors) {
-	
+
 			if((prologue+body).indexOf(a.getAnchor()) == -1) { //If Anchor Does Not Exist It Can Replace A Duplicate
 
 				/*

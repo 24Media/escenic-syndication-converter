@@ -253,7 +253,6 @@ public class Content {
 	@XmlElement(name = "relation")
 	private Set<Relation> relationSet;
 	
-	//TODO Check Ordering
 	@Filters({
 		@Filter(name = "excludeAdministrativeEntities", condition = "applicationId = -1"),
 		@Filter(name = "excludeEverything", condition = "applicationId = -1")
@@ -264,7 +263,6 @@ public class Content {
 	@XmlTransient
 	private Set<RelationInline> relationInlineSet;
 	
-	//TODO Check Ordering
 	@Filters({
 		@Filter(name = "excludeAdministrativeEntities", condition = "applicationId = -1"),
 		@Filter(name = "excludeEverything", condition = "applicationId = -1")

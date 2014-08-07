@@ -54,7 +54,7 @@
 	<c:set var="missingRelations" value="${0}" />
 	<c:set var="canBeReplacedMissingRelations" value="${0}" />
 	
-	<h4>'news' Content & Relations Inline Problems Summary</h4>
+	<h4>'news' Content &amp; Relations Inline Problems Summary</h4>
 	<c:forEach var="map" items="${combinedProblems}">
 		<c:forEach var="problem" items="${map.value}">
 			<div>
