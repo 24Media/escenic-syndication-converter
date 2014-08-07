@@ -56,6 +56,7 @@ public class ContentController {
 	public ModelAndView marshall(@RequestParam(value = "random", required = false) String random,
 								 @RequestParam(value = "type", required = true) String type,
 								 @RequestParam(value = "problem", required = false) String problem,
+								 @RequestParam(value = "missing", required = false) String missing,
 								 @RequestParam(value = "itemsPerFile", required = true) int itemsPerFile) 
 								 throws Exception {
 		
@@ -101,34 +102,41 @@ public class ContentController {
 
 				if(type.equals("news")) filenamePrefix = path + "News_B"; else filenamePrefix = path + "Photostory";
 				
-				List<Content> temporary = new ArrayList<Content>();
+				if(missing!=null && missing.equals("include")) {
+					
+					contentsList.addAll(contentService.getContentsByTypeContentProblemRelationInlineProblem(type, ContentProblem.MISSING_RELATIONS, null, "excludeEverything"));
+				}
+				else { //Exclude Is The Default Option
 				
-				for(Content c : contentService.getContentsByTypeContentProblemRelationInlineProblem(type, ContentProblem.MISSING_RELATIONS, null, "excludeEverything")) {
+					List<Content> temporary = new ArrayList<Content>();
 					
-					Set<Relation> relations = c.getRelationSet();
-					Iterator<Relation> iterator = relations.iterator();
-					
-					int all = relations.size();
-					int excluded = 0;
-					
-					while(iterator.hasNext()) {
+					for(Content c : contentService.getContentsByTypeContentProblemRelationInlineProblem(type, ContentProblem.MISSING_RELATIONS, null, "excludeEverything")) {
 						
-						Relation current = iterator.next();
+						Set<Relation> relations = c.getRelationSet();
+						Iterator<Relation> iterator = relations.iterator();
 						
-						if(current.getContentProblem() != null && current.getContentProblem().equals(ContentProblem.MISSING_RELATIONS)) {
+						int all = relations.size();
+						int excluded = 0;
+						
+						while(iterator.hasNext()) {
 							
-							iterator.remove();
-							excluded++;
+							Relation current = iterator.next();
+							
+							if(current.getContentProblem() != null && current.getContentProblem().equals(ContentProblem.MISSING_RELATIONS)) {
+								
+								iterator.remove();
+								excluded++;
+							}
 						}
+						
+						c.setRelationSet(relations); //Some Relations Excluded
+						c.setDull("_" + excluded + "of" + all + "Excluded");
+						
+						temporary.add(c);
 					}
 					
-					c.setRelationSet(relations); //Some Relations Excluded
-					c.setDull("_" + excluded + "of" + all + "Excluded");
-					
-					temporary.add(c);
+					contentsList.addAll(temporary);
 				}
-				
-				contentsList.addAll(temporary);
 			}
 			else if(problem.equals("C")) { //Replace Duplicate Inline Relations With Anchors
 
@@ -160,27 +168,34 @@ public class ContentController {
 					
 					if(temporaryContent != null) {
 						
-						Set<Relation> relations = temporaryContent.getRelationSet();
-						Iterator<Relation> iterator = relations.iterator();
-						
-						int all = relations.size();
-						int excluded = 0;
-						
-						while(iterator.hasNext()) {
+						if(missing!=null && missing.equals("include")) {
 							
-							Relation current = iterator.next();
-							
-							if(current.getContentProblem() != null && current.getContentProblem().equals(ContentProblem.MISSING_RELATIONS)) {
-								
-								iterator.remove();
-								excluded++;
-							}
+							temporaryList.add(temporaryContent);
 						}
+						else { //Exclude Is The Default Option
 						
-						temporaryContent.setRelationSet(relations); //Some Relations Excluded
-						temporaryContent.setDull("_" + excluded + "of" + all + "Excluded");
-						
-						temporaryList.add(temporaryContent);
+							Set<Relation> relations = temporaryContent.getRelationSet();
+							Iterator<Relation> iterator = relations.iterator();
+							
+							int all = relations.size();
+							int excluded = 0;
+							
+							while(iterator.hasNext()) {
+								
+								Relation current = iterator.next();
+								
+								if(current.getContentProblem() != null && current.getContentProblem().equals(ContentProblem.MISSING_RELATIONS)) {
+									
+									iterator.remove();
+									excluded++;
+								}
+							}
+							
+							temporaryContent.setRelationSet(relations); //Some Relations Excluded
+							temporaryContent.setDull("_" + excluded + "of" + all + "Excluded");
+							
+							temporaryList.add(temporaryContent);
+						}
 					}
 					else {
 						
@@ -259,6 +274,7 @@ public class ContentController {
 		model.addObject("random", random);
 		model.addObject("type", type);
 		model.addObject("problem", problem);
+		model.addObject("missing", missing);
 		model.addObject("itemsPerFile", itemsPerFile);
 		//Result Values
 		model.addObject("marshalled", contentsList.size());

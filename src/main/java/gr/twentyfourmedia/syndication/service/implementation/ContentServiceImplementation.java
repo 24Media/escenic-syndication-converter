@@ -458,7 +458,14 @@ public class ContentServiceImplementation implements ContentService {
 	public Content replaceDuplicateRelationsInlineWithAnchors(Content content) {
 		
 		String prologue = getContentFieldField(content, "prologue"); //No Need To Escape CDATA For Prologue
-		String body = getContentFieldField(content, "body").replaceAll("<!\\[CDATA\\[", "").replaceAll("\\]\\]>", "");
+		
+		//Body Field or Relation Tags May Contain Spaces That Should Be Removed
+		String body = getContentFieldField(content, "body")
+						.replaceAll("<!\\[CDATA\\[", "")
+						.replaceAll("\\]\\]>", "")
+						.replaceAll("> </relation", "></relation")
+						.replaceAll("> <field", "><field")
+						.replaceAll(" />", "/>");
 		
 		Set<RelationInline> relations = content.getRelationInlineSet();
 		Set<AnchorInline> anchors = content.getAnchorInlineSet();
@@ -501,6 +508,8 @@ public class ContentServiceImplementation implements ContentService {
 								 .replaceAll("> <", "><")
 								 .replaceAll(" />", "/>");
 
+				System.out.println(a.getContentApplicationId().getApplicationId() + " ### " + relation);
+				
 				String replaced = gr.twentyfourmedia.syndication.utilities.StringUtilities.replaceNthOccurrence(body, relation, a.getAnchor(), 2);
 
 				if(!replaced.equals(body)) {

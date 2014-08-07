@@ -29,6 +29,7 @@
 	  			</c:if>
 	  			<c:if test="${map.key=='MISSING_RELATIONS'}">
 	  				<a href="<c:url value='/content/marshall?type=photostory&problem=B&itemsPerFile=1' />">Marshall</a>
+	  				<a href="<c:url value='/content/marshall?type=photostory&problem=B&itemsPerFile=1&missing=include' />">Marshall Including Missing</a>
 	  			</c:if>
 	  		</div>
 	  	</div>
@@ -126,36 +127,44 @@
 			<c:out value="${totalCorrect}" />
 			<a href="<c:url value='/content/marshall?type=news&problem=A&itemsPerFile=1' />">Marshall</a>
 		</div>
-	</div>	
+	</div>
 	<h4 style="background-color:#66FF33;">TOTAL ITEMS WITHOUT PROBLEMS : <c:out value="${totalCorrect}" /></h4>	
 	<!-- Contents That Can Be Corrected -->
-	<div>
-		<div class="summaryLeft">
-			 null&nbsp;&mdash;&nbsp;RELATIONS_CAN_BE_REPLACED
+	<c:if test="${canBeReplaced!=0}">
+		<div>
+			<div class="summaryLeft">
+				 null&nbsp;&mdash;&nbsp;RELATIONS_CAN_BE_REPLACED
+			</div>
+			<div class="summaryRight">
+				<c:out value="${canBeReplaced}" />
+				<a href="<c:url value='/content/marshall?type=news&problem=C&itemsPerFile=1' />">Marshall</a>
+			</div>
 		</div>
-		<div class="summaryRight">
-			<c:out value="${canBeReplaced}" />
-			<a href="<c:url value='/content/marshall?type=news&problem=C&itemsPerFile=1' />">Marshall</a>
+	</c:if>
+	<c:if test="${missingRelations!=0}">
+		<div>
+			<div class="summaryLeft">
+				 MISSING_RELATIONS&nbsp;&mdash;&nbsp;null
+			</div>
+			<div class="summaryRight">
+				<c:out value="${missingRelations}" />
+				<a href="<c:url value='/content/marshall?type=news&problem=B&itemsPerFile=1' />">Marshall</a>
+				<a href="<c:url value='/content/marshall?type=news&problem=B&itemsPerFile=1&missing=include' />">Marshall Including Missing</a>
+			</div>
 		</div>
-	</div>
-	<div>
-		<div class="summaryLeft">
-			 MISSING_RELATIONS&nbsp;&mdash;&nbsp;null
+	</c:if>
+	<c:if test="${canBeReplacedMissingRelations!=0}">
+		<div>
+			<div class="summaryLeft">
+				 MISSING_RELATIONS&nbsp;&mdash;&nbsp;RELATIONS_CAN_BE_REPLACED
+			</div>
+			<div class="summaryRight">
+				<c:out value="${canBeReplacedMissingRelations}" />
+				<a href="<c:url value='/content/marshall?type=news&problem=D&itemsPerFile=1' />">Marshall</a>
+				<a href="<c:url value='/content/marshall?type=news&problem=D&itemsPerFile=1&missing=include' />">Marshall Including Missing</a>
+			</div>
 		</div>
-		<div class="summaryRight">
-			<c:out value="${missingRelations}" />
-			<a href="<c:url value='/content/marshall?type=news&problem=B&itemsPerFile=1' />">Marshall</a>
-		</div>
-	</div>	
-	<div>
-		<div class="summaryLeft">
-			 MISSING_RELATIONS&nbsp;&mdash;&nbsp;RELATIONS_CAN_BE_REPLACED
-		</div>
-		<div class="summaryRight">
-			<c:out value="${canBeReplacedMissingRelations}" />
-			<a href="<c:url value='/content/marshall?type=news&problem=D&itemsPerFile=1' />">Marshall</a>
-		</div>
-	</div>	
+	</c:if>
 	<h4 style="background-color:#66FF33;">TOTAL ITEMS WITH PROBLEMS THAT CAN BE CORRECTED : <c:out value="${totalToCorrect}" /></h4>
 	<h3>GRAND TOTALS : <c:out value="${totalProblem+totalCorrect+totalToCorrect}" /></h3>
 
