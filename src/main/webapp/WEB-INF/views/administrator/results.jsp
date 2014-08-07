@@ -11,7 +11,7 @@
 		<a href="#">Exclude Content</a>
 		<a href="#">Delete Section</a>
 		<a href="#">Delete Content</a>
-		<a href="<c:url value='/administrator/relations' />" onclick="return confirm('Existing Analysis Will Be Deleted. Proceed?')">Analyse Relations</a>
+		<a href="<c:url value='/administrator/analyze' />" onclick="return confirm('Existing Analysis Will Be Deleted. Proceed?')">Analyze Contents</a>
 		<a href="<c:url value='/administrator/analysis' />">View Analysis</a>
 	</div>
 	

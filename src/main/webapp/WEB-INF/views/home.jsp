@@ -11,7 +11,7 @@
 		<a href="#">Exclude Content</a>
 		<a href="#">Delete Section</a>
 		<a href="#">Delete Content</a>
-		<a href="<c:url value='/administrator/relations' />" onclick="return confirm('Existing Analysis Will Be Deleted. Proceed?')">Analyse Relations</a>
+		<a href="<c:url value='/administrator/analyze' />" onclick="return confirm('Existing Analysis Will Be Deleted. Proceed?')">Analyze Contents</a>
 		<a href="<c:url value='/administrator/analysis' />">View Analysis</a>
 	</div>
 	
@@ -61,7 +61,7 @@
 		</div>
 	</div>
 	
-	<div class="note important">To Marshall 'photostory' or 'news' You Have To Analyse Relations First : <a href="<c:url value='/administrator/relations/' />" onclick="return confirm('Existing Analysis Will Be Deleted. Proceed?')">/administrator/relations/</a></div>
+	<div class="note important">To Marshall 'photostory' or 'news' You Have To Analyze Contents First : <a href="<c:url value='/administrator/analyze/' />" onclick="return confirm('Existing Analysis Will Be Deleted. Proceed?')">/administrator/analyze/</a></div>
 	
 	<div class="footer">Copyright &copy; 2014 24MEDIA</div>
 </body>
