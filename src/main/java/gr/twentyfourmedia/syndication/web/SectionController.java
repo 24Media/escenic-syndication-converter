@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamResult;
@@ -36,7 +35,7 @@ public class SectionController {
 	private SectionService sectionService;	
 	
 	@RequestMapping(value = "marshall")
-	public ModelAndView marshall() {
+	public ModelAndView marshall() throws Exception {
 
 		Escenic sections = new Escenic();
 		sections.setVersion("2.0");
@@ -68,11 +67,7 @@ public class SectionController {
 		} 
 		catch(FileNotFoundException exception) {
 			
-			exception.printStackTrace();
-		}
-		catch (JAXBException exception) {
-
-			exception.printStackTrace();
+			throw new CustomException("Make Sure That ${syndicationFiles}/write/ Folder Exists");
 		}
 		
 		ModelAndView model = new ModelAndView("redirect:/");
@@ -117,7 +112,8 @@ public class SectionController {
 	@RequestMapping(value = "delete")
 	public ModelAndView delete(	@RequestParam(value = "applicationId", required = false) Long applicationId,
 								@RequestParam(value = "sourceId", required = false) String sourceId,
-								@RequestParam(value = "uniqueNameElement", required = false) String uniqueNameElement) {
+								@RequestParam(value = "uniqueNameElement", required = false) String uniqueNameElement) 
+								throws Exception {
 		
 		Section section = null;
 		

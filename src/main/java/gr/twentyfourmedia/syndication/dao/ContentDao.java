@@ -31,11 +31,13 @@ public interface ContentDao extends AbstractDao<Content> {
 	
 	List<Content> getByTypeContentProblemRelationInlineProblem(String type, ContentProblem contentProblem, RelationInlineProblem relationInlineProblem, String filterName);
 	
-	List<Content> getExcludingContentProblemsIncludingRelationInlineProblem(List<ContentProblem> contentProblems, RelationInlineProblem relationInlineProblem, String filterName);
+	List<Content> getExcludingContentProblemsIncludingRelationInlineProblems(List<ContentProblem> contentProblems, List<RelationInlineProblem> relationInlineProblems, String filterName);
 
 	void excludeByStateDraftOrDeleted();
 	
 	void clearProblems();
+	
+	void clearDuplicates();
 	
 	Map<String, Map<String, Long>> summary(String namedQuery);
 		

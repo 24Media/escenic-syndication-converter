@@ -207,9 +207,9 @@ public class ContentServiceImplementation implements ContentService {
 	}
 	
 	@Override
-	public List<Content> getContentsExcludingContentProblemsIncludingRelationInlineProblem(List<ContentProblem> contentProblems, RelationInlineProblem relationInlineProblem, String filterName) {
+	public List<Content> getContentsExcludingContentProblemsIncludingRelationInlineProblems(List<ContentProblem> contentProblems, List<RelationInlineProblem> relationInlineProblems, String filterName) {
 		
-		return contentDao.getExcludingContentProblemsIncludingRelationInlineProblem(contentProblems, relationInlineProblem, filterName);
+		return contentDao.getExcludingContentProblemsIncludingRelationInlineProblems(contentProblems, relationInlineProblems, filterName);
 	}
 
 	/**
@@ -218,7 +218,7 @@ public class ContentServiceImplementation implements ContentService {
 	 * @param path Path To Syndication File
 	 */
 	@Override
-	public void handleContentHTMLFields(Content content, String path) {
+	public void handleContentHTMLFields(Content content, String path) throws DocumentException {
 		
 		/*
 		 * Set HTML Content Fields 
@@ -267,78 +267,71 @@ public class ContentServiceImplementation implements ContentService {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public String getFieldHTMLContent(String path, String htmlField, String contentSourceId, String relationSourceId) {
+	public String getFieldHTMLContent(String path, String htmlField, String contentSourceId, String relationSourceId) throws DocumentException {
         
 		Document doc;
         String result = null;
         
-        try {
-        	
-            File xml = new File(path);
-            SAXReader reader = new SAXReader();
-            doc = reader.read(xml);
-            Element root = doc.getRootElement();
-            List<Element> contents = root.elements("content");
-            List<Element> fields;
-            
-            for(Element content : contents) {
-            	
-            	String contentId = content.attributeValue("sourceid");
-            	
-                if(contentId!=null && !contentId.isEmpty() && contentId.equals(contentSourceId)) {
-                	
-                	if(relationSourceId == null) { //Content Fields
-                		
-	                	fields = content.elements("field");
-	                    
-	                    for(Element field : fields) {
-	                        
-	                    	String fieldName = field.attributeValue("name");
-	                        
-	                        if(fieldName.equals(htmlField)) {
-	                        	
-	                        	result = field.asXML();
-	                            result = result.replaceAll("<field xmlns=\"http://xmlns.escenic.com/2009/import\" name=\"" + htmlField + "\">", "");
-	                            result = result.replaceAll("<field xmlns=\"http://xmlns.escenic.com/2009/import\" name=\"" + htmlField + "\"/>", "");
-	                            result = result.replaceAll("</field>", "");
-	                            result = "<![CDATA[" + result + "]]>";
-	                        }
-	                    }
-                	}
-                	else { //Content Relation Fields
-                		
-                    	List<Element> relations = content.elements("relation");
-                    	
-                    	for(Element relation : relations) {
-                    		
-                    		String relationId = relation.attributeValue("sourceid");
-                    		
-                    		if(relationId!=null && !relationId.isEmpty() && relationId.equals(relationSourceId)) {
-
-    		                	fields = relation.elements("field");
-    		                    
-    		                    for(Element field : fields) {
-    		                        
-    		                    	String fieldName = field.attributeValue("name");
-    		                        
-    		                        if(fieldName.equals(htmlField)) {
-    		                        	
-    		                        	result = field.asXML();
-    		                            result = result.replaceAll("<field xmlns=\"http://xmlns.escenic.com/2009/import\" name=\"" + htmlField + "\">", "");
-    		                            result = result.replaceAll("<field xmlns=\"http://xmlns.escenic.com/2009/import\" name=\"" + htmlField + "\"/>", "");
-    		                            result = result.replaceAll("</field>", "");
-    		                            result = "<![CDATA[" + result + "]]>";
-    		                        }
-    		                    }
-                    		}
-                    	}
-                	}
-                }
-            }
-        }
-        catch(DocumentException exception) {
+        File xml = new File(path);
+        SAXReader reader = new SAXReader();
+        doc = reader.read(xml);
+        Element root = doc.getRootElement();
+        List<Element> contents = root.elements("content");
+        List<Element> fields;
         
-        	System.out.println(exception);
+        for(Element content : contents) {
+        	
+        	String contentId = content.attributeValue("sourceid");
+        	
+            if(contentId!=null && !contentId.isEmpty() && contentId.equals(contentSourceId)) {
+            	
+            	if(relationSourceId == null) { //Content Fields
+            		
+                	fields = content.elements("field");
+                    
+                    for(Element field : fields) {
+                        
+                    	String fieldName = field.attributeValue("name");
+                        
+                        if(fieldName.equals(htmlField)) {
+                        	
+                        	result = field.asXML();
+                            result = result.replaceAll("<field xmlns=\"http://xmlns.escenic.com/2009/import\" name=\"" + htmlField + "\">", "");
+                            result = result.replaceAll("<field xmlns=\"http://xmlns.escenic.com/2009/import\" name=\"" + htmlField + "\"/>", "");
+                            result = result.replaceAll("</field>", "");
+                            result = "<![CDATA[" + result + "]]>";
+                        }
+                    }
+            	}
+            	else { //Content Relation Fields
+            		
+                	List<Element> relations = content.elements("relation");
+                	
+                	for(Element relation : relations) {
+                		
+                		String relationId = relation.attributeValue("sourceid");
+                		
+                		if(relationId!=null && !relationId.isEmpty() && relationId.equals(relationSourceId)) {
+
+		                	fields = relation.elements("field");
+		                    
+		                    for(Element field : fields) {
+		                        
+		                    	String fieldName = field.attributeValue("name");
+		                        
+		                        if(fieldName.equals(htmlField)) {
+		                        	
+		                        	result = field.asXML();
+		                            result = result.replaceAll("<field xmlns=\"http://xmlns.escenic.com/2009/import\" name=\"" + htmlField + "\">", "");
+		                            result = result.replaceAll("<field xmlns=\"http://xmlns.escenic.com/2009/import\" name=\"" + htmlField + "\"/>", "");
+		                            result = result.replaceAll("</field>", "");
+		                            result = "<![CDATA[" + result + "]]>";
+		                        }
+		                    }
+                		}
+                	}
+            	}
+            }
         }
         
         if(result!=null && !result.equals("<![CDATA[]]>")) return result; else return null;
@@ -376,6 +369,12 @@ public class ContentServiceImplementation implements ContentService {
 	public void clearContentProblems() {
 		
 		contentDao.clearProblems();
+	}
+	
+	@Override
+	public void clearContentDuplicates() {
+		
+		contentDao.clearDuplicates();
 	}
 	
 	/**

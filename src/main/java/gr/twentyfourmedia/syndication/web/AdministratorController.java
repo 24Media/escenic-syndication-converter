@@ -32,15 +32,17 @@ public class AdministratorController {
 	@Autowired
 	private AdministratorService administratorService;
 
-	@RequestMapping(value = "relations")
-	public ModelAndView relations() {
+	@RequestMapping(value = "analyze")
+	public ModelAndView analyze() throws Exception {
 
 		/*
-		 * Clear Existing Values To Examine Contents Again
+		 * Clear Existing Analysis To Examine Contents Again
 		 */
 		contentService.clearContentProblems();
+		contentService.clearContentDuplicates();
 		relationService.clearRelationProblems();
 		relationInlineService.deleteAllRelationsInline();
+		anchorInlineService.deleteAllAnchorsInline();
 		
 		/*
 		 * Order Of Actions Does Matter
@@ -51,24 +53,10 @@ public class AdministratorController {
 		administratorService.parseInlineRelations();
 		administratorService.findMissingInlineRelations();
 		administratorService.findDuplicateInlineRelations();
-		
-		ModelAndView model = new ModelAndView("/administrator/relations");
-		populateSummaries(model);
-		return model;
-	}
-
-	@RequestMapping(value = "anchors")
-	public ModelAndView anchors() {
-
-		/*
-		 * Clear Existing Values To Examine Contents Again
-		 */
-		anchorInlineService.deleteAllAnchorsInline();
-		
 		administratorService.parseInlineAnchors(5, "cosmo");
 		administratorService.characterizeContentAndRelationsInline();
 		
-		ModelAndView model = new ModelAndView("/administrator/anchors");
+		ModelAndView model = new ModelAndView("/administrator/analysis");
 		populateSummaries(model);
 		return model;
 	}
@@ -80,7 +68,7 @@ public class AdministratorController {
 	@RequestMapping(value = "analysis")
 	public ModelAndView analysis() {
 
-		ModelAndView model = new ModelAndView("/administrator/anchors");
+		ModelAndView model = new ModelAndView("/administrator/analysis");
 		populateSummaries(model);
 		return model;
 	}

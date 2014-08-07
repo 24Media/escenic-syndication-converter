@@ -307,7 +307,8 @@ public class ContentController {
 	//TODO Create View For Delete Action
 	@RequestMapping(value = "delete")
 	public ModelAndView delete(	@RequestParam(value = "applicationId", required = false) Long applicationId,
-								@RequestParam(value = "sourceId", required = false) String sourceId) {
+								@RequestParam(value = "sourceId", required = false) String sourceId) 
+								throws Exception {
 		
 		Content content = null;
 		

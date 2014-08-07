@@ -47,6 +47,7 @@
 	<c:set var="excludedBySection" value="${0}" />
 	<c:set var="draftOrDeleted" value="${0}" />
 	<c:set var="missingInlineRelations" value="${0}" />
+	<c:set var="rssFeedProblem" value="${0}" />
 	<c:set var="cannotBeReplaced" value="${0}" />
 	<c:set var="canBeReplaced" value="${0}" />
 	<c:set var="missingRelations" value="${0}" />
@@ -82,6 +83,10 @@
 					<c:set var="cannotBeReplaced" value="${cannotBeReplaced+problem.value}" />
 					<c:set var="totalProblem" value="${totalProblem+problem.value}" />
 				</c:when>
+				<c:when test="${problem.key=='RELATIONS_NEEDS_REPLACEMENT'}">
+					<c:set var="rssFeedProblem" value="${rssFeedProblem+problem.value}" />
+					<c:set var="totalProblem" value="${totalProblem+problem.value}" />
+				</c:when>
 				<c:otherwise>
 					<c:choose>
 						<c:when test="${problem.key=='null' && map.key=='null'}">
@@ -98,7 +103,7 @@
 						<c:when test="${problem.key=='RELATIONS_CAN_BE_REPLACED' && map.key=='MISSING_RELATIONS'}">
 							<c:set var="canBeReplacedMissingRelations" value="${canBeReplacedMissingRelations+problem.value}" />
 							<c:set var="totalToCorrect" value="${totalToCorrect+problem.value}" />
-						</c:when>						
+						</c:when>
 					</c:choose>
 				</c:otherwise>
 			</c:choose>
@@ -110,7 +115,8 @@
 	<div style="text-align:center;"><c:out value="${draftOrDeleted}" /> 'DRAFT OR DELETED'</div>
 	<div style="text-align:center;"><c:out value="${missingInlineRelations}" /> 'MISSING_INLINE_RELATIONS'</div>
 	<div style="text-align:center;"><c:out value="${cannotBeReplaced}" /> 'RELATIONS_CANNOT_BE_REPLACED'</div>
-	<h4 style="background-color:#DA4747;">TOTAL EXCLUDED ITEMS : <c:out value="${totalProblem}" /></h4>
+	<h4 style="background-color:red; color:white;">FAILED TO READ RSS FEED FOR <c:out value="${rssFeedProblem}" /> ITEMS</h4>
+	<h4 style="background-color:#FF9999;">TOTAL EXCLUDED ITEMS : <c:out value="${totalProblem}" /></h4>
 	<!-- Contents With No Problem -->
 	<div>
 		<div class="summaryLeft">

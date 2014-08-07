@@ -122,12 +122,12 @@ public class HibernateContentDao extends HibernateAbstractDao<Content> implement
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Content> getExcludingContentProblemsIncludingRelationInlineProblem(List<ContentProblem> contentProblems, RelationInlineProblem relationInlineProblem, String filterName) {
+	public List<Content> getExcludingContentProblemsIncludingRelationInlineProblems(List<ContentProblem> contentProblems, List<RelationInlineProblem> relationInlineProblems, String filterName) {
 	
 		if(filterName != null) getSession().enableFilter(filterName);
-		Query query = getSession().getNamedQuery("findContentsExcludingContentProblemsIncludingRelationInlineProblem");
+		Query query = getSession().getNamedQuery("findContentsExcludingContentProblemsIncludingRelationInlineProblems");
 		query.setParameterList("contentProblem", contentProblems);
-		query.setParameter("relationInlineProblem", relationInlineProblem);
+		query.setParameterList("relationInlineProblem", relationInlineProblems);
 		return (List<Content>) query.list();
 	}
 	
@@ -143,6 +143,12 @@ public class HibernateContentDao extends HibernateAbstractDao<Content> implement
 	public void clearProblems() {
 		
 		Query query = getSession().getNamedQuery("clearContentProblems");
+		query.executeUpdate();
+	}
+	@Override
+	public void clearDuplicates() {
+
+		Query query = getSession().getNamedQuery("clearContentDuplicates");
 		query.executeUpdate();
 	}
 

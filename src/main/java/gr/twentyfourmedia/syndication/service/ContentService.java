@@ -8,6 +8,8 @@ import gr.twentyfourmedia.syndication.model.RelationInlineProblem;
 import java.util.List;
 import java.util.Map;
 
+import org.dom4j.DocumentException;
+
 public interface ContentService {
 
 	void persistContent(Content content);
@@ -42,11 +44,11 @@ public interface ContentService {
 	
 	List<Content> getContentsByTypeContentProblemRelationInlineProblem(String type, ContentProblem contentProblem, RelationInlineProblem relationInlineProblem, String filterName);
 	
-	List<Content> getContentsExcludingContentProblemsIncludingRelationInlineProblem(List<ContentProblem> contentProblems, RelationInlineProblem relationInlineProblem, String filterName);
+	List<Content> getContentsExcludingContentProblemsIncludingRelationInlineProblems(List<ContentProblem> contentProblems, List<RelationInlineProblem> relationInlineProblems, String filterName);
 	
-	void handleContentHTMLFields(Content content, String path);
+	void handleContentHTMLFields(Content content, String path) throws DocumentException;
 	
-	String getFieldHTMLContent(String path, String htmlField, String contentSourceId, String relationSourceId);
+	String getFieldHTMLContent(String path, String htmlField, String contentSourceId, String relationSourceId) throws DocumentException;
 	
 	boolean contentExists(String sourceId);
 	
@@ -55,6 +57,8 @@ public interface ContentService {
 	void excludeContentByStateDraftOrDeleted();
 	
 	void clearContentProblems();
+	
+	void clearContentDuplicates();
 	
 	void updateContentProblem(Content content, ContentProblem contentProblem);
 	

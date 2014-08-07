@@ -39,7 +39,7 @@ public class ApplicationContextListener implements ServletContextListener {
 	}
 	
 	@Override
-	public void contextDestroyed(ServletContextEvent event) { //Nothing To Do
+	public void contextDestroyed(ServletContextEvent event) { /*Do Nothing*/
 
 	}
 }

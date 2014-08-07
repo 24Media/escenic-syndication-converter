@@ -72,7 +72,7 @@ public abstract class HibernateAbstractDao<T extends Object> implements Abstract
 				
 				method.invoke(t, Calendar.getInstance());
 			}
-			catch(Exception exception) { /* Do Nothing */
+			catch(Exception exception) { /*Do Nothing*/
 			
 			}
 		}
@@ -96,7 +96,7 @@ public abstract class HibernateAbstractDao<T extends Object> implements Abstract
 				
 				method.invoke(t, Calendar.getInstance());
 			}
-			catch(Exception exception) { /* Do Nothing */
+			catch(Exception exception) { /*Do Nothing*/
 			
 			}
 		}		

@@ -160,7 +160,7 @@ public class AdministratorServiceImplementation implements AdministratorService 
 	 * If Contents Have Duplicate Inline Relations Read Inline Anchors From RSS Feed
 	 */
 	@Override
-	public void parseInlineAnchors(int publicationId, String ident) {
+	public void parseInlineAnchors(int publicationId, String ident) throws IOException {
 		
 		//Contents With One Of The Following contentProblem Are Excluded From Any Further Processing
 		List<ContentProblem> contentProblems = new ArrayList<ContentProblem>();
@@ -169,7 +169,10 @@ public class AdministratorServiceImplementation implements AdministratorService 
 		contentProblems.add(ContentProblem.DRAFT_OR_DELETED);
 		contentProblems.add(ContentProblem.MISSING_INLINE_RELATIONS);
 		
-		List<Content> contents = contentService.getContentsExcludingContentProblemsIncludingRelationInlineProblem(contentProblems, RelationInlineProblem.RELATIONS_NEEDS_REPLACEMENT, "excludeEverything");
+		List<RelationInlineProblem> relationInlineProblems = new ArrayList<RelationInlineProblem>();
+		relationInlineProblems.add(RelationInlineProblem.RELATIONS_NEEDS_REPLACEMENT);
+		
+		List<Content> contents = contentService.getContentsExcludingContentProblemsIncludingRelationInlineProblems(contentProblems, relationInlineProblems, "excludeEverything");
 		
 		for(Content c : contents) {
 			
@@ -220,7 +223,7 @@ public class AdministratorServiceImplementation implements AdministratorService 
 					r.setRelationInlineProblem(problem);
 					relationInlineService.mergeRelationInline(r);
 				}
-			}	
+			}
 		}
 	}
 
@@ -246,7 +249,7 @@ public class AdministratorServiceImplementation implements AdministratorService 
 			relationInlineService.persistRelationInline(relationInline);
 		}
 	}
-	
+
 	/**
 	 * Parse Content's Body Field As Read From RSS Feed and Persist Possible Inline Anchors
 	 * @param content Content
@@ -254,16 +257,41 @@ public class AdministratorServiceImplementation implements AdministratorService 
 	 * @param ident Ident
 	 */
 	@Override
-	public void parseBodyPersistAnchorsInline(Content content, int publicationId, String ident) {
+	public void parseBodyPersistAnchorsInline(Content content, int publicationId, String ident) throws IOException {
 
 		Long articleId = Long.valueOf(content.getUri().replaceAll("article", "").replaceAll(".ece", ""));
 		
-		Document document;
+		Document document = null;
 		
-		try {
-			
-			document = Jsoup.connect("http://feeds.24media.gr/feed/article/?publicationId=" + publicationId + "&articleId=" + articleId + "&ident=" + ident).get();
+		for(int i = 1; i <= 3; i++) { //Try To Read RSS Feed
 
+			try {
+				
+				document = Jsoup.connect("http://feeds.24media.gr/feed/article/?publicationId=" + publicationId + "&articleId=" + articleId + "&ident=" + ident).get();
+				break; //Break Immediately If Successful
+			}
+			catch(IOException exception) { //Swallow Exception For The Two First Tries
+				
+				if(i == 3) {
+					
+					throw exception;
+				}
+				else { //Sleep 5 Seconds
+					
+					try {
+			        
+						Thread.sleep(5000);
+			        } 
+					catch (InterruptedException e) {
+			        
+						Thread.currentThread().interrupt();
+			        }
+				}
+			}
+		}
+		
+		if(document != null) { //Document Read
+		
 			//Escaping of '<' and '>' Characters In Needed, Otherwise Jsoup Won't Recognize HTML Tags
 			Element body = Jsoup.parse(	document
 					.select("content")
@@ -271,9 +299,9 @@ public class AdministratorServiceImplementation implements AdministratorService 
 					.text()
 					.replaceAll("&lt;", "<")
 					.replaceAll("&gt;", ">"));
-
+	
 			Elements links = body.getElementsByTag("a");
-
+	
 			for(Element link : links) {
 			
 				AnchorInline anchorInline = new AnchorInline();
@@ -282,10 +310,6 @@ public class AdministratorServiceImplementation implements AdministratorService 
 				
 				anchorInlineService.persistAnchorInline(anchorInline);
 			}
-		}
-		catch(IOException exception) {
-			
-			exception.printStackTrace();
 		}
 	}
 }
