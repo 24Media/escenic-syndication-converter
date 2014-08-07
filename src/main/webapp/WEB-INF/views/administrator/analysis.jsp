@@ -112,10 +112,10 @@
 	</c:forEach>
 	<h3>GRAND TOTALS : <c:out value="${totalContent}" /></h3>
 	<!-- Excluded Contents -->
-	<div style="text-align:center;"><c:out value="${excludedBySection}" /> 'EXCLUDED_BY_SECTION'</div>
-	<div style="text-align:center;"><c:out value="${draftOrDeleted}" /> 'DRAFT OR DELETED'</div>
-	<div style="text-align:center;"><c:out value="${missingInlineRelations}" /> 'MISSING_INLINE_RELATIONS'</div>
-	<div style="text-align:center;"><c:out value="${cannotBeReplaced}" /> 'RELATIONS_CANNOT_BE_REPLACED'</div>
+	<c:if test="${excludedBySection!=0}"><div style="text-align:center;"><c:out value="${excludedBySection}" /> 'EXCLUDED_BY_SECTION'</div></c:if>
+	<c:if test="${draftOrDeleted!=0}"><div style="text-align:center;"><c:out value="${draftOrDeleted}" /> 'DRAFT OR DELETED'</div></c:if>
+	<c:if test="${missingInlineRelations!=0}"><div style="text-align:center;"><c:out value="${missingInlineRelations}" /> 'MISSING_INLINE_RELATIONS'</div></c:if>
+	<c:if test="${cannotBeReplaced!=0}"><div style="text-align:center;"><c:out value="${cannotBeReplaced}" /> 'RELATIONS_CANNOT_BE_REPLACED'</div></c:if>
 	<h4 style="background-color:red; color:white;">FAILED TO READ RSS FEED FOR <c:out value="${rssFeedProblem}" /> ITEMS</h4>
 	<h4 style="background-color:#FF9999;">TOTAL EXCLUDED ITEMS : <c:out value="${totalProblem}" /></h4>
 	<!-- Contents With No Problem -->
