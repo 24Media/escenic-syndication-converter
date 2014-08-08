@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 //TODO Create Controller + View Content Excluding
-//TODO I May Want To Export Problem Content Items As Well
+//TODO Check If There Are Methods Not Used And Delete Them
 @Controller
 @RequestMapping("/content")
 public class ContentController {
@@ -70,7 +70,7 @@ public class ContentController {
 		int fileCounter = 0;
 		int cannotCorrectDuplicates = 0;
 		
-		if(random != null) { //A Random Content Without Problems
+		if(random != null) {
 		
 			try { //Content As Is, Without Any Corrections
 			
@@ -78,7 +78,7 @@ public class ContentController {
 				filenamePrefix = path + "Raw_Content";
 				contentsList.add(contentService.getContent(r, "excludeEverything"));
 			}
-			catch (NumberFormatException exception) {
+			catch (NumberFormatException exception) { //A Random Content Without Problems
 			
 				filenamePrefix = path + "Random";
 				contentsList.add(contentService.getRandomContent("excludeEverything"));
@@ -219,6 +219,27 @@ public class ContentController {
 				
 				throw new CustomException("Marshalling Controller Can Not Handle The Given Problem Type For 'news'");
 			}
+		}
+		else if(type.equals("problematic")) { //Marshall Contents As Is
+		
+			filenamePrefix = path + "Raw_Content";
+			
+			List<Content> temporaryContent = new ArrayList<Content>();
+			List<Long> temporaryApplicationId = new ArrayList<Long>();
+			
+			temporaryContent.addAll(contentService.getContentsByContentProblem(ContentProblem.EXCLUDED_BY_SECTION, "excludeEverything"));
+			temporaryContent.addAll(contentService.getContentsByContentProblem(ContentProblem.MISSING_INLINE_RELATIONS, "excludeEverything"));
+			temporaryContent.addAll(contentService.getContentsByRelationInlineProblem(RelationInlineProblem.RELATIONS_CANNOT_BE_REPLACED, "excludeEverything"));
+			temporaryContent.addAll(contentService.getContentsByRelationInlineProblem(RelationInlineProblem.RELATIONS_NEEDS_REPLACEMENT, "excludeEverything"));
+			
+			for(Content c : temporaryContent) { //Get Unique 'news' Contents Of temporaryContent List
+				
+				if(c.getType().equals("news") && !temporaryApplicationId.contains(c.getApplicationId())) {
+					
+					temporaryApplicationId.add(c.getApplicationId());
+					contentsList.add(c);
+				}
+			}			
 		}
 		else { //Other 'type' Given
 			

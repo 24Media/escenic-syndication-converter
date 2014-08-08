@@ -117,7 +117,7 @@
 	<c:if test="${missingInlineRelations!=0}"><div style="text-align:center;"><c:out value="${missingInlineRelations}" /> 'MISSING_INLINE_RELATIONS'</div></c:if>
 	<c:if test="${cannotBeReplaced!=0}"><div style="text-align:center;"><c:out value="${cannotBeReplaced}" /> 'RELATIONS_CANNOT_BE_REPLACED'</div></c:if>
 	<h4 style="background-color:red; color:white;">FAILED TO READ RSS FEED FOR <c:out value="${rssFeedProblem}" /> ITEMS</h4>
-	<h4 style="background-color:#FF9999;">TOTAL EXCLUDED ITEMS : <c:out value="${totalProblem}" /></h4>
+	<h4 style="background-color:#FF9999;">TOTAL EXCLUDED ITEMS : <c:out value="${totalProblem}" /><a href="<c:url value='/content/marshall?type=problematic&itemsPerFile=1' />">Marshall Despite Problems</a></h4>
 	<!-- Contents With No Problem -->
 	<div>
 		<div class="summaryLeft">
