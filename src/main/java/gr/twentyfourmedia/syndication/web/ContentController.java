@@ -72,8 +72,17 @@ public class ContentController {
 		
 		if(random != null) { //A Random Content Without Problems
 		
-			filenamePrefix = path + "Random";
-			contentsList.add(contentService.getRandomContent("excludeEverything"));
+			try { //Content As Is, Without Any Corrections
+			
+				Long r = Long.parseLong(random);
+				filenamePrefix = path + "Raw_Content";
+				contentsList.add(contentService.getContent(r, "excludeEverything"));
+			}
+			catch (NumberFormatException exception) {
+			
+				filenamePrefix = path + "Random";
+				contentsList.add(contentService.getRandomContent("excludeEverything"));
+			}
 		}
 		else if(type.equals("tag") || type.equals("picture") || type.equals("multipleTypeVideo")) { //Export Everything Without Examining Problems
 
