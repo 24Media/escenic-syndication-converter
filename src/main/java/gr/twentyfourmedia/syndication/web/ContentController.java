@@ -34,7 +34,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 //TODO Create Controller + View Content Excluding
-//TODO Check If There Are Methods Not Used And Delete Them
 @Controller
 @RequestMapping("/content")
 public class ContentController {
