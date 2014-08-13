@@ -1,7 +1,5 @@
 package gr.twentyfourmedia.syndication.service.implementation;
 
-import java.util.List;
-
 import gr.twentyfourmedia.syndication.dao.RelationDao;
 import gr.twentyfourmedia.syndication.model.Relation;
 import gr.twentyfourmedia.syndication.service.RelationService;
@@ -28,12 +26,6 @@ public class RelationServiceImplementation implements RelationService {
 	public void mergeRelation(Relation relation) {
 
 		relationDao.merge(relation);
-	}
-	
-	@Override
-	public List<Relation> getRelations() {
-
-		return relationDao.getAll();
 	}
 
 	@Override
