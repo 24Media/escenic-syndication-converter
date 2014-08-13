@@ -22,8 +22,6 @@ public interface ContentService {
 	
 	Content getRandomContent(String filterName);
 	
-	String getContentHomeSection(Content content);
-	
 	Field getContentField(Content content, String fieldName);
 	
 	String getContentFieldField(Content content, String fieldName);
