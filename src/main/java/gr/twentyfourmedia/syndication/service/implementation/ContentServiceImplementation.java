@@ -157,13 +157,7 @@ public class ContentServiceImplementation implements ContentService {
 			return null;
 		}
 	}
-	
-	@Override
-	public List<Content> getContents(String filterName) {
-		
-		return contentDao.get(filterName);
-	}
-	
+
 	@Override
 	public List<Content> getContentsByType(String type, String filterName) {
 		

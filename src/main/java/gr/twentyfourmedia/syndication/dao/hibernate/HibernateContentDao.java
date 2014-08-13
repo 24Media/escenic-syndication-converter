@@ -40,13 +40,6 @@ public class HibernateContentDao extends HibernateAbstractDao<Content> implement
 		return (Content) query.uniqueResult();
 	}
 	
-	@Override
-	public List<Content> get(String filterName) {
-		
-		if(filterName != null) getSession().enableFilter(filterName);
-		return getAll();
-	}
-	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Content> getByType(String type, String filterName) {

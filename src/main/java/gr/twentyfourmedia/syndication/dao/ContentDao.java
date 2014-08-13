@@ -15,8 +15,6 @@ public interface ContentDao extends AbstractDao<Content> {
 	
 	Content getRandom(String filterName);
 	
-	List<Content> get(String filterName);
-	
 	List<Content> getByType(String type, String filterName);
 	
 	List<Content> getWithRelations(String filterName);

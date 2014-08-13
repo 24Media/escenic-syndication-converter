@@ -28,8 +28,6 @@ public interface ContentService {
 	
 	String getContentFieldField(Content content, String fieldName);
 	
-	List<Content> getContents(String filterName);
-	
 	List<Content> getContentsByType(String type, String filterName);
 
 	List<Content> getContentsWithRelations(String filterName);
