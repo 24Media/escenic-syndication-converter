@@ -1,5 +1,7 @@
 package gr.twentyfourmedia.syndication.dao.hibernate;
 
+import java.util.List;
+
 import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -53,5 +55,21 @@ public class HibernateRelationDao extends HibernateAbstractDao<Relation> impleme
 		
 		Query query = getSession().getNamedQuery("clearRelationProblems");
 		query.executeUpdate();
+	}
+
+	/**
+	 * Native Sql Query To Get Missing Content Relations Without Fetching And Looping Over The Whole Set Of Contents 
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Relation> findMissing() {
+		
+		return getSession().createSQLQuery(
+				"SELECT relation.* " +
+				"FROM relation " +
+				"LEFT JOIN content ON relation.sourceId = content.sourceId " +
+				"WHERE content.applicationId IS NULL OR content.problem IS NOT NULL")
+				.addEntity(Relation.class)
+				.list();
 	}
 }

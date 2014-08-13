@@ -149,12 +149,6 @@ public class ContentServiceImplementation implements ContentService {
 	}
 
 	@Override
-	public List<Content> getContentsWithRelations(String filterName) {
-	
-		return contentDao.getWithRelations(filterName);
-	}
-
-	@Override
 	public List<Content> getContentsWithRelationsInline(String filterName) {
 	
 		return contentDao.getWithRelationsInline(filterName);

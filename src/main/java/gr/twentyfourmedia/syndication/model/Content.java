@@ -101,6 +101,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 			name = "clearContentDuplicates",
 			query = "UPDATE Content c SET c.relationInlineProblem = null"),			
 	@NamedQuery(
+			name = "excludeContent",
+			query = "UPDATE Content c SET c.contentProblem = :contentProblem WHERE c.applicationId IN (:applicationId)"),
+	@NamedQuery(
 			name = "excludeContentByStates",
 			query = "UPDATE Content c SET c.contentProblem = :contentProblem WHERE c.state IN (:states)"),
 	@NamedQuery(

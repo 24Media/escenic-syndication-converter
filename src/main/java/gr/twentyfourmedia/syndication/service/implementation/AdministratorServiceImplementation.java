@@ -2,10 +2,13 @@ package gr.twentyfourmedia.syndication.service.implementation;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import gr.twentyfourmedia.syndication.dao.ContentDao;
+import gr.twentyfourmedia.syndication.dao.RelationDao;
 import gr.twentyfourmedia.syndication.model.AnchorInline;
 import gr.twentyfourmedia.syndication.model.Content;
 import gr.twentyfourmedia.syndication.model.ContentProblem;
@@ -33,8 +36,14 @@ import org.springframework.stereotype.Service;
 public class AdministratorServiceImplementation implements AdministratorService {
 
 	@Autowired
-	private ContentService contentService;
+	private ContentDao contentDao;
 	
+	@Autowired
+	private RelationDao relationDao;
+
+	@Autowired
+	private ContentService contentService;
+
 	@Autowired
 	private RelationService relationService;
 	
@@ -65,32 +74,19 @@ public class AdministratorServiceImplementation implements AdministratorService 
 	@Override
 	public void findMissingRelations() {
 		
-		List<Content> contents = contentService.getContentsWithRelations("excludeContributors");
+		Set<Long> contentApplicationIdSet = new HashSet<Long>();
+		List<Long> contentApplicationIdList = new ArrayList<Long>();
 		
-		for(Content c : contents) {
+		for(Relation r : relationDao.findMissing()) {
 			
-			Set<Relation> relations = c.getRelationSet();
-			Iterator<Relation> iterator = relations.iterator();
-			boolean missingFound = false;
+			r.setContentProblem(ContentProblem.MISSING_RELATIONS);
+			relationService.mergeRelation(r);
 			
-			while(iterator.hasNext()) {
-				
-				Relation relation = iterator.next();
-				Content relatedContent = contentService.getContent(relation.getSourceId(), null);
-				
-				if(relatedContent == null || relatedContent.getContentProblem() != null) {
-
-					relation.setContentProblem(ContentProblem.MISSING_RELATIONS);
-					relationService.mergeRelation(relation);
-					missingFound = true;
-				}
-			}
-			
-			if(missingFound) { //Content Entity Needs Change Too
-				
-				contentService.updateContentProblem(c, ContentProblem.MISSING_RELATIONS);
-			}
+			contentApplicationIdSet.add(r.getContentApplicationId().getApplicationId()); //Create A Set Of Contents With Missing Relations
 		}
+		
+		contentApplicationIdList.addAll(contentApplicationIdSet);
+		contentDao.exclude(ContentProblem.MISSING_RELATIONS, contentApplicationIdList);
 	}
 	
 	/**

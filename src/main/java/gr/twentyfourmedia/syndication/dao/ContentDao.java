@@ -17,8 +17,6 @@ public interface ContentDao extends AbstractDao<Content> {
 	
 	List<Content> getByType(String type, String filterName);
 	
-	List<Content> getWithRelations(String filterName);
-	
 	List<Content> getWithRelationsInline(String filterName);
 	
 	List<Content> getWithAnchorsInline(String filterName);
@@ -31,6 +29,8 @@ public interface ContentDao extends AbstractDao<Content> {
 	
 	List<Content> getExcludingContentProblemsIncludingRelationInlineProblems(List<ContentProblem> contentProblems, List<RelationInlineProblem> relationInlineProblems, String filterName);
 
+	void exclude(ContentProblem contentProblem, List<Long> applicationId);
+	
 	void excludeByStates(ContentProblem contentProblem, List<String> states);
 	
 	void clearProblems();

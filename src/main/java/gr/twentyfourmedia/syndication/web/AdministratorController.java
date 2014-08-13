@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-//TODO Check If Some Of The Steps Can Get The Work Done Faster
 @Controller
 @RequestMapping("/administrator")
 public class AdministratorController {
@@ -53,11 +52,11 @@ public class AdministratorController {
 		contentService.excludeContentByTypeAndHomeSections("news", "kairos");
 		contentService.excludeContentByStates(ContentProblem.DRAFT_OR_DELETED, Arrays.asList("draft", "deleted"));
 		administratorService.findMissingRelations();
-		administratorService.parseInlineRelations();
-		administratorService.findMissingInlineRelations();
-		administratorService.findDuplicateInlineRelations();
-		administratorService.parseInlineAnchors(5, "cosmo");
-		administratorService.characterizeContentAndRelationsInline();
+		administratorService.parseInlineRelations(); //TODO Improve Performance
+		administratorService.findMissingInlineRelations(); //TODO Improve Performance
+		administratorService.findDuplicateInlineRelations(); //TODO Improve Performance
+		administratorService.parseInlineAnchors(5, "cosmo"); //TODO Improve Performance
+		administratorService.characterizeContentAndRelationsInline(); //TODO Improve Performance
 		
 		ModelAndView model = new ModelAndView("/administrator/analysis");
 		populateSummaries(model);

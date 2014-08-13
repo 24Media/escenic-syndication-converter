@@ -52,15 +52,6 @@ public class HibernateContentDao extends HibernateAbstractDao<Content> implement
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Content> getWithRelations(String filterName) {
-
-		if(filterName != null) getSession().enableFilter(filterName);
-		Query query = getSession().getNamedQuery("findContentsWithRelations");
-		return (List<Content>) query.list();
-	}	
-
-	@SuppressWarnings("unchecked")
-	@Override
 	public List<Content> getWithRelationsInline(String filterName) {
 
 		if(filterName != null) getSession().enableFilter(filterName);
@@ -124,6 +115,15 @@ public class HibernateContentDao extends HibernateAbstractDao<Content> implement
 		return (List<Content>) query.list();
 	}
 	
+	@Override
+	public void exclude(ContentProblem contentProblem, List<Long> applicationId) {
+		
+		Query query = getSession().getNamedQuery("excludeContent");
+		query.setParameter("contentProblem", contentProblem);
+		query.setParameterList("applicationId", applicationId);
+		query.executeUpdate();
+	}	
+
 	@Override
 	public void excludeByStates(ContentProblem contentProblem, List<String> states) {
 		

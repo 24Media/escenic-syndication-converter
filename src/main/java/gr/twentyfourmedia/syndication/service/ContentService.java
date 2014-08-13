@@ -28,8 +28,6 @@ public interface ContentService {
 	
 	List<Content> getContentsByType(String type, String filterName);
 
-	List<Content> getContentsWithRelations(String filterName);
-
 	List<Content> getContentsWithRelationsInline(String filterName);
 
 	List<Content> getContentsWithAnchorsInline(String filterName);	
