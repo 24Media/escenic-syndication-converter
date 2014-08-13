@@ -1,7 +1,9 @@
 package gr.twentyfourmedia.syndication.web;
 
+import java.util.Arrays;
 import java.util.Map;
 
+import gr.twentyfourmedia.syndication.model.ContentProblem;
 import gr.twentyfourmedia.syndication.service.AdministratorService;
 import gr.twentyfourmedia.syndication.service.AnchorInlineService;
 import gr.twentyfourmedia.syndication.service.ContentService;
@@ -49,7 +51,7 @@ public class AdministratorController {
 		 * Order Of Actions Does Matter
 		 */
 		contentService.excludeContentByTypeAndHomeSections("news", "kairos");
-		contentService.excludeContentByStateDraftOrDeleted();
+		contentService.excludeContentByStates(ContentProblem.DRAFT_OR_DELETED, Arrays.asList("draft", "deleted"));
 		administratorService.findMissingRelations();
 		administratorService.parseInlineRelations();
 		administratorService.findMissingInlineRelations();

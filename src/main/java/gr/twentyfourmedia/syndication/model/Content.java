@@ -101,8 +101,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 			name = "clearContentDuplicates",
 			query = "UPDATE Content c SET c.relationInlineProblem = null"),			
 	@NamedQuery(
-			name = "excludeDraftOrDeletedContent",
-			query = "UPDATE Content c SET c.contentProblem = :contentProblem WHERE c.state IN ('draft', 'deleted')"),
+			name = "excludeContentByStates",
+			query = "UPDATE Content c SET c.contentProblem = :contentProblem WHERE c.state IN (:states)"),
 	@NamedQuery(
 			name = "randomContent",
 			query = "FROM Content WHERE contentProblem IS NULL AND relationInlineProblem IS NULL ORDER BY RAND()"),

@@ -338,9 +338,9 @@ public class ContentServiceImplementation implements ContentService {
 	}	
 	
 	@Override
-	public void excludeContentByStateDraftOrDeleted() {
+	public void excludeContentByStates(ContentProblem contentProblem, List<String> states) {
 	
-		contentDao.excludeByStateDraftOrDeleted();
+		contentDao.excludeByStates(contentProblem, states);
 	}
 	
 	@Override

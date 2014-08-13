@@ -31,7 +31,7 @@ public interface ContentDao extends AbstractDao<Content> {
 	
 	List<Content> getExcludingContentProblemsIncludingRelationInlineProblems(List<ContentProblem> contentProblems, List<RelationInlineProblem> relationInlineProblems, String filterName);
 
-	void excludeByStateDraftOrDeleted();
+	void excludeByStates(ContentProblem contentProblem, List<String> states);
 	
 	void clearProblems();
 	

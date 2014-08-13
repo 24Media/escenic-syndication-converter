@@ -125,10 +125,11 @@ public class HibernateContentDao extends HibernateAbstractDao<Content> implement
 	}
 	
 	@Override
-	public void excludeByStateDraftOrDeleted() {
+	public void excludeByStates(ContentProblem contentProblem, List<String> states) {
 		
-		Query query = getSession().getNamedQuery("excludeDraftOrDeletedContent");
-		query.setParameter("contentProblem", ContentProblem.DRAFT_OR_DELETED);
+		Query query = getSession().getNamedQuery("excludeContentByStates");
+		query.setParameter("contentProblem", contentProblem);
+		query.setParameterList("states", states);
 		query.executeUpdate();
 	}
 

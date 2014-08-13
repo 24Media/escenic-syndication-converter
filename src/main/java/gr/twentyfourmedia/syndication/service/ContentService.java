@@ -50,7 +50,7 @@ public interface ContentService {
 	
 	void excludeContentByTypeAndHomeSections(String type, String description);
 	
-	void excludeContentByStateDraftOrDeleted();
+	void excludeContentByStates(ContentProblem contentProblem, List<String> states);
 	
 	void clearContentProblems();
 	
