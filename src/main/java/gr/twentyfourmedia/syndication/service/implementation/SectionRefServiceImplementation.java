@@ -1,7 +1,5 @@
 package gr.twentyfourmedia.syndication.service.implementation;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +26,5 @@ public class SectionRefServiceImplementation implements SectionRefService {
 	public void mergeSectionRef(SectionRef sectionRef) {
 
 		sectionRefDao.merge(sectionRef);
-	}
-
-	@Override
-	public List<SectionRef> getSectionRefs() {
-		
-		return sectionRefDao.getAll();
 	}
 }
