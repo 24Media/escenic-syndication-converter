@@ -9,7 +9,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-//TODO Author and Creator Are Identical, Move contentApplicationId To Contributor
 @Entity
 @DiscriminatorValue(value = "creator")
 @XmlRootElement(name = "parent")
