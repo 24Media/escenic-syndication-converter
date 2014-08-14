@@ -52,10 +52,10 @@ public class AdministratorController {
 		contentService.excludeContentByTypeAndHomeSections("news", "kairos");
 		contentService.excludeContentByStates(ContentProblem.DRAFT_OR_DELETED, Arrays.asList("draft", "deleted"));
 		administratorService.findMissingRelations();
-		administratorService.parseInlineRelations(); //TODO Improve Performance
+		administratorService.parseInlineRelations();
 		administratorService.findMissingInlineRelations(); //TODO Improve Performance
 		administratorService.findDuplicateInlineRelations(); //TODO Improve Performance
-		administratorService.parseInlineAnchors(5, "cosmo"); //TODO Improve Performance
+		administratorService.parseInlineAnchors(5, "cosmo");
 		administratorService.characterizeContentAndRelationsInline(); //TODO Improve Performance
 		
 		ModelAndView model = new ModelAndView("/administrator/analysis");

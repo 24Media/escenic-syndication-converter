@@ -2,6 +2,7 @@ package gr.twentyfourmedia.syndication.service.implementation;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -158,15 +159,8 @@ public class AdministratorServiceImplementation implements AdministratorService 
 	@Override
 	public void parseInlineAnchors(int publicationId, String ident) throws IOException {
 		
-		//Contents With One Of The Following contentProblem Are Excluded From Any Further Processing
-		List<ContentProblem> contentProblems = new ArrayList<ContentProblem>();
-		contentProblems.add(ContentProblem.MISSING_BINARIES);
-		contentProblems.add(ContentProblem.EXCLUDED_BY_SECTION);
-		contentProblems.add(ContentProblem.DRAFT_OR_DELETED);
-		contentProblems.add(ContentProblem.MISSING_INLINE_RELATIONS);
-		
-		List<RelationInlineProblem> relationInlineProblems = new ArrayList<RelationInlineProblem>();
-		relationInlineProblems.add(RelationInlineProblem.RELATIONS_NEEDS_REPLACEMENT);
+		List<ContentProblem> contentProblems = Arrays.asList(ContentProblem.MISSING_BINARIES, ContentProblem.EXCLUDED_BY_SECTION, ContentProblem.DRAFT_OR_DELETED, ContentProblem.MISSING_INLINE_RELATIONS);		
+		List<RelationInlineProblem> relationInlineProblems = Arrays.asList(RelationInlineProblem.RELATIONS_NEEDS_REPLACEMENT);
 		
 		List<Content> contents = contentService.getContentsExcludingContentProblemsIncludingRelationInlineProblems(contentProblems, relationInlineProblems, "excludeEverything");
 		
